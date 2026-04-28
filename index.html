@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bellingham Clean Energy Permit Dashboard</title>
+    <meta
+        name="description"
+        content="A static dashboard for exploring Bellingham, Massachusetts clean energy permit activity for solar, EV chargers, and heat pumps."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">PermitEyes Source Snapshot</p>
+                <h1>Bellingham Clean Energy Permit Dashboard</h1>
+                <p class="hero-text">
+                    Residential clean-energy adoption estimates built from the public Bellingham permit portal,
+                    then classified into solar, EV charger, and heat pump activity.
+                </p>
+                <div class="hero-meta">
+                    <span class="meta-pill" id="source-pill">Source: Bellingham PermitEyes</span>
+                    <span class="meta-pill" id="updated-pill">Updated: Loading...</span>
+                    <span class="meta-pill" id="coverage-pill">Map coverage: Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="status-banner hidden" id="statusBanner" aria-live="polite"></section>
+
+        <section class="metrics-grid" aria-label="Summary metrics">
+            <article class="metric-card">
+                <p class="metric-label">Total matched permits</p>
+                <p class="metric-value" id="total-count">0</p>
+            </article>
+            <article class="metric-card metric-solar">
+                <p class="metric-label">Solar</p>
+                <p class="metric-value" id="solar-count">0</p>
+            </article>
+            <article class="metric-card metric-ev">
+                <p class="metric-label">EV Chargers</p>
+                <p class="metric-value" id="ev-count">0</p>
+            </article>
+            <article class="metric-card metric-hp">
+                <p class="metric-label">Heat Pumps</p>
+                <p class="metric-value" id="hp-count">0</p>
+            </article>
+        </section>
+
+        <section class="card controls-card">
+            <div class="controls-heading">
+                <div>
+                    <p class="section-kicker">Explore records</p>
+                    <h2>Filter the live snapshot</h2>
+                </div>
+                <p class="method-note" id="methodNote"></p>
+            </div>
+            <div class="controls-row">
+                <div class="filter-group" id="categoryFilters" aria-label="Filter by category">
+                    <button class="filter-chip active" data-category="All" type="button">All</button>
+                    <button class="filter-chip" data-category="Solar" type="button">Solar</button>
+                    <button class="filter-chip" data-category="EV Charger" type="button">EV Chargers</button>
+                    <button class="filter-chip" data-category="Heat Pump" type="button">Heat Pumps</button>
+                </div>
+                <label class="search-field" for="permitSearch">
+                    <span>Search address or description</span>
+                    <input id="permitSearch" type="search" placeholder="Try 'tesla', 'ductless', or a street name">
+                </label>
+            </div>
+            <p class="results-summary" id="resultsSummary">Loading permit records...</p>
+        </section>
+
+        <section class="insights-grid">
+            <article class="card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Distribution</p>
+                        <h2>Permit mix by category</h2>
+                    </div>
+                </div>
+                <div class="bar-stack" id="distributionBars" aria-label="Category distribution chart"></div>
+            </article>
+
+            <article class="card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Snapshot details</p>
+                        <h2>Source and map coverage</h2>
+                    </div>
+                </div>
+                <dl class="meta-list">
+                    <div>
+                        <dt>Dataset source</dt>
+                        <dd><a href="https://permiteyes.us/bellingham/publicview.php" target="_blank" rel="noreferrer">permiteyes.us/bellingham/publicview.php</a></dd>
+                    </div>
+                    <div>
+                        <dt>Classification method</dt>
+                        <dd>Keyword-based estimation from permit descriptions and application metadata.</dd>
+                    </div>
+                    <div>
+                        <dt>Records with map coordinates</dt>
+                        <dd id="geocodeCount">0</dd>
+                    </div>
+                    <div>
+                        <dt>Visible on map</dt>
+                        <dd id="visibleMapCount">0</dd>
+                    </div>
+                </dl>
+            </article>
+        </section>
+
+        <section class="card map-card">
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">Spatial view</p>
+                    <h2>Permit map</h2>
+                </div>
+                <div class="map-legend" aria-label="Map legend">
+                    <span><i class="legend-dot legend-solar"></i>Solar</span>
+                    <span><i class="legend-dot legend-ev"></i>EV Charger</span>
+                    <span><i class="legend-dot legend-hp"></i>Heat Pump</span>
+                </div>
+            </div>
+            <div id="permitMap" role="img" aria-label="Map of clean energy permit locations in Bellingham"></div>
+        </section>
+
+        <section class="card table-card">
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">Recent permits</p>
+                    <h2>Matching applications</h2>
+                </div>
+                <p class="table-note" id="tableNote"></p>
+            </div>
+            <div class="table-wrap">
+                <table id="permitTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Address</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="js/permit-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

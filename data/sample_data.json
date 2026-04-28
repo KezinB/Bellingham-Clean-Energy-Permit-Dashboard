@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "address": "123 Maple Ave, Neighborhood A",
+    "type": "Solar",
+    "date": "2024-01-15",
+    "status": "Completed"
+  },
+  {
+    "id": 2,
+    "address": "456 Oak St, Neighborhood B",
+    "type": "EV Charger",
+    "date": "2024-01-20",
+    "status": "In Progress"
+  },
+  {
+    "id": 3,
+    "address": "789 Pine Rd, Neighborhood A",
+    "type": "Heat Pump",
+    "date": "2024-02-05",
+    "status": "Completed"
+  },
+  {
+    "id": 4,
+    "address": "101 Cedar Ln, Neighborhood C",
+    "type": "Solar",
+    "date": "2024-02-10",
+    "status": "Completed"
+  },
+  {
+    "id": 5,
+    "address": "202 Birch Dr, Neighborhood B",
+    "type": "EV Charger",
+    "date": "2024-02-15",
+    "status": "Completed"
+  },
+  {
+    "id": 6,
+    "address": "303 Walnut Ct, Neighborhood A",
+    "type": "Heat Pump",
+    "date": "2024-03-01",
+    "status": "In Progress"
+  },
+  {
+    "id": 7,
+    "address": "404 Elm St, Neighborhood C",
+    "type": "Solar",
+    "date": "2024-03-05",
+    "status": "Completed"
+  },
+  {
+    "id": 8,
+    "address": "505 Ash Blvd, Neighborhood B",
+    "type": "EV Charger",
+    "date": "2024-03-10",
+    "status": "Completed"
+  },
+  {
+    "id": 9,
+    "address": "606 Willow Way, Neighborhood A",
+    "type": "Solar",
+    "date": "2024-03-15",
+    "status": "Completed"
+  },
+  {
+    "id": 10,
+    "address": "707 Spruce Trl, Neighborhood C",
+    "type": "Heat Pump",
+    "date": "2024-03-20",
+    "status": "Completed"
+  }
+]
