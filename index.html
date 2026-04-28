@@ -142,7 +142,7 @@
                     </div>
                     <div>
                         <dt>Classification method</dt>
-                        <dd>Keyword-based estimation from permit descriptions and application metadata.</dd>
+                        <dd id="methodNote">Keyword-based estimation from permit descriptions and application metadata.</dd>
                     </div>
                     <div>
                         <dt>Records with map coordinates</dt>
@@ -165,6 +165,18 @@
                 </div>
                 <div class="trend-chart" id="trendChart" aria-label="Monthly permit trend chart"></div>
             </article>
+        </section>
+
+        <section class="card map-card" style="margin-bottom: 2rem;">
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">Geospatial view</p>
+                    <h2>Permit locations</h2>
+                </div>
+            </div>
+            <div class="map-wrap" style="position: relative; width: 100%; height: 500px; border-radius: 12px; overflow: hidden; z-index: 1;">
+                <div id="permitMap" style="width: 100%; height: 100%;"></div>
+            </div>
         </section>
 
         <section class="card table-card">
