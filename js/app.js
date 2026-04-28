@@ -374,7 +374,11 @@
 
         if (!items.length) {
             clearFocusArea();
-            map.instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
+            if (map.boundaryLayer) {
+                map.instance.fitBounds(map.boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
+            } else {
+                map.instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
+            }
             return;
         }
 
@@ -423,42 +427,34 @@
             maxZoom: 20
         }).addTo(instance);
 
+        // Render Bellingham boundary
+        let boundaryLayer = null;
+        if (window.BELLINGHAM_BOUNDARY) {
+            boundaryLayer = L.geoJSON(window.BELLINGHAM_BOUNDARY, {
+                style: {
+                    color: "#6366f1",
+                    weight: 2.5,
+                    opacity: 0.6,
+                    fillColor: "#6366f1",
+                    fillOpacity: 0.03,
+                    dashArray: "6, 6"
+                }
+            }).addTo(instance);
+
+            // Fit map to boundary on startup
+            instance.fitBounds(boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
+        }
+
         const layer = L.layerGroup().addTo(instance);
         const focusLayer = L.layerGroup().addTo(instance);
-        addHomeControl(instance);
+        addHomeControl(instance, boundaryLayer);
+        addLegend(instance);
 
-        return { instance, layer, focusLayer };
+        return { instance, layer, focusLayer, boundaryLayer };
     }
 
     function drawFocusArea(bounds) {
-        if (!map) {
-            return;
-        }
-
-        clearFocusArea();
-
-        const southWest = bounds.getSouthWest();
-        const northEast = bounds.getNorthEast();
-
-        if (southWest.lat === northEast.lat && southWest.lng === northEast.lng) {
-            const focusCircle = L.circle(bounds.getCenter(), {
-                radius: 180,
-                color: "#2b4d66",
-                weight: 2,
-                opacity: 0.9,
-                fillOpacity: 0
-            });
-            focusCircle.addTo(map.focusLayer);
-            return;
-        }
-
-        const focusRectangle = L.rectangle(bounds.pad(0.08), {
-            color: "#2b4d66",
-            weight: 2,
-            opacity: 0.9,
-            fillOpacity: 0
-        });
-        focusRectangle.addTo(map.focusLayer);
+        // Disabled focus area border as requested
     }
 
     function clearFocusArea() {
@@ -467,7 +463,7 @@
         }
     }
 
-    function addHomeControl(instance) {
+    function addHomeControl(instance, boundaryLayer) {
         const HomeControl = L.Control.extend({
             options: {
                 position: "topleft"
@@ -481,7 +477,11 @@
 
                 L.DomEvent.disableClickPropagation(container);
                 L.DomEvent.on(container, "click", function () {
-                    instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
+                    if (boundaryLayer) {
+                        instance.fitBounds(boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
+                    } else {
+                        instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
+                    }
                 });
 
                 return container;
@@ -489,6 +489,26 @@
         });
 
         instance.addControl(new HomeControl());
+    }
+
+    function addLegend(instance) {
+        const LegendControl = L.Control.extend({
+            options: {
+                position: "bottomleft"
+            },
+            onAdd: function () {
+                const div = L.DomUtil.create("div", "map-legend");
+                div.innerHTML = `
+                    <div class="map-legend-title">Categories</div>
+                    <div class="legend-item"><span class="legend-color solar"></span>Solar</div>
+                    <div class="legend-item"><span class="legend-color ev"></span>EV Charger</div>
+                    <div class="legend-item"><span class="legend-color hp"></span>Heat Pump</div>
+                `;
+                return div;
+            }
+        });
+
+        instance.addControl(new LegendControl());
     }
 
     function buildPopupMarkup(item) {

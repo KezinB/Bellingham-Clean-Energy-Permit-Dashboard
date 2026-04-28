@@ -129,36 +129,9 @@
                     <div class="bar-stack" id="distributionBars" aria-label="Category distribution chart"></div>
                 </article>
 
-                <article>
-                    <div class="section-heading">
-                        <div>
-                            <p class="section-kicker">Snapshot details</p>
-                            <h2>Source and map coverage</h2>
-                        </div>
-                    </div>
-                    <dl class="meta-list">
-                        <div>
-                            <dt>Dataset source</dt>
-                            <dd><a href="https://permiteyes.us/bellingham/publicview.php" target="_blank"
-                                    rel="noreferrer">permiteyes.us/bellingham/publicview.php</a></dd>
-                        </div>
-                        <div>
-                            <dt>Classification method</dt>
-                            <dd id="methodNote">Keyword-based estimation from permit descriptions and application metadata.
-                            </dd>
-                        </div>
-                        <div>
-                            <dt>Records with map coordinates</dt>
-                            <dd id="geocodeCount">0</dd>
-                        </div>
-                        <div>
-                            <dt>Visible on map</dt>
-                            <dd id="visibleMapCount">0</dd>
-                        </div>
-                    </dl>
-                </article>
 
-                <article class="wide-article" style="grid-column: 1 / -1; padding-top: 1.5rem; border-top: 1px solid var(--line);">
+
+                <article class="wide-article">
                     <div class="section-heading">
                         <div>
                             <p class="section-kicker">Time intelligence</p>
@@ -252,12 +225,17 @@
         </section>
 
         <footer class="site-footer">
+            <p>Dataset source: <a href="https://permiteyes.us/bellingham/publicview.php" target="_blank" rel="noreferrer">permiteyes.us/bellingham/publicview.php</a></p>
             <p>Developed & Managed by <strong>Platanus Labs LLP</strong></p>
-        </footer>
-    </div>
+        <span id="geocodeCount" style="display:none;"></span>
+        <span id="visibleMapCount" style="display:none;"></span>
+                <span id="methodNote" style="display:none;"></span>
+    </footer>
+</div>
 
     <script src="vendor/leaflet/leaflet.js"></script>
     <script src="js/permit-data.js"></script>
+    <script src="js/boundary-data.js"></script>
     <script src="js/app.js"></script>
 </body>
 
