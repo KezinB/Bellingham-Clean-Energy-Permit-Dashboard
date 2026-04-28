@@ -117,56 +117,58 @@
             <div id="permitMap" role="img" aria-label="Map of clean energy permit locations in Bellingham"></div>
         </section>
 
-        <section class="insights-grid">
-            <article class="card">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">Distribution</p>
-                        <h2>Permit mix by category</h2>
+        <section class="card insights-card">
+            <div class="insights-grid" style="margin-top: 0; gap: 2rem;">
+                <article>
+                    <div class="section-heading">
+                        <div>
+                            <p class="section-kicker">Distribution</p>
+                            <h2>Permit mix by category</h2>
+                        </div>
                     </div>
-                </div>
-                <div class="bar-stack" id="distributionBars" aria-label="Category distribution chart"></div>
-            </article>
+                    <div class="bar-stack" id="distributionBars" aria-label="Category distribution chart"></div>
+                </article>
 
-            <article class="card">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">Snapshot details</p>
-                        <h2>Source and map coverage</h2>
+                <article>
+                    <div class="section-heading">
+                        <div>
+                            <p class="section-kicker">Snapshot details</p>
+                            <h2>Source and map coverage</h2>
+                        </div>
                     </div>
-                </div>
-                <dl class="meta-list">
-                    <div>
-                        <dt>Dataset source</dt>
-                        <dd><a href="https://permiteyes.us/bellingham/publicview.php" target="_blank"
-                                rel="noreferrer">permiteyes.us/bellingham/publicview.php</a></dd>
-                    </div>
-                    <div>
-                        <dt>Classification method</dt>
-                        <dd id="methodNote">Keyword-based estimation from permit descriptions and application metadata.
-                        </dd>
-                    </div>
-                    <div>
-                        <dt>Records with map coordinates</dt>
-                        <dd id="geocodeCount">0</dd>
-                    </div>
-                    <div>
-                        <dt>Visible on map</dt>
-                        <dd id="visibleMapCount">0</dd>
-                    </div>
-                </dl>
-            </article>
+                    <dl class="meta-list">
+                        <div>
+                            <dt>Dataset source</dt>
+                            <dd><a href="https://permiteyes.us/bellingham/publicview.php" target="_blank"
+                                    rel="noreferrer">permiteyes.us/bellingham/publicview.php</a></dd>
+                        </div>
+                        <div>
+                            <dt>Classification method</dt>
+                            <dd id="methodNote">Keyword-based estimation from permit descriptions and application metadata.
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Records with map coordinates</dt>
+                            <dd id="geocodeCount">0</dd>
+                        </div>
+                        <div>
+                            <dt>Visible on map</dt>
+                            <dd id="visibleMapCount">0</dd>
+                        </div>
+                    </dl>
+                </article>
 
-            <article class="card wide-card">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">Time intelligence</p>
-                        <h2>Monthly permit trend</h2>
+                <article class="wide-article" style="grid-column: 1 / -1; padding-top: 1.5rem; border-top: 1px solid var(--line);">
+                    <div class="section-heading">
+                        <div>
+                            <p class="section-kicker">Time intelligence</p>
+                            <h2>Monthly permit trend</h2>
+                        </div>
+                        <p class="table-note" id="trendNote"></p>
                     </div>
-                    <p class="table-note" id="trendNote"></p>
-                </div>
-                <div class="trend-chart" id="trendChart" aria-label="Monthly permit trend chart"></div>
-            </article>
+                    <div class="trend-chart" id="trendChart" aria-label="Monthly permit trend chart"></div>
+                </article>
+            </div>
         </section>
 
         <section class="card table-card">
