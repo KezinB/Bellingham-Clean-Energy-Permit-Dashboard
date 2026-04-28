@@ -30,28 +30,43 @@
                     <span class="meta-pill" id="coverage-pill">Map coverage: Loading...</span>
                 </div>
             </div>
+            <div class="hero-bubbles" aria-label="Summary metrics">
+                <article class="hero-bubble bubble-total">
+                    <p class="bubble-label">Total matched permits</p>
+                    <p class="bubble-value" id="total-count">0</p>
+                </article>
+                <article class="hero-bubble bubble-solar">
+                    <p class="bubble-label">Solar</p>
+                    <p class="bubble-value" id="solar-count">0</p>
+                </article>
+                <article class="hero-bubble bubble-ev">
+                    <p class="bubble-label">EV Chargers</p>
+                    <p class="bubble-value" id="ev-count">0</p>
+                </article>
+                <article class="hero-bubble bubble-hp">
+                    <p class="bubble-label">Heat Pumps</p>
+                    <p class="bubble-value" id="hp-count">0</p>
+                </article>
+                <article class="hero-bubble bubble-accent">
+                    <p class="bubble-label">New this month</p>
+                    <p class="bubble-value" id="month-count">0</p>
+                </article>
+                <article class="hero-bubble bubble-accent">
+                    <p class="bubble-label">New this year</p>
+                    <p class="bubble-value" id="year-count">0</p>
+                </article>
+                <article class="hero-bubble bubble-accent bubble-date">
+                    <p class="bubble-label">Latest permit date</p>
+                    <p class="bubble-value" id="latest-date">-</p>
+                </article>
+                <article class="hero-bubble bubble-accent">
+                    <p class="bubble-label">Avg. permits / month</p>
+                    <p class="bubble-value" id="avg-monthly-count">0</p>
+                </article>
+            </div>
         </header>
 
         <section class="status-banner hidden" id="statusBanner" aria-live="polite"></section>
-
-        <section class="metrics-grid" aria-label="Summary metrics">
-            <article class="metric-card">
-                <p class="metric-label">Total matched permits</p>
-                <p class="metric-value" id="total-count">0</p>
-            </article>
-            <article class="metric-card metric-solar">
-                <p class="metric-label">Solar</p>
-                <p class="metric-value" id="solar-count">0</p>
-            </article>
-            <article class="metric-card metric-ev">
-                <p class="metric-label">EV Chargers</p>
-                <p class="metric-value" id="ev-count">0</p>
-            </article>
-            <article class="metric-card metric-hp">
-                <p class="metric-label">Heat Pumps</p>
-                <p class="metric-value" id="hp-count">0</p>
-            </article>
-        </section>
 
         <section class="card controls-card">
             <div class="controls-heading">
@@ -59,7 +74,10 @@
                     <p class="section-kicker">Explore records</p>
                     <h2>Filter the live snapshot</h2>
                 </div>
-                <p class="method-note" id="methodNote"></p>
+                <label class="search-field heading-search" for="permitSearch">
+                    <span>Search</span>
+                    <input id="permitSearch" type="search" placeholder="Try 'tesla', 'ductless', or a street name">
+                </label>
             </div>
             <div class="controls-row">
                 <div class="filter-group" id="categoryFilters" aria-label="Filter by category">
@@ -68,12 +86,35 @@
                     <button class="filter-chip" data-category="EV Charger" type="button">EV Chargers</button>
                     <button class="filter-chip" data-category="Heat Pump" type="button">Heat Pumps</button>
                 </div>
-                <label class="search-field" for="permitSearch">
-                    <span>Search address or description</span>
-                    <input id="permitSearch" type="search" placeholder="Try 'tesla', 'ductless', or a street name">
-                </label>
+            </div>
+            <div class="controls-row controls-row-secondary">
+                <div class="date-filter-grid">
+                    <label class="search-field" for="fromDate">
+                        <span>From date</span>
+                        <input id="fromDate" type="date">
+                    </label>
+                    <label class="search-field" for="toDate">
+                        <span>To date</span>
+                        <input id="toDate" type="date">
+                    </label>
+                </div>
+                <div class="workflow-tools">
+                    <label class="search-field compact-field" for="sortRecords">
+                        <span>Sort records</span>
+                        <select id="sortRecords">
+                            <option value="date-desc">Newest first</option>
+                            <option value="date-asc">Oldest first</option>
+                            <option value="address-asc">Address A-Z</option>
+                            <option value="category-asc">Category</option>
+                            <option value="status-asc">Status</option>
+                        </select>
+                    </label>
+                    <button class="action-button subtle" id="resetFilters" type="button">Reset filters</button>
+                    <button class="action-button" id="exportCsv" type="button">Export CSV</button>
+                </div>
             </div>
             <p class="results-summary" id="resultsSummary">Loading permit records...</p>
+            <div id="permitMap" role="img" aria-label="Map of clean energy permit locations in Bellingham"></div>
         </section>
 
         <section class="insights-grid">
@@ -113,21 +154,17 @@
                     </div>
                 </dl>
             </article>
-        </section>
 
-        <section class="card map-card">
-            <div class="section-heading">
-                <div>
-                    <p class="section-kicker">Spatial view</p>
-                    <h2>Permit map</h2>
+            <article class="card wide-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">Time intelligence</p>
+                        <h2>Monthly permit trend</h2>
+                    </div>
+                    <p class="table-note" id="trendNote"></p>
                 </div>
-                <div class="map-legend" aria-label="Map legend">
-                    <span><i class="legend-dot legend-solar"></i>Solar</span>
-                    <span><i class="legend-dot legend-ev"></i>EV Charger</span>
-                    <span><i class="legend-dot legend-hp"></i>Heat Pump</span>
-                </div>
-            </div>
-            <div id="permitMap" role="img" aria-label="Map of clean energy permit locations in Bellingham"></div>
+                <div class="trend-chart" id="trendChart" aria-label="Monthly permit trend chart"></div>
+            </article>
         </section>
 
         <section class="card table-card">
@@ -136,7 +173,18 @@
                     <p class="section-kicker">Recent permits</p>
                     <h2>Matching applications</h2>
                 </div>
-                <p class="table-note" id="tableNote"></p>
+                <div class="table-heading-tools">
+                    <label class="search-field compact-field compact-select inline-select" for="recordLimit">
+                        <span>View</span>
+                        <select id="recordLimit">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </label>
+                    <p class="table-note" id="tableNote"></p>
+                </div>
             </div>
             <div class="table-wrap">
                 <table id="permitTable">
@@ -147,10 +195,55 @@
                             <th>Address</th>
                             <th>Description</th>
                             <th>Status</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
+            </div>
+        </section>
+
+        <section class="card detail-card hidden" id="recordDetailCard">
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">Record details</p>
+                    <h2 id="detailTitle">Select a permit</h2>
+                </div>
+                <button class="action-button subtle" id="closeDetail" type="button">Close</button>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-block">
+                    <span class="detail-label">Category</span>
+                    <span class="detail-value" id="detailCategory">-</span>
+                </div>
+                <div class="detail-block">
+                    <span class="detail-label">Date</span>
+                    <span class="detail-value" id="detailDate">-</span>
+                </div>
+                <div class="detail-block">
+                    <span class="detail-label">Status</span>
+                    <span class="detail-value" id="detailStatus">-</span>
+                </div>
+                <div class="detail-block">
+                    <span class="detail-label">Permit number</span>
+                    <span class="detail-value" id="detailPermitNumber">-</span>
+                </div>
+                <div class="detail-block detail-block-wide">
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value" id="detailAddress">-</span>
+                </div>
+                <div class="detail-block detail-block-wide">
+                    <span class="detail-label">Applicant</span>
+                    <span class="detail-value" id="detailApplicant">-</span>
+                </div>
+                <div class="detail-block detail-block-wide">
+                    <span class="detail-label">Description</span>
+                    <span class="detail-value" id="detailDescription">-</span>
+                </div>
+                <div class="detail-block detail-block-wide">
+                    <span class="detail-label">Matched terms</span>
+                    <span class="detail-value" id="detailTerms">-</span>
+                </div>
             </div>
         </section>
     </div>
