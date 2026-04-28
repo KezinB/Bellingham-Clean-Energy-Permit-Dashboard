@@ -1379,3 +1379,20 @@ td {
         padding: 0.8rem 1rem;
     }
 }
+
+.site-footer {
+    text-align: center;
+    padding: 2rem 1rem 0.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+.site-footer strong {
+    color: var(--all);
+    font-weight: 700;
+}
