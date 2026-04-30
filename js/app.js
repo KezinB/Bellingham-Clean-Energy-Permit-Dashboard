@@ -223,10 +223,10 @@
 
     function renderStaticMeta(allRecords) {
         const meta = dataset.meta || {};
-        updatedPill.textContent = "Updated: " + formatTimestamp(meta.generatedAt);
-        coveragePill.textContent = "Map coverage: " + (meta.geocodedRecords || 0) + " / " + allRecords.length + " permits";
+        if (updatedPill) updatedPill.textContent = "Updated: " + formatTimestamp(meta.generatedAt);
+        if (coveragePill) coveragePill.textContent = "Map coverage: " + (meta.geocodedRecords || 0) + " / " + allRecords.length + " permits";
         methodNote.textContent = "";
-        geocodeCount.textContent = String(meta.geocodedRecords || 0);
+        if (geocodeCount) geocodeCount.textContent = String(meta.geocodedRecords || 0);
 
         totalCount.textContent = formatNumber(allRecords.length);
         solarCount.textContent = formatNumber(countByCategory(allRecords, "Solar"));
@@ -279,7 +279,7 @@
             track.className = "bar-track";
             const fill = document.createElement("div");
             fill.className = "bar-fill " + CATEGORY_CLASS[category];
-            fill.style.width = String((count / maxCount) * 100) + "%";
+            fill.style.setProperty("--bar-percent", String((count / maxCount) * 100) + "%");
             track.appendChild(fill);
 
             row.append(labels, track);
@@ -632,7 +632,7 @@
     function addLegend(instance) {
         const LegendControl = L.Control.extend({
             options: {
-                position: "bottomleft"
+                position: "bottomright"
             },
             onAdd: function () {
                 const div = L.DomUtil.create("div", "map-legend");

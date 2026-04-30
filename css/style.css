@@ -1115,8 +1115,9 @@ a:hover {
 
 .bar-fill {
     height: 100%;
+    width: var(--bar-percent, 0%);
     border-radius: 999px;
-    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), height 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bar-fill.solar {
@@ -1541,8 +1542,8 @@ td {
     display: none;
 }
     .trend-chart {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        row-gap: 1.5rem;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 0.35rem;
     }
 }
 
@@ -1563,29 +1564,97 @@ td {
     }
 
     .hero-bubbles {
+        position: static;
+        width: 100%;
+        margin-top: 2.5rem;
+        display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
+        justify-content: center;
+        gap: 0.75rem;
     }
 
     .hero-bubble {
         width: 100px;
         height: 100px;
+        border-radius: 50%;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    .metrics-grid {
-        grid-template-columns: 1fr;
-        padding: 0 1rem;
+    .bubble-label {
+        font-size: 0.55rem;
+        margin-bottom: 0.25rem;
+        text-align: center;
     }
 
-    .card {
-        border-radius: 0;
-        padding: 1.5rem;
-        border-left: none;
-        border-right: none;
+    .bubble-value {
+        font-size: 1.1rem;
+        text-align: center;
     }
 
-    .date-filter-grid {
-        grid-template-columns: 1fr;
+    .bar-stack {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        align-items: end;
+        min-height: 260px;
+        margin-top: 2rem;
+    }
+
+    .bar-row {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 0.75rem;
+        height: 100%;
+    }
+
+    .bar-labels {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .bar-labels span:first-child {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .bar-labels span:last-child {
+        font-size: 0.95rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+    }
+
+    .bar-track {
+        width: 16px;
+        height: 160px;
+        position: relative;
+        background: rgba(15, 23, 42, 0.04);
+        border-radius: 99px;
+    }
+
+    .bar-fill {
+        width: 100%;
+        height: var(--bar-percent, 0%);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    .hero-text {
+        display: none;
+    }
+
+    /* Hide Description column in table for mobile */
+    #permitTable th:nth-child(4),
+    #permitTable td:nth-child(4) {
+        display: none;
     }
 
     #permitMap {
@@ -1844,39 +1913,40 @@ td {
 
 /* Map Legend */
 .map-legend {
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 1rem 1.25rem;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.94), rgba(243, 247, 255, 0.9));
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
-    border: 1px solid var(--line);
-    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
     font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    min-width: 140px;
+    gap: 0.75rem;
+    min-width: 160px;
+    margin: 1.5rem !important;
+    z-index: 1000;
 }
 
 .map-legend-title {
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     color: var(--muted);
-    margin-bottom: 8px;
+    margin-bottom: 0.25rem;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 0.88rem;
+    gap: 12px;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--ink);
     cursor: pointer;
     transition: all 0.2s ease;
-    padding: 4px 0;
 }
 
 .legend-item:hover {
