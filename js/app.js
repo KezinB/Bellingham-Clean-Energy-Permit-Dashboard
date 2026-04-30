@@ -37,6 +37,7 @@
     const tableBody = document.querySelector("#permitTable tbody");
     const recordLimitInput = document.getElementById("recordLimit");
     const searchInput = document.getElementById("permitSearch");
+    const searchInputMobile = document.getElementById("permitSearchMobile");
     const filterGroup = document.getElementById("categoryFilters");
     const fromDateInput = document.getElementById("fromDate");
     const toDateInput = document.getElementById("toDate");
@@ -113,7 +114,8 @@
 
         if (applySearch) {
             applySearch.addEventListener("click", function () {
-                state.query = searchInput.value.trim().toLowerCase();
+                const val = searchInputMobile ? searchInputMobile.value : (searchInput ? searchInput.value : "");
+                state.query = val.trim().toLowerCase();
                 render();
                 searchDrawerOverlay.classList.remove("active");
                 document.body.style.overflow = "";
@@ -177,7 +179,10 @@
             mobileSearchTrigger.addEventListener("click", function () {
                 searchDrawerOverlay.classList.add("active");
                 document.body.style.overflow = "hidden";
-                setTimeout(() => searchInput.focus(), 400);
+                setTimeout(() => {
+                    if (searchInputMobile) searchInputMobile.focus();
+                    else if (searchInput) searchInput.focus();
+                }, 400);
             });
         }
 

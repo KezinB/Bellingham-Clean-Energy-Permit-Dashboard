@@ -896,10 +896,23 @@ a:hover {
 }
 
 .controls-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     gap: 1.5rem;
-    align-items: flex-end;
+    margin-top: 1.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.controls-row .filter-group {
+    flex: 1;
+    min-width: 300px;
+}
+
+.controls-row .heading-search {
+    flex: 0 1 400px;
+    width: 100%;
 }
 
 .controls-row-secondary {
@@ -2043,47 +2056,50 @@ td {
 }
 
 /* Unified Map Controls Styling */
+.leaflet-left .leaflet-control {
+    margin-left: 12px !important;
+}
+
+.leaflet-top .leaflet-control {
+    margin-top: 12px !important;
+}
+
 .leaflet-bar,
 .map-home-button,
 .map-reset-button {
     border: none !important;
     box-shadow: none !important;
     background: transparent !important;
+    margin-bottom: 8px !important;
 }
 
 .leaflet-bar a,
 .map-home-button,
 .map-reset-button {
-    width: 44px !important;
-    height: 44px !important;
-    line-height: 44px !important;
-    background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid var(--line) !important;
+    width: 42px !important;
+    height: 42px !important;
+    line-height: 42px !important;
+    background: #ffffff !important;
+    border: 1.5px solid var(--line) !important;
     border-radius: 14px !important;
     color: var(--all) !important;
     font-family: 'Inter', sans-serif !important;
-    font-size: 0.85rem !important;
-    font-weight: 800 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    font-size: 1.35rem !important; 
+    font-weight: 600 !important;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12) !important;
-    transition: all 0.2s ease !important;
-    display: flex;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px; /* Gap between controls */
+    text-decoration: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.leaflet-bar a:first-child {
-    border-radius: 14px !important;
-}
-
+.leaflet-bar a:first-child,
 .leaflet-bar a:last-child {
     border-radius: 14px !important;
-    margin-bottom: 0;
 }
 
 .leaflet-bar a:hover,
@@ -2092,20 +2108,17 @@ td {
     background: var(--all) !important;
     color: #fff !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 24px var(--glow-all) !important;
+    box-shadow: 0 8px 20px var(--glow-all) !important;
 }
 
-/* Home and Reset Specifics */
-.map-home-button,
-.map-reset-button {
-    margin-top: 0;
-    margin-bottom: 8px;
+.leaflet-bar a:hover svg,
+.map-home-button:hover svg,
+.map-reset-button:hover svg {
+    stroke: #fff !important;
 }
 
-.map-home-button {
-    font-size: 0.72rem !important;
-}
-
-.map-reset-button {
-    font-size: 0.72rem !important;
+.map-home-button svg,
+.map-reset-button svg {
+    width: 22px;
+    height: 22px;
 }

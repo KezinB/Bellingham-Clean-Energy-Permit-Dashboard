@@ -86,6 +86,19 @@
                     </button>
                 </div>
             </div>
+            <div class="controls-row">
+                <div class="filter-group" id="categoryFilters">
+                    <button class="filter-chip active" data-category="All">All</button>
+                    <button class="filter-chip" data-category="Solar">Solar</button>
+                    <button class="filter-chip" data-category="EV Charger">EV Chargers</button>
+                    <button class="filter-chip" data-category="Heat Pump">Heat Pumps</button>
+                </div>
+                <div class="heading-search">
+                    <label class="search-field" for="permitSearch">
+                        <input id="permitSearch" type="text" placeholder="Search address, applicant, or description...">
+                    </label>
+                </div>
+            </div>
             <div class="controls-row controls-row-secondary">
                 <div class="date-filter-grid">
                     <label class="search-field" for="fromDateDesktop">
@@ -229,9 +242,9 @@
                 <h3>Search Records</h3>
                 <button class="drawer-close" id="closeSearchDrawer" type="button">&times;</button>
             </div>
-            <label class="search-field heading-search" for="permitSearch">
+            <label class="search-field drawer-search" for="permitSearchMobile">
                 <span>Search</span>
-                <input id="permitSearch" type="search" placeholder="Try 'tesla', 'ductless'...">
+                <input id="permitSearchMobile" type="text" placeholder="Try 'tesla', 'ductless'...">
             </label>
             <p class="drawer-hint">Filter permits by address, applicant, or description.</p>
             <div class="drawer-actions">
