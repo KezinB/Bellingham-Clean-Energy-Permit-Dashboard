@@ -70,51 +70,41 @@
 
         <section class="card controls-card">
             <div class="controls-heading">
-                <div>
+                <div class="heading-text">
                     <p class="section-kicker">Explore records</p>
                     <h2>Filter the live snapshot</h2>
                 </div>
-                <label class="search-field heading-search" for="permitSearch">
-                    <span>Search</span>
-                    <input id="permitSearch" type="search" placeholder="Try 'tesla', 'ductless', or a street name">
-                </label>
-            </div>
-            <div class="controls-row">
-                <div class="filter-group" id="categoryFilters" aria-label="Filter by category">
-                    <button class="filter-chip active" data-category="All" type="button">All</button>
-                    <button class="filter-chip" data-category="Solar" type="button">Solar</button>
-                    <button class="filter-chip" data-category="EV Charger" type="button">EV Chargers</button>
-                    <button class="filter-chip" data-category="Heat Pump" type="button">Heat Pumps</button>
+                <div class="action-toolbar">
+                    <button class="action-trigger" id="mobileSearchTrigger" type="button" aria-label="Open search" data-tooltip="Search records">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </button>
+                    <button class="action-trigger" id="mobileFilterTrigger" type="button" aria-label="Open filters" data-tooltip="Filter results">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+                    </button>
+                    <button class="action-trigger download-trigger" id="exportCsv" type="button" aria-label="Download CSV" data-tooltip="Export to CSV">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    </button>
                 </div>
             </div>
             <div class="controls-row controls-row-secondary">
                 <div class="date-filter-grid">
-                    <label class="search-field" for="fromDate">
-                        <span>From date</span>
-                        <input id="fromDate" type="date">
+                    <label class="search-field" for="fromDateDesktop">
+                        <span>From</span>
+                        <input id="fromDateDesktop" type="date">
                     </label>
-                    <label class="search-field" for="toDate">
-                        <span>To date</span>
-                        <input id="toDate" type="date">
+                    <label class="search-field" for="toDateDesktop">
+                        <span>To</span>
+                        <input id="toDateDesktop" type="date">
                     </label>
-                </div>
-                <div class="workflow-tools">
-                    <label class="search-field compact-field" for="sortRecords">
-                        <span>Sort records</span>
-                        <select id="sortRecords">
-                            <option value="date-desc">Newest first</option>
-                            <option value="date-asc">Oldest first</option>
-                            <option value="address-asc">Address A-Z</option>
-                            <option value="category-asc">Category</option>
-                            <option value="status-asc">Status</option>
-                        </select>
-                    </label>
-                    <button class="action-button subtle" id="resetFilters" type="button">Reset filters</button>
-                    <button class="action-button" id="exportCsv" type="button">Export CSV</button>
                 </div>
             </div>
-            <p class="results-summary" id="resultsSummary">Loading permit records...</p>
-            <div id="permitMap" role="img" aria-label="Map of clean energy permit locations in Bellingham"></div>
+            <div class="results-summary" id="resultsSummary">Loading permit records...</div>
+            <div id="permitMap" role="img" aria-label="Map of clean energy permit locations in Bellingham">
+                <div class="map-controls">
+                    <button class="map-home-button" id="mapHome" type="button" aria-label="Back to City" data-tooltip="Back to City View">CITY</button>
+                    <button class="map-reset-button" id="mapReset" type="button" aria-label="Reset Map" data-tooltip="Reset Zoom & View">RESET</button>
+                </div>
+            </div>
         </section>
 
         <section class="card insights-card">
@@ -232,6 +222,64 @@
                 <span id="methodNote" style="display:none;"></span>
     </footer>
 </div>
+
+    <div class="search-drawer-overlay" id="searchDrawerOverlay">
+        <div class="search-drawer" id="searchDrawer">
+            <div class="drawer-header">
+                <h3>Search Records</h3>
+                <button class="drawer-close" id="closeSearchDrawer" type="button">&times;</button>
+            </div>
+            <label class="search-field heading-search" for="permitSearch">
+                <span>Search</span>
+                <input id="permitSearch" type="search" placeholder="Try 'tesla', 'ductless'...">
+            </label>
+            <p class="drawer-hint">Filter permits by address, applicant, or description.</p>
+            <div class="drawer-actions">
+                <button class="action-button" id="applySearch" type="button">Search</button>
+                <button class="action-button subtle" id="clearSearch" type="button">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-drawer-overlay" id="filterDrawerOverlay">
+        <div class="filter-drawer" id="filterDrawer">
+            <div class="drawer-header">
+                <h3>Filter Records</h3>
+                <button class="drawer-close" id="closeFilterDrawer" type="button">&times;</button>
+            </div>
+
+            <div class="drawer-section">
+                <p class="drawer-section-title">Date Range</p>
+                <div class="date-filter-grid">
+                    <label class="search-field" for="fromDate">
+                        <span>From</span>
+                        <input id="fromDate" type="date">
+                    </label>
+                    <label class="search-field" for="toDate">
+                        <span>To</span>
+                        <input id="toDate" type="date">
+                    </label>
+                </div>
+            </div>
+
+            <div class="drawer-section">
+                <p class="drawer-section-title">Sorting & Actions</p>
+                <div class="workflow-tools">
+                    <label class="search-field compact-field" for="sortRecords">
+                        <span>Sort By</span>
+                        <select id="sortRecords">
+                            <option value="date-desc">Newest First</option>
+                            <option value="date-asc">Oldest First</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="drawer-actions">
+                <button class="action-button" id="applyFilters" type="button">Apply Filters</button>
+                <button class="action-button subtle" id="resetFilters" type="button">Reset All</button>
+            </div>
+        </div>
+    </div>
 
     <script src="vendor/leaflet/leaflet.js"></script>
     <script src="js/permit-data.js"></script>

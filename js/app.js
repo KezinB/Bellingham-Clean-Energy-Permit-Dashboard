@@ -32,7 +32,7 @@
     const distributionBars = document.getElementById("distributionBars");
     const trendChart = document.getElementById("trendChart");
     const trendNote = document.getElementById("trendNote");
-    const resultsSummary = document.getElementById("resultsSummary");
+    const resultsSummaries = document.querySelectorAll(".results-summary");
     const tableNote = document.getElementById("tableNote");
     const tableBody = document.querySelector("#permitTable tbody");
     const recordLimitInput = document.getElementById("recordLimit");
@@ -45,6 +45,12 @@
     const resetFiltersButton = document.getElementById("resetFilters");
     const detailCard = document.getElementById("recordDetailCard");
     const closeDetailButton = document.getElementById("closeDetail");
+    const mobileSearchTrigger = document.getElementById("mobileSearchTrigger");
+    const searchDrawerOverlay = document.getElementById("searchDrawerOverlay");
+    const closeSearchDrawer = document.getElementById("closeSearchDrawer");
+    const mobileFilterTrigger = document.getElementById("mobileFilterTrigger");
+    const filterDrawerOverlay = document.getElementById("filterDrawerOverlay");
+    const closeFilterDrawer = document.getElementById("closeFilterDrawer");
 
     if (!dataset || !Array.isArray(dataset.records)) {
         showStatus("Permit data is unavailable. Run scripts/build_permit_dataset.ps1 to regenerate the embedded snapshot.");
@@ -59,7 +65,8 @@
     const latestRecordDate = latestRecordTimestamp ? new Date(latestRecordTimestamp) : null;
 
     const state = {
-        category: "All",
+        categories: [...CATEGORY_ORDER],
+        selectedMonth: null,
         query: "",
         fromDate: "",
         toDate: "",
@@ -99,38 +106,38 @@
     }
 
     function wireControls() {
-        filterGroup.addEventListener("click", function (event) {
-            const button = event.target.closest("[data-category]");
-            if (!button) {
-                return;
-            }
 
-            state.category = button.getAttribute("data-category") || "All";
-            for (const chip of filterGroup.querySelectorAll(".filter-chip")) {
-                chip.classList.toggle("active", chip === button);
-            }
-            render();
-        });
+        const applySearch = document.getElementById("applySearch");
+        const clearSearch = document.getElementById("clearSearch");
+        const applyFilters = document.getElementById("applyFilters");
 
-        searchInput.addEventListener("input", function () {
-            state.query = searchInput.value.trim().toLowerCase();
-            render();
-        });
+        if (applySearch) {
+            applySearch.addEventListener("click", function () {
+                state.query = searchInput.value.trim().toLowerCase();
+                render();
+                searchDrawerOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+        }
 
-        fromDateInput.addEventListener("change", function () {
-            state.fromDate = fromDateInput.value;
-            render();
-        });
+        if (clearSearch) {
+            clearSearch.addEventListener("click", function () {
+                searchInput.value = "";
+                state.query = "";
+                render();
+            });
+        }
 
-        toDateInput.addEventListener("change", function () {
-            state.toDate = toDateInput.value;
-            render();
-        });
-
-        sortRecordsInput.addEventListener("change", function () {
-            state.sort = sortRecordsInput.value;
-            render();
-        });
+        if (applyFilters) {
+            applyFilters.addEventListener("click", function () {
+                state.fromDate = fromDateInput.value;
+                state.toDate = toDateInput.value;
+                state.sort = sortRecordsInput.value;
+                render();
+                filterDrawerOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+        }
 
         recordLimitInput.addEventListener("change", function () {
             state.tableLimit = Number(recordLimitInput.value) || DEFAULT_TABLE_LIMIT;
@@ -142,7 +149,8 @@
         });
 
         resetFiltersButton.addEventListener("click", function () {
-            state.category = "All";
+            state.categories = [...CATEGORY_ORDER];
+            state.selectedMonth = null;
             state.query = "";
             state.fromDate = "";
             state.toDate = "";
@@ -156,15 +164,61 @@
             sortRecordsInput.value = "date-desc";
             recordLimitInput.value = String(DEFAULT_TABLE_LIMIT);
 
-            for (const chip of filterGroup.querySelectorAll(".filter-chip")) {
-                chip.classList.toggle("active", chip.dataset.category === "All");
-            }
 
             hideDetail();
+            syncChips();
+            updateLegendUI();
             render();
         });
 
         closeDetailButton.addEventListener("click", hideDetail);
+
+        if (mobileSearchTrigger) {
+            mobileSearchTrigger.addEventListener("click", function () {
+                searchDrawerOverlay.classList.add("active");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => searchInput.focus(), 400);
+            });
+        }
+
+        if (closeSearchDrawer) {
+            closeSearchDrawer.addEventListener("click", function () {
+                searchDrawerOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+        }
+
+        if (searchDrawerOverlay) {
+            searchDrawerOverlay.addEventListener("click", function (e) {
+                if (e.target === searchDrawerOverlay) {
+                    searchDrawerOverlay.classList.remove("active");
+                    document.body.style.overflow = "";
+                }
+            });
+        }
+
+        if (mobileFilterTrigger) {
+            mobileFilterTrigger.addEventListener("click", function () {
+                filterDrawerOverlay.classList.add("active");
+                document.body.style.overflow = "hidden";
+            });
+        }
+
+        if (closeFilterDrawer) {
+            closeFilterDrawer.addEventListener("click", function () {
+                filterDrawerOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+        }
+
+        if (filterDrawerOverlay) {
+            filterDrawerOverlay.addEventListener("click", function (e) {
+                if (e.target === filterDrawerOverlay) {
+                    filterDrawerOverlay.classList.remove("active");
+                    document.body.style.overflow = "";
+                }
+            });
+        }
     }
 
     function renderStaticMeta(allRecords) {
@@ -244,11 +298,25 @@
 
         const maxCount = Math.max(...monthlyBuckets.map((bucket) => bucket.count), 1);
         const recentBuckets = monthlyBuckets.slice(-12);
-        trendNote.textContent = "Showing the latest " + recentBuckets.length + " months in the source snapshot.";
+        
+        // Show total match count in note
+        trendNote.textContent = "Visualizing trends for " + allRecords.length + " matching permits.";
 
         for (const bucket of recentBuckets) {
             const item = document.createElement("div");
             item.className = "trend-item";
+            if (state.selectedMonth === bucket.key) {
+                item.classList.add("is-active");
+            }
+
+            item.addEventListener("click", function () {
+                if (state.selectedMonth === bucket.key) {
+                    state.selectedMonth = null;
+                } else {
+                    state.selectedMonth = bucket.key;
+                }
+                render();
+            });
 
             const bar = document.createElement("div");
             bar.className = "trend-bar";
@@ -271,25 +339,49 @@
         const filtered = sortRecords(getFilteredRecords());
         const geocodedFiltered = filtered.filter((record) => record.lat !== null && record.lng !== null);
 
-        resultsSummary.textContent =
-            formatNumber(filtered.length) +
-            " permits match the current view. " +
-            formatNumber(geocodedFiltered.length) +
-            " of them have usable map coordinates.";
+        // Get records filtered by everything EXCEPT the selected month for the trend chart
+        const trendFiltered = records.filter(function (record) {
+            const categoryMatch = state.categories.includes(record.category);
+            if (!categoryMatch) return false;
+
+            if (state.fromDate && record.date && record.date < state.fromDate) return false;
+            if (state.toDate && record.date && record.date > state.toDate) return false;
+
+            if (!state.query) return true;
+            const searchable = [record.address, record.description, record.status, record.applicant].join(" ").toLowerCase();
+            return searchable.includes(state.query);
+        });
+
+        function updateSummary(filteredRecords) {
+            const resultsSummaries = document.querySelectorAll(".results-summary");
+            const withCoordinates = filteredRecords.filter(r => r.lat && r.lng).length;
+            const text = `${filteredRecords.length.toLocaleString()} permits match the current view. ${withCoordinates.toLocaleString()} of them have usable map coordinates.`;
+            resultsSummaries.forEach(el => el.textContent = text);
+        }
+
+        updateSummary(filtered);
 
         visibleMapCount.textContent = formatNumber(geocodedFiltered.length);
         tableNote.textContent = "";
 
         renderTable(filtered.slice(0, state.tableLimit));
         renderMap(geocodedFiltered);
+        renderTrend(trendFiltered);
         syncSelectedRecord(filtered);
+        updateLegendUI();
     }
 
     function getFilteredRecords() {
         return records.filter(function (record) {
-            const categoryMatch = state.category === "All" || record.category === state.category;
+            const categoryMatch = state.categories.includes(record.category);
             if (!categoryMatch) {
                 return false;
+            }
+
+            if (state.selectedMonth && record.date) {
+                if (record.date.slice(0, 7) !== state.selectedMonth) {
+                    return false;
+                }
             }
 
             if (state.fromDate && record.date && record.date < state.fromDate) {
@@ -417,15 +509,28 @@
             return null;
         }
 
-        const instance = L.map("permitMap", {
-            scrollWheelZoom: false
-        }).setView(MAP_CENTER, MAP_HOME_ZOOM);
+        const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            maxZoom: 19
+        });
 
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        const lightLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: "abcd",
             maxZoom: 20
-        }).addTo(instance);
+        });
+
+        const instance = L.map("permitMap", {
+            scrollWheelZoom: false,
+            layers: [satelliteLayer]
+        }).setView(MAP_CENTER, MAP_HOME_ZOOM);
+
+        const baseLayers = {
+            "Satellite": satelliteLayer,
+            "Standard": lightLayer
+        };
+
+        L.control.layers(baseLayers, null, { position: 'topright', collapsed: false }).addTo(instance);
 
         // Render Bellingham boundary
         let boundaryLayer = null;
@@ -448,6 +553,7 @@
         const layer = L.layerGroup().addTo(instance);
         const focusLayer = L.layerGroup().addTo(instance);
         addHomeControl(instance, boundaryLayer);
+        addResetControl(instance, boundaryLayer);
         addLegend(instance);
 
         return { instance, layer, focusLayer, boundaryLayer };
@@ -471,9 +577,9 @@
             onAdd: function () {
                 const container = L.DomUtil.create("button", "map-home-button");
                 container.type = "button";
-                container.title = "Reset to home view";
-                container.setAttribute("aria-label", "Reset to home view");
-                container.textContent = "Home";
+                container.title = "Reset map view only";
+                container.setAttribute("aria-label", "Reset map view only");
+                container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
 
                 L.DomEvent.disableClickPropagation(container);
                 L.DomEvent.on(container, "click", function () {
@@ -491,6 +597,38 @@
         instance.addControl(new HomeControl());
     }
 
+    function addResetControl(instance, boundaryLayer) {
+        const ResetControl = L.Control.extend({
+            options: {
+                position: "topleft"
+            },
+            onAdd: function () {
+                const container = L.DomUtil.create("button", "map-reset-button");
+                container.type = "button";
+                container.title = "Reset dashboard to defaults";
+                container.setAttribute("aria-label", "Reset dashboard to defaults");
+                container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`;
+
+                L.DomEvent.disableClickPropagation(container);
+                L.DomEvent.on(container, "click", function () {
+                    // Trigger global reset
+                    resetFiltersButton.click();
+                    
+                    // Reset map view
+                    if (boundaryLayer) {
+                        instance.fitBounds(boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
+                    } else {
+                        instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
+                    }
+                });
+
+                return container;
+            }
+        });
+
+        instance.addControl(new ResetControl());
+    }
+
     function addLegend(instance) {
         const LegendControl = L.Control.extend({
             options: {
@@ -498,12 +636,24 @@
             },
             onAdd: function () {
                 const div = L.DomUtil.create("div", "map-legend");
-                div.innerHTML = `
-                    <div class="map-legend-title">Categories</div>
-                    <div class="legend-item"><span class="legend-color solar"></span>Solar</div>
-                    <div class="legend-item"><span class="legend-color ev"></span>EV Charger</div>
-                    <div class="legend-item"><span class="legend-color hp"></span>Heat Pump</div>
-                `;
+                div.innerHTML = `<div class="map-legend-title">Categories</div>`;
+
+                for (const cat of CATEGORY_ORDER) {
+                    const item = L.DomUtil.create("div", "legend-item", div);
+                    item.dataset.category = cat;
+                    if (!state.categories.includes(cat)) {
+                        item.classList.add("is-inactive");
+                    }
+
+                    const dot = L.DomUtil.create("span", "legend-color " + CATEGORY_CLASS[cat], item);
+                    const label = document.createTextNode(cat === "EV Charger" ? "EV Chargers" : cat + (cat === "Solar" ? "" : "s"));
+                    item.appendChild(label);
+
+                    L.DomEvent.on(item, "click", function (e) {
+                        L.DomEvent.stopPropagation(e);
+                        toggleCategory(cat);
+                    });
+                }
                 return div;
             }
         });
@@ -580,6 +730,34 @@
         state.selectedRecordId = null;
         detailCard.classList.add("hidden");
         renderTable(sortRecords(getFilteredRecords()).slice(0, state.tableLimit));
+    }
+
+    function toggleCategory(category) {
+        if (state.categories.includes(category)) {
+            // Remove if multiple categories are active, or if it's the only one
+            state.categories = state.categories.filter((c) => c !== category);
+        } else {
+            state.categories.push(category);
+        }
+
+        // Sync chips
+        syncChips();
+        render();
+
+        // Refresh legend (since it's inside the map, we might need a better way, but for now we'll just update classes)
+        updateLegendUI();
+    }
+
+    function syncChips() {
+        // No chips to sync
+    }
+
+    function updateLegendUI() {
+        const legendItems = document.querySelectorAll(".legend-item");
+        legendItems.forEach((item) => {
+            const cat = item.dataset.category;
+            item.classList.toggle("is-inactive", !state.categories.includes(cat));
+        });
     }
 
     function syncSelectedRecord(filteredItems) {
