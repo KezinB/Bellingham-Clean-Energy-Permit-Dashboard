@@ -2,13 +2,13 @@
 
 ## Current Status
 > [!IMPORTANT]
-> **Initial Development Complete.**  
-> The dashboard is fully functional and ready for review.  
-> **Next Milestone:** Client review meeting scheduled for **April 30, 2026**.
+> **Phase 2: Spatial & Property Intelligence Integrated.**  
+> The dashboard has been transformed into a Spatial Intelligence Platform. It now features Environmental Justice (EJ) analytics, property parcel boundaries, and assessor-linked metadata (Property Value, Year Built, Use Class).
+> **Status:** Production-ready and fully integrated.
 
 ## Project Title
 **Municipal-scale clean energy adoption analytics platform : Bellingham Clean Energy Permit Dashboard**  
-*Built on permit data with geospatial visualization and automated data pipeline.*
+*Built on permit data with geospatial visualization, spatial equity mapping, and assessor intelligence.*
 
 ---
 
@@ -53,6 +53,9 @@ Reduce the need for manual in-person surveys by providing a digital estimation t
 | **Record Explorer** | ✅ Done | Sortable table with "View" detail view for deep-dive inspection. |
 | **Data Export** | ✅ Done | CSV export of filtered datasets for offline analysis. |
 | **Responsive Design** | ✅ Done | Mobile-friendly layout using CSS Grid and Flexbox. |
+| **Spatial Equity** | ✅ Done | (Phase 2) Automated EJ status identification and equity metrics. |
+| **Parcel Mapping** | ✅ Done | (Phase 2) High-resolution property boundary overlay (Zoom 17+). |
+| **Property Intel** | ✅ Done | (Phase 2) Linked assessor data: Property Type, Year Built, and Value. |
 
 ---
 
@@ -70,19 +73,29 @@ The project uses a pre-processing step to ensure high performance:
 
 ---
 
-## 6. Roadmap & Next Steps (Phase 2)
+## 6. Spatial & Property Intelligence (Phase 2)
 
-### 6.1 Enhancements
+### 6.1 Environmental Justice (EJ)
+The dashboard uses **MassGIS EJ2020** polygons to identify underserved populations.
+- **Automated Tagging:** Every permit is spatially joined to EJ polygons on-the-fly.
+- **Equity Context:** Provides descriptions of qualification criteria (e.g., "Income and Minority").
+
+### 6.2 Property Intel
+Integrated **Bellingham Assessor Database (FY26)** to provide property-level context:
+- **Year Built:** Correlation between structure age and clean energy adoption.
+- **Use Class:** Differentiates between Single Family, Multi-Family, and Commercial.
+- **Total Value:** Economic profile of adopters.
+
+## 7. Roadmap & Next Steps
+
+### 7.1 Enhancements
 - [ ] **Advanced Clustering:** Implement Leaflet.markercluster for better visualization of high-density areas.
-- [ ] **Permit Status Filter:** Allow filtering by "Issued", "Pending", or "Completed" status.
-- [ ] **Growth Projections:** Basic linear regression for future adoption estimates based on historical permit volume.
+- [ ] **Growth Projections:** Basic linear regression for future adoption estimates.
 - [ ] **Mobile App PWA:** Convert to a Progressive Web App for better field use.
 
-### 6.2 Data Quality
+### 7.2 Data Quality
 - [ ] **Geocoding Refinement:** Implement a fallback for failed geocodes (e.g., matching to street centerlines).
-- [ ] **Classification Logic Tuning:** Refine keyword list based on stakeholder feedback (e.g., separating "Hybrid" heat pumps).
-
----
+- [ ] **Classification Logic Tuning:** Refine keyword list based on stakeholder feedback.
 
 ## 7. Limitations
 - **Latency:** No real-time data; updates require running the PowerShell script.
@@ -106,6 +119,6 @@ This tool serves as the foundation for **Urban Energy Intelligence**. It can evo
 
 ## 10. Project History
 - **2026-04-29:** Initial development complete. All core features (Map, Trends, Filters, Export) functional.
-- **2026-04-30:** Scheduled client review meeting.
+- **2026-05-03:** **Phase 2 Complete.** Integrated EJ Spatial Layers, Parcel Boundaries, and Assessor Metadata. Adjusted zoom visibility logic (+4 Zoom). Updated interactive map legend.
 
 

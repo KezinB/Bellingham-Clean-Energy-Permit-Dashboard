@@ -14,6 +14,7 @@
     --glow-ev: rgba(0, 195, 255, 0.4);
     --glow-hp: rgba(255, 0, 122, 0.4);
     --glow-all: rgba(99, 102, 241, 0.4);
+    --ej: #10b981;
 }
 
 * {
@@ -404,6 +405,11 @@ a:hover {
 .bubble-accent .bubble-value {
     color: var(--all);
     text-shadow: 0 8px 18px var(--glow-all);
+}
+
+.bubble-ej .bubble-value {
+    color: #10b981; /* Emerald green for EJ/Equity */
+    text-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
 }
 
 .bubble-date .bubble-value {
@@ -1097,18 +1103,44 @@ a:hover {
 
 .insights-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 1.5rem;
 }
 
-.wide-card {
-    grid-column: 1 / -1;
+.insights-grid > article {
+    grid-column: span 2;
+}
+
+.insights-grid > article.age-article,
+.insights-grid > article.wide-article {
+    grid-column: span 3;
+}
+
+/* Force both second-row charts to an identical height */
+#ageBars,
+#trendChart {
+    height: 260px;
+    min-height: 260px;
 }
 
 .bar-stack {
     display: grid;
     gap: 1.25rem;
     margin-top: 1.5rem;
+}
+
+.chart-empty-msg {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-style: italic;
+    background: rgba(15, 23, 42, 0.02);
+    border-radius: 12px;
+    border: 1px dashed var(--line);
+    width: 100%;
+    align-self: center;
 }
 
 .bar-row {
@@ -1154,13 +1186,49 @@ a:hover {
     box-shadow: 0 0 10px var(--glow-hp);
 }
 
+.bar-fill.property-mix-fill {
+    background: linear-gradient(90deg, #a78bfa, #7c3aed);
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+}
+
+.bar-fill.age-fill {
+    background: linear-gradient(90deg, #22d3ee, #0891b2);
+    box-shadow: 0 0 10px rgba(8, 145, 178, 0.3);
+}
+
+
+/* Vertical Bar Colors for Trend Charts */
+.trend-bar.solar { background: linear-gradient(180deg, #fcd34d, var(--solar)); box-shadow: 0 4px 12px var(--glow-solar); }
+.trend-bar.ev { background: linear-gradient(180deg, #7dd3fc, var(--ev)); box-shadow: 0 4px 12px var(--glow-ev); }
+.trend-bar.hp { background: linear-gradient(180deg, #f9a8d4, var(--hp)); box-shadow: 0 4px 12px var(--glow-hp); }
+.trend-bar.property-mix-fill { background: linear-gradient(180deg, #a78bfa, #7c3aed); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3); }
+.trend-bar.age-fill { background: linear-gradient(180deg, #22d3ee, #0891b2); box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3); }
+.trend-bar.value-fill { background: linear-gradient(180deg, #34d399, #059669); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); }
+.bar-fill.value-fill {
+    background: linear-gradient(90deg, #34d399, #059669);
+    box-shadow: 0 0 10px rgba(5, 150, 105, 0.3);
+}
+
 .trend-chart {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 0.75rem;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0.6rem;
     align-items: end;
-    min-height: 240px;
+    min-height: 200px;
     padding-top: 0.5rem;
+}
+
+/* Constrain small-dataset charts so bars don't grow too wide */
+.insights-grid .trend-chart {
+    min-height: 180px;
+}
+
+/* When chart-empty-msg is the only child, switch to flex for centering */
+.trend-chart:has(.chart-empty-msg) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .trend-item {
@@ -1211,9 +1279,12 @@ a:hover {
 
 .trend-label {
     color: var(--muted);
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-align: center;
+    word-break: break-word;
+    line-height: 1.25;
+    hyphens: auto;
 }
 
 .meta-list {
@@ -1486,6 +1557,55 @@ td {
     font-size: 0.9rem;
 }
 
+.ej-status-cell {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ej-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.layer-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.toggle-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    color: var(--ink);
+}
+
+.toggle-item:hover {
+    background-color: rgba(99, 102, 241, 0.08);
+}
+
+.toggle-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #6366f1;
+}
+
 .detail-card {
     margin-top: 1.5rem;
 }
@@ -1525,15 +1645,29 @@ td {
     word-break: break-word;
 }
 
+
+
 @media (max-width: 1280px) {
     /* removed insights-grid */
 }
 
 @media (max-width: 980px) {
     .hero,
-    .controls-row,
-    .insights-grid {
+    .controls-row {
         grid-template-columns: 1fr;
+    }
+
+    .insights-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .insights-grid > article {
+        grid-column: span 1;
+    }
+
+    .insights-grid > article.age-article,
+    .insights-grid > article.wide-article {
+        grid-column: 1 / -1;
     }
 
     .hero {
@@ -1563,12 +1697,21 @@ td {
     display: none;
 }
     .trend-chart {
-        grid-template-columns: repeat(12, minmax(0, 1fr));
         gap: 0.35rem;
     }
 }
 
 @media (max-width: 640px) {
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .insights-grid > article,
+    .insights-grid > article.age-article,
+    .insights-grid > article.wide-article {
+        grid-column: 1 / -1;
+    }
+
     .page-shell {
         width: 100%;
         padding: 0;
@@ -1962,15 +2105,18 @@ td {
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 0.9rem;
+    gap: 8px;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ink);
+    color: #475569;
     cursor: pointer;
     transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
 }
 
 .legend-item:hover {
+    background: rgba(0, 0, 0, 0.03);
     transform: translateX(4px);
 }
 
@@ -1979,8 +2125,8 @@ td {
     filter: grayscale(0.8);
 }
 
-.legend-item:last-child {
-    margin-bottom: 0;
+.legend-item.is-inactive .legend-color {
+    box-shadow: none;
 }
 
 .legend-color {
@@ -1994,6 +2140,63 @@ td {
 .legend-color.solar { background-color: #f59e0b; }
 .legend-color.ev { background-color: #0ea5e9; }
 .legend-color.hp { background-color: #ec4899; }
+.legend-color.ej-zone { 
+    background-color: rgba(0, 255, 136, 0.4); 
+    border: 2px solid #00ff88;
+    border-radius: 4px;
+    width: 14px;
+    height: 14px;
+}
+
+.legend-color.boundary {
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 2px dashed #6366f1;
+    border-radius: 4px;
+    width: 14px;
+    height: 14px;
+}
+
+.legend-color.parcel {
+    background-color: rgba(6, 182, 212, 0.1);
+    border: 1.5px solid #06b6d4;
+    border-radius: 2px;
+    width: 14px;
+    height: 14px;
+}
+
+.popup-ej-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.ej-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.08);
+    color: #059669;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    white-space: nowrap;
+}
+
+.ej-badge svg {
+    flex-shrink: 0;
+}
 
 /* Map Control Styling */
 .leaflet-control-zoom {
@@ -2122,3 +2325,81 @@ td {
     width: 22px;
     height: 22px;
 }
+/* --- Map Legend & Spatial Controls --- */
+.map-legend {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem 1.25rem;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: 0.82rem;
+    color: var(--ink);
+    min-width: 180px;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.map-legend-title {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    opacity: 0.8;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 0.25rem 0.4rem;
+    border-radius: 8px;
+}
+
+.legend-item:hover {
+    background: rgba(15, 23, 42, 0.04);
+    transform: translateX(3px);
+}
+
+.legend-item.is-inactive {
+    opacity: 0.4;
+    filter: grayscale(0.6);
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+.legend-color.solar { background-color: var(--solar); box-shadow: 0 0 10px var(--glow-solar); }
+.legend-color.ev { background-color: var(--ev); box-shadow: 0 0 10px var(--glow-ev); }
+.legend-color.hp { background-color: var(--hp); box-shadow: 0 0 10px var(--glow-hp); }
+
+.legend-color.boundary { 
+    background-color: #6366f1; 
+    border: 1px dashed rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.legend-color.ej-zone { 
+    background-color: #10b981; 
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.legend-color.parcel { 
+    background-color: #64748b; 
+    opacity: 0.6;
+    box-shadow: 0 0 8px rgba(100, 116, 139, 0.2);
+}
+

@@ -30,8 +30,12 @@
     const geocodeCount = document.getElementById("geocodeCount");
     const visibleMapCount = document.getElementById("visibleMapCount");
     const distributionBars = document.getElementById("distributionBars");
+    const propertyMixBars = document.getElementById("propertyMixBars");
+    const ageBars = document.getElementById("ageBars");
+    const valueBars = document.getElementById("valueBars");
     const trendChart = document.getElementById("trendChart");
     const trendNote = document.getElementById("trendNote");
+    const ejPercent = document.getElementById("ej-percent");
     const resultsSummaries = document.querySelectorAll(".results-summary");
     const tableNote = document.getElementById("tableNote");
     const tableBody = document.querySelector("#permitTable tbody");
@@ -52,37 +56,55 @@
     const mobileFilterTrigger = document.getElementById("mobileFilterTrigger");
     const filterDrawerOverlay = document.getElementById("filterDrawerOverlay");
     const closeFilterDrawer = document.getElementById("closeFilterDrawer");
+    const mapHomeBtn = document.getElementById("mapHome");
+    const mapResetBtn = document.getElementById("mapReset");
+    let records = [];
+    let state = {};
+    let map = null;
+    let latestRecordDate = null;
 
-    if (!dataset || !Array.isArray(dataset.records)) {
-        showStatus("Permit data is unavailable. Run scripts/build_permit_dataset.ps1 to regenerate the embedded snapshot.");
-        return;
+    try {
+        if (!dataset || !Array.isArray(dataset.records)) {
+            showStatus("Permit data is unavailable. Run scripts/build_permit_dataset.ps1 to regenerate the embedded snapshot.");
+            return;
+        }
+
+        records = dataset.records
+            .map(normalizeRecord)
+            .sort((left, right) => right.timestamp - left.timestamp);
+
+        const latestRecordTimestamp = records.length ? records[0].timestamp : 0;
+        latestRecordDate = latestRecordTimestamp ? new Date(latestRecordTimestamp) : null;
+
+        state = {
+            categories: [...CATEGORY_ORDER],
+            selectedMonth: null,
+            query: "",
+            fromDate: "",
+            toDate: "",
+            sort: "date-desc",
+            tableLimit: DEFAULT_TABLE_LIMIT,
+            selectedRecordId: null,
+            ejData: null,
+            parcelData: null
+        };
+
+        map = createMap();
+        renderStaticMeta(records);
+        wireControls();
+        loadSpatialLayers();
+        render();
+    } catch (criticalError) {
+        console.error("Critical Init Error:", criticalError);
+        showStatus("Dashboard Error: " + criticalError.message + ". Check console for details.");
     }
 
-    const records = dataset.records
-        .map(normalizeRecord)
-        .sort((left, right) => right.timestamp - left.timestamp);
-
-    const latestRecordTimestamp = records.length ? records[0].timestamp : 0;
-    const latestRecordDate = latestRecordTimestamp ? new Date(latestRecordTimestamp) : null;
-
-    const state = {
-        categories: [...CATEGORY_ORDER],
-        selectedMonth: null,
-        query: "",
-        fromDate: "",
-        toDate: "",
-        sort: "date-desc",
-        tableLimit: DEFAULT_TABLE_LIMIT,
-        selectedRecordId: null
-    };
-
-    const map = createMap();
-    renderStaticMeta(records);
-    wireControls();
-    render();
-
     function normalizeRecord(record) {
-        const timestamp = record.date ? Date.parse(record.date) || 0 : 0;
+        let timestamp = 0;
+        if (record.date) {
+            const dt = new Date(record.date + "T00:00:00");
+            timestamp = isNaN(dt.getTime()) ? 0 : dt.getTime();
+        }
         return {
             id: String(record.id || ""),
             category: CATEGORY_ORDER.includes(record.category) ? record.category : "Solar",
@@ -95,27 +117,86 @@
             applicant: record.applicant || "Unknown",
             applicationType: record.applicationType || "",
             permitNumber: record.permitNumber || "",
-            matchedTerms: Array.isArray(record.matchedTerms)
-                ? record.matchedTerms
-                : record.matchedTerms
-                    ? [record.matchedTerms]
-                    : [],
+            matchedTerms: Array.isArray(record.matchedTerms) ? record.matchedTerms : (record.matchedTerms ? [record.matchedTerms] : []),
             lat: typeof record.lat === "number" ? record.lat : null,
             lng: typeof record.lng === "number" ? record.lng : null,
+            propertyType: record.propertyType || null,
+            yearBuilt: record.yearBuilt || null,
+            propertyValue: record.propertyValue || 0,
+            isEjArea: false,
+            ejCriteria: null,
             timestamp
         };
     }
 
-    function wireControls() {
+    async function loadSpatialLayers() {
+        if (!window.shp || !window.turf) return;
 
+        const getUrl = (path) => {
+            try { return new URL(path, window.location.href).href; }
+            catch (e) { return window.location.origin + "/" + path; }
+        };
+
+        try {
+            const ejFeatures = await shp(getUrl("phase2/zips/ej2020.zip"));
+            state.ejData = {
+                type: "FeatureCollection",
+                features: ejFeatures.features.filter(f => String(f.properties.MUNICIPALI || f.properties.MUNICIPAL || "").toUpperCase() === "BELLINGHAM")
+            };
+
+            records.forEach(record => {
+                if (record.lat && record.lng) {
+                    const pt = turf.point([record.lng, record.lat]);
+                    const match = state.ejData.features.find(feat => turf.booleanPointInPolygon(pt, feat));
+                    if (match) {
+                        record.isEjArea = true;
+                        record.ejCriteria = match.properties.EJ_CRITERI || match.properties.EJ_CRIT_DE || "Yes";
+                    }
+                }
+            });
+
+            if (map && state.ejData) {
+                map.ejLayer = L.geoJSON(state.ejData, {
+                    style: { color: "#00ff88", fillColor: "#00ff88", weight: 3, opacity: 0.9, fillOpacity: 0.25 },
+                    onEachFeature: (f, l) => l.bindPopup(`<strong>EJ Community</strong><br>${f.properties.EJ_CRIT_DE || ''}`)
+                });
+                const toggle = document.getElementById("toggleEjLayer");
+                if (toggle && toggle.checked) map.ejLayer.addTo(map.instance);
+            }
+
+            const parcelFeatures = await shp(getUrl("phase2/zips/L3_SHP_M025_BELLINGHAM.zip"));
+            state.parcelData = parcelFeatures;
+            if (map && state.parcelData) {
+                map.parcelLayer = L.geoJSON(state.parcelData, {
+                    style: { color: "#0f172a", weight: 1.5, opacity: 0.85, fillOpacity: 0 }
+                });
+                map.instance.on("zoomend", updateParcelVisibility);
+                updateParcelVisibility();
+            }
+            renderStaticMeta(records);
+            render();
+        } catch (err) { console.error("Spatial load error:", err); }
+    }
+
+    function updateParcelVisibility() {
+        if (!map || !map.parcelLayer) return;
+        const zoom = map.instance.getZoom();
+        const toggle = document.getElementById("toggleParcelLayer");
+        if (toggle && toggle.checked && zoom >= 10) {
+            if (!map.instance.hasLayer(map.parcelLayer)) map.parcelLayer.addTo(map.instance);
+        } else {
+            if (map.instance.hasLayer(map.parcelLayer)) map.instance.removeLayer(map.parcelLayer);
+        }
+    }
+
+    function wireControls() {
         const applySearch = document.getElementById("applySearch");
         const clearSearch = document.getElementById("clearSearch");
         const applyFilters = document.getElementById("applyFilters");
 
         if (applySearch) {
-            applySearch.addEventListener("click", function () {
-                const val = searchInputMobile ? searchInputMobile.value : (searchInput ? searchInput.value : "");
-                state.query = val.trim().toLowerCase();
+            applySearch.addEventListener("click", () => {
+                state.query = (searchInputMobile?.value || searchInput?.value || "").trim().toLowerCase();
                 render();
                 searchDrawerOverlay.classList.remove("active");
                 document.body.style.overflow = "";
@@ -123,15 +204,16 @@
         }
 
         if (clearSearch) {
-            clearSearch.addEventListener("click", function () {
-                searchInput.value = "";
+            clearSearch.addEventListener("click", () => {
+                if (searchInput) searchInput.value = "";
+                if (searchInputMobile) searchInputMobile.value = "";
                 state.query = "";
                 render();
             });
         }
 
         if (applyFilters) {
-            applyFilters.addEventListener("click", function () {
+            applyFilters.addEventListener("click", () => {
                 state.fromDate = fromDateInput.value;
                 state.toDate = toDateInput.value;
                 state.sort = sortRecordsInput.value;
@@ -141,504 +223,380 @@
             });
         }
 
-        recordLimitInput.addEventListener("change", function () {
+        recordLimitInput.addEventListener("change", () => {
             state.tableLimit = Number(recordLimitInput.value) || DEFAULT_TABLE_LIMIT;
             render();
         });
 
-        exportCsvButton.addEventListener("click", function () {
-            exportCsv(getFilteredRecords());
-        });
+        const toggleEjLayer = document.getElementById("toggleEjLayer");
+        if (toggleEjLayer) {
+            toggleEjLayer.addEventListener("change", function() {
+                if (map && map.ejLayer) {
+                    if (this.checked) map.ejLayer.addTo(map.instance);
+                    else map.instance.removeLayer(map.ejLayer);
+                }
+                updateLegendUI();
+            });
+        }
 
-        resetFiltersButton.addEventListener("click", function () {
+        const toggleParcelLayer = document.getElementById("toggleParcelLayer");
+        if (toggleParcelLayer) {
+            toggleParcelLayer.addEventListener("change", () => {
+                updateParcelVisibility();
+                updateLegendUI();
+            });
+        }
+
+        exportCsvButton.addEventListener("click", () => exportCsv(getFilteredRecords()));
+
+        resetFiltersButton.addEventListener("click", () => {
             state.categories = [...CATEGORY_ORDER];
-            state.selectedMonth = null;
             state.query = "";
             state.fromDate = "";
             state.toDate = "";
-            state.sort = "date-desc";
-            state.tableLimit = DEFAULT_TABLE_LIMIT;
+            state.selectedMonth = null;
             state.selectedRecordId = null;
-
-            searchInput.value = "";
+            if (searchInput) searchInput.value = "";
+            if (searchInputMobile) searchInputMobile.value = "";
             fromDateInput.value = "";
             toDateInput.value = "";
-            sortRecordsInput.value = "date-desc";
-            recordLimitInput.value = String(DEFAULT_TABLE_LIMIT);
-
-
-            hideDetail();
-            syncChips();
+            
+            document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+            const allBtn = document.querySelector('.filter-chip[data-category="All"]');
+            if (allBtn) allBtn.classList.add("active");
+            
             updateLegendUI();
             render();
+            closeDetailPanel();
+            if (map && map.boundaryLayer) map.instance.fitBounds(map.boundaryLayer.getBounds());
         });
+
+        if (mapHomeBtn) {
+            mapHomeBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (map && map.boundaryLayer) {
+                    map.instance.fitBounds(map.boundaryLayer.getBounds());
+                } else if (map) {
+                    map.instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
+                }
+            });
+        }
+
+        if (mapResetBtn) {
+            mapResetBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (state.selectedRecordId) {
+                    state.selectedRecordId = null;
+                    closeDetailPanel();
+                    render();
+                }
+                const visibleRecords = getFilteredRecords().filter(r => r.lat && r.lng);
+                if (map && visibleRecords.length) {
+                    const group = L.featureGroup(visibleRecords.map(item => 
+                        L.circleMarker([item.lat, item.lng])
+                    ));
+                    map.instance.fitBounds(group.getBounds().pad(0.1));
+                } else if (map && map.boundaryLayer) {
+                    map.instance.fitBounds(map.boundaryLayer.getBounds());
+                }
+            });
+        }
 
         closeDetailButton.addEventListener("click", hideDetail);
 
         if (mobileSearchTrigger) {
-            mobileSearchTrigger.addEventListener("click", function () {
+            mobileSearchTrigger.addEventListener("click", () => {
                 searchDrawerOverlay.classList.add("active");
                 document.body.style.overflow = "hidden";
-                setTimeout(() => {
-                    if (searchInputMobile) searchInputMobile.focus();
-                    else if (searchInput) searchInput.focus();
-                }, 400);
+                setTimeout(() => (searchInputMobile || searchInput)?.focus(), 400);
             });
         }
+        if (closeSearchDrawer) closeSearchDrawer.addEventListener("click", () => {
+            searchDrawerOverlay.classList.remove("active");
+            document.body.style.overflow = "";
+        });
 
-        if (closeSearchDrawer) {
-            closeSearchDrawer.addEventListener("click", function () {
-                searchDrawerOverlay.classList.remove("active");
-                document.body.style.overflow = "";
-            });
-        }
+        if (mobileFilterTrigger) mobileFilterTrigger.addEventListener("click", () => {
+            filterDrawerOverlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+        });
+        if (closeFilterDrawer) closeFilterDrawer.addEventListener("click", () => {
+            filterDrawerOverlay.classList.remove("active");
+            document.body.style.overflow = "";
+        });
 
-        if (searchDrawerOverlay) {
-            searchDrawerOverlay.addEventListener("click", function (e) {
-                if (e.target === searchDrawerOverlay) {
-                    searchDrawerOverlay.classList.remove("active");
-                    document.body.style.overflow = "";
+        const filterChips = filterGroup.querySelectorAll(".filter-chip");
+        filterChips.forEach(chip => {
+            chip.addEventListener("click", () => {
+                const cat = chip.dataset.category;
+                if (cat === "All") {
+                    state.categories = [...CATEGORY_ORDER];
+                } else {
+                    state.categories = [cat];
                 }
+                syncChips();
+                render();
             });
-        }
-
-        if (mobileFilterTrigger) {
-            mobileFilterTrigger.addEventListener("click", function () {
-                filterDrawerOverlay.classList.add("active");
-                document.body.style.overflow = "hidden";
-            });
-        }
-
-        if (closeFilterDrawer) {
-            closeFilterDrawer.addEventListener("click", function () {
-                filterDrawerOverlay.classList.remove("active");
-                document.body.style.overflow = "";
-            });
-        }
-
-        if (filterDrawerOverlay) {
-            filterDrawerOverlay.addEventListener("click", function (e) {
-                if (e.target === filterDrawerOverlay) {
-                    filterDrawerOverlay.classList.remove("active");
-                    document.body.style.overflow = "";
-                }
-            });
-        }
+        });
     }
 
     function renderStaticMeta(allRecords) {
         const meta = dataset.meta || {};
-        if (updatedPill) updatedPill.textContent = "Updated: " + formatTimestamp(meta.generatedAt);
-        if (coveragePill) coveragePill.textContent = "Map coverage: " + (meta.geocodedRecords || 0) + " / " + allRecords.length + " permits";
-        methodNote.textContent = "";
-        if (geocodeCount) geocodeCount.textContent = String(meta.geocodedRecords || 0);
-
         totalCount.textContent = formatNumber(allRecords.length);
         solarCount.textContent = formatNumber(countByCategory(allRecords, "Solar"));
         evCount.textContent = formatNumber(countByCategory(allRecords, "EV Charger"));
         hpCount.textContent = formatNumber(countByCategory(allRecords, "Heat Pump"));
-
         monthCount.textContent = formatNumber(countInCurrentMonth(allRecords));
         yearCount.textContent = formatNumber(countInCurrentYear(allRecords));
-        latestDate.textContent = latestRecordDate ? formatDate(toIsoDate(latestRecordDate)) : "-";
+        latestDate.textContent = latestRecordDate ? formatDate(latestRecordDate) : "-";
         avgMonthlyCount.textContent = formatOneDecimal(getAverageMonthlyCount(allRecords));
+        
+        const inEj = allRecords.filter(r => r.isEjArea).length;
+        ejPercent.textContent = allRecords.length ? Math.round((inEj / allRecords.length) * 100) + "%" : "0%";
+
+        if (meta.generatedAt) updatedPill.textContent = "Updated: " + formatTimestamp(meta.generatedAt);
+        if (coveragePill) coveragePill.textContent = "Map coverage: " + (meta.geocodedRecords || 0) + " / " + allRecords.length;
 
         initializeDateRange(allRecords);
-        renderDistribution(allRecords);
-        renderTrend(allRecords);
     }
 
     function initializeDateRange(allRecords) {
-        const datedRecords = allRecords.filter((record) => record.timestamp);
-        if (!datedRecords.length) {
-            return;
-        }
-
-        const oldest = datedRecords[datedRecords.length - 1];
-        const newest = datedRecords[0];
-        fromDateInput.min = oldest.date;
-        fromDateInput.max = newest.date;
-        toDateInput.min = oldest.date;
-        toDateInput.max = newest.date;
+        const dated = allRecords.filter(r => r.timestamp);
+        if (!dated.length) return;
+        fromDateInput.min = dated[dated.length - 1].date;
+        fromDateInput.max = dated[0].date;
+        toDateInput.min = dated[dated.length - 1].date;
+        toDateInput.max = dated[0].date;
     }
 
     function renderDistribution(allRecords) {
         distributionBars.innerHTML = "";
-        const maxCount = Math.max(1, ...CATEGORY_ORDER.map((category) => countByCategory(allRecords, category)));
+        const max = Math.max(1, ...CATEGORY_ORDER.map(c => countByCategory(allRecords, c)));
+        const shortLabels = { "Solar": "Solar", "EV Charger": "EV", "Heat Pump": "Heat Pump" };
+        CATEGORY_ORDER.forEach(c => {
+            distributionBars.appendChild(createVerticalBarItem(shortLabels[c], countByCategory(allRecords, c), max, CATEGORY_CLASS[c], false, null));
+        });
+    }
 
-        for (const category of CATEGORY_ORDER) {
-            const count = countByCategory(allRecords, category);
-            const row = document.createElement("div");
-            row.className = "bar-row";
-
-            const labels = document.createElement("div");
-            labels.className = "bar-labels";
-
-            const label = document.createElement("span");
-            label.textContent = category;
-            const value = document.createElement("span");
-            value.textContent = formatNumber(count);
-            labels.append(label, value);
-
-            const track = document.createElement("div");
-            track.className = "bar-track";
-            const fill = document.createElement("div");
-            fill.className = "bar-fill " + CATEGORY_CLASS[category];
-            fill.style.setProperty("--bar-percent", String((count / maxCount) * 100) + "%");
-            track.appendChild(fill);
-
-            row.append(labels, track);
-            distributionBars.appendChild(row);
+    function renderPropertyMixChart(allRecords) {
+        propertyMixBars.innerHTML = "";
+        const data = allRecords.filter(r => r.propertyType);
+        if (!data.length) {
+            propertyMixBars.innerHTML = '<p class="chart-empty-msg">Data enrichment pending.</p>';
+            return;
         }
+        const groups = { "Single Family": 0, "Multi-Family": 0, "Commercial": 0, "Other": 0 };
+        data.forEach(r => {
+            const t = String(r.propertyType).toLowerCase();
+            if (t.includes("single family") || t.includes("condominium")) groups["Single Family"]++;
+            else if (t.includes("two-family") || t.includes("three-family") || t.includes("multi-family")) groups["Multi-Family"]++;
+            else if (t.includes("commercial") || t.includes("industrial") || t.includes("mixed use")) groups["Commercial"]++;
+            else groups["Other"]++;
+        });
+        const sorted = Object.entries(groups).sort((a, b) => b[1] - a[1]);
+        const max = Math.max(1, ...sorted.map(g => g[1]));
+        sorted.forEach(([l, c]) => propertyMixBars.appendChild(createVerticalBarItem(l, c, max, "property-mix-fill", false, null)));
+    }
+
+    function renderAgeChart(allRecords) {
+        ageBars.innerHTML = "";
+        const data = allRecords.filter(r => r.yearBuilt);
+        if (!data.length) {
+            ageBars.innerHTML = '<p class="chart-empty-msg">Data enrichment pending.</p>';
+            return;
+        }
+        const counts = {};
+        data.forEach(r => {
+            let d;
+            if (r.yearBuilt < 1950) d = "Pre\u201150s";
+            else if (r.yearBuilt >= 2020) d = "2020+";
+            else d = Math.floor(r.yearBuilt / 10) * 10 + "s";
+            counts[d] = (counts[d] || 0) + 1;
+        });
+        const order = ["Pre\u201150s", "1950s", "1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020+"];
+        const max = Math.max(1, ...Object.values(counts));
+        order.forEach(d => ageBars.appendChild(createVerticalBarItem(d, counts[d] || 0, max, "age-fill", false, null)));
+    }
+
+    function renderValueChart(allRecords) {
+        valueBars.innerHTML = "";
+        const data = allRecords.filter(r => r.propertyValue > 0);
+        if (!data.length) {
+            valueBars.innerHTML = '<p class="chart-empty-msg">Data enrichment pending.</p>';
+            return;
+        }
+        const brackets = { "<$400k": 0, "$400-600k": 0, "$600-800k": 0, ">$800k": 0 };
+        data.forEach(r => {
+            const v = r.propertyValue;
+            if (v < 400000) brackets["<$400k"]++;
+            else if (v < 600000) brackets["$400-600k"]++;
+            else if (v < 800000) brackets["$600-800k"]++;
+            else brackets[">$800k"]++;
+        });
+        const max = Math.max(1, ...Object.values(brackets));
+        Object.entries(brackets).forEach(([l, c]) => valueBars.appendChild(createVerticalBarItem(l, c, max, "value-fill", false, null)));
     }
 
     function renderTrend(allRecords) {
         trendChart.innerHTML = "";
-        const monthlyBuckets = buildMonthlyBuckets(allRecords);
-
-        if (!monthlyBuckets.length) {
+        const buckets = buildMonthlyBuckets(allRecords);
+        if (!buckets.length) {
             trendNote.textContent = "No dated permits available.";
             return;
         }
+        const max = Math.max(...buckets.map(b => b.count), 1);
+        const recent = buckets.slice(-12);
+        trendNote.textContent = `Visualizing trends for ${allRecords.length} permits.`;
+        recent.forEach(b => {
+            trendChart.appendChild(createVerticalBarItem(
+                b.shortLabel, 
+                b.count, 
+                max, 
+                "", 
+                state.selectedMonth === b.key, 
+                () => { state.selectedMonth = (state.selectedMonth === b.key ? null : b.key); render(); }
+            ));
+        });
+    }
 
-        const maxCount = Math.max(...monthlyBuckets.map((bucket) => bucket.count), 1);
-        const recentBuckets = monthlyBuckets.slice(-12);
+    
+    function createVerticalBarItem(label, count, max, colorClass, isActive, onClick) {
+        const item = document.createElement("div");
+        item.className = "trend-item" + (isActive ? " is-active" : "");
+        if (onClick) item.onclick = onClick;
         
-        // Show total match count in note
-        trendNote.textContent = "Visualizing trends for " + allRecords.length + " matching permits.";
+        const countEl = document.createElement("span");
+        countEl.className = "trend-count";
+        countEl.textContent = formatNumber(count);
+        
+        const bar = document.createElement("div");
+        bar.className = "trend-bar " + (colorClass || "");
+        bar.style.height = Math.max((count / max) * 100, count ? 8 : 2) + "%";
+        
+        const labelEl = document.createElement("span");
+        labelEl.className = "trend-label";
+        labelEl.textContent = label;
+        
+        item.append(countEl, bar, labelEl);
+        return item;
+    }
 
-        for (const bucket of recentBuckets) {
-            const item = document.createElement("div");
-            item.className = "trend-item";
-            if (state.selectedMonth === bucket.key) {
-                item.classList.add("is-active");
-            }
-
-            item.addEventListener("click", function () {
-                if (state.selectedMonth === bucket.key) {
-                    state.selectedMonth = null;
-                } else {
-                    state.selectedMonth = bucket.key;
-                }
-                render();
-            });
-
-            const bar = document.createElement("div");
-            bar.className = "trend-bar";
-            bar.style.height = String(Math.max((bucket.count / maxCount) * 100, bucket.count ? 8 : 2)) + "%";
-
-            const count = document.createElement("span");
-            count.className = "trend-count";
-            count.textContent = formatNumber(bucket.count);
-
-            const label = document.createElement("span");
-            label.className = "trend-label";
-            label.textContent = bucket.shortLabel;
-
-            item.append(count, bar, label);
-            trendChart.appendChild(item);
-        }
+    function createBarRow(label, count, max, colorClass) {
+        const row = document.createElement("div");
+        row.className = "bar-row";
+        row.innerHTML = `<div class="bar-labels"><span>${label}</span><span>${formatNumber(count)}</span></div>
+                        <div class="bar-track"><div class="bar-fill ${colorClass || ""}" style="--bar-percent: ${(count/max)*100}%"></div></div>`;
+        return row;
     }
 
     function render() {
         const filtered = sortRecords(getFilteredRecords());
-        const geocodedFiltered = filtered.filter((record) => record.lat !== null && record.lng !== null);
-
-        // Get records filtered by everything EXCEPT the selected month for the trend chart
-        const trendFiltered = records.filter(function (record) {
-            const categoryMatch = state.categories.includes(record.category);
-            if (!categoryMatch) return false;
-
-            if (state.fromDate && record.date && record.date < state.fromDate) return false;
-            if (state.toDate && record.date && record.date > state.toDate) return false;
-
-            if (!state.query) return true;
-            const searchable = [record.address, record.description, record.status, record.applicant].join(" ").toLowerCase();
-            return searchable.includes(state.query);
+        const geocoded = filtered.filter(r => r.lat && r.lng);
+        
+        // Trend filter (ignore selected month)
+        const trendSource = records.filter(r => {
+            if (!state.categories.includes(r.category)) return false;
+            if (state.fromDate && r.date < state.fromDate) return false;
+            if (state.toDate && r.date > state.toDate) return false;
+            if (state.query) {
+                const searchable = `${r.address} ${r.description} ${r.applicant} ${r.permitNumber}`.toLowerCase();
+                if (!searchable.includes(state.query)) return false;
+            }
+            return true;
         });
 
-        function updateSummary(filteredRecords) {
-            const resultsSummaries = document.querySelectorAll(".results-summary");
-            const withCoordinates = filteredRecords.filter(r => r.lat && r.lng).length;
-            const text = `${filteredRecords.length.toLocaleString()} permits match the current view. ${withCoordinates.toLocaleString()} of them have usable map coordinates.`;
-            resultsSummaries.forEach(el => el.textContent = text);
-        }
-
-        updateSummary(filtered);
-
-        visibleMapCount.textContent = formatNumber(geocodedFiltered.length);
-        tableNote.textContent = "";
+        const text = `${filtered.length.toLocaleString()} permits match. ${geocoded.length.toLocaleString()} have coordinates.`;
+        resultsSummaries.forEach(el => el.textContent = text);
+        visibleMapCount.textContent = formatNumber(geocoded.length);
 
         renderTable(filtered.slice(0, state.tableLimit));
-        renderMap(geocodedFiltered);
-        renderTrend(trendFiltered);
+        renderMap(geocoded);
+        renderTrend(trendSource);
+        renderDistribution(filtered);
+        renderPropertyMixChart(filtered);
+        renderAgeChart(filtered);
+        renderValueChart(filtered);
         syncSelectedRecord(filtered);
         updateLegendUI();
     }
 
     function getFilteredRecords() {
-        return records.filter(function (record) {
-            const categoryMatch = state.categories.includes(record.category);
-            if (!categoryMatch) {
-                return false;
+        return records.filter(r => {
+            if (!state.categories.includes(r.category)) return false;
+            if (state.selectedMonth && r.date.slice(0, 7) !== state.selectedMonth) return false;
+            if (state.fromDate && r.date < state.fromDate) return false;
+            if (state.toDate && r.date > state.toDate) return false;
+            
+            if (state.query) {
+                const searchable = `${r.address} ${r.description} ${r.applicant} ${r.permitNumber}`.toLowerCase();
+                if (!searchable.includes(state.query)) return false;
             }
-
-            if (state.selectedMonth && record.date) {
-                if (record.date.slice(0, 7) !== state.selectedMonth) {
-                    return false;
-                }
-            }
-
-            if (state.fromDate && record.date && record.date < state.fromDate) {
-                return false;
-            }
-
-            if (state.toDate && record.date && record.date > state.toDate) {
-                return false;
-            }
-
-            if (!state.query) {
-                return true;
-            }
-
-            const searchable = [
-                record.address,
-                record.description,
-                record.status,
-                record.applicant,
-                record.permitNumber,
-                record.applicationType
-            ].join(" ").toLowerCase();
-
-            return searchable.includes(state.query);
+            return true;
         });
     }
 
     function sortRecords(items) {
-        const sorted = items.slice();
-
-        sorted.sort(function (left, right) {
-            switch (state.sort) {
-                case "date-asc":
-                    return compareNumbers(left.timestamp, right.timestamp) || compareText(left.address, right.address);
-                case "address-asc":
-                    return compareText(left.address, right.address) || compareNumbers(right.timestamp, left.timestamp);
-                case "category-asc":
-                    return compareText(left.category, right.category) || compareNumbers(right.timestamp, left.timestamp);
-                case "status-asc":
-                    return compareText(left.status, right.status) || compareNumbers(right.timestamp, left.timestamp);
-                case "date-desc":
-                default:
-                    return compareNumbers(right.timestamp, left.timestamp) || compareText(left.address, right.address);
-            }
+        return items.slice().sort((a, b) => {
+            if (state.sort === "date-asc") return a.timestamp - b.timestamp;
+            if (state.sort === "address-asc") return a.address.localeCompare(b.address);
+            if (state.sort === "category-asc") return a.category.localeCompare(b.category);
+            if (state.sort === "ej-desc") return (b.isEjArea - a.isEjArea) || (b.timestamp - a.timestamp);
+            return b.timestamp - a.timestamp;
         });
-
-        return sorted;
     }
 
     function renderTable(items) {
-        tableBody.innerHTML = "";
-
-        if (!items.length) {
-            const row = document.createElement("tr");
-            const cell = document.createElement("td");
-            cell.colSpan = 6;
-            cell.textContent = "No permits match the current filters.";
-            row.appendChild(cell);
-            tableBody.appendChild(row);
-            return;
-        }
-
-        for (const item of items) {
+        tableBody.innerHTML = items.length ? "" : '<tr><td colspan="7">No results found.</td></tr>';
+        items.forEach(item => {
             const row = document.createElement("tr");
             row.className = item.id === state.selectedRecordId ? "is-selected" : "";
-            row.appendChild(makeCell(formatDate(item.date)));
-            row.appendChild(makeCategoryCell(item.category));
-            row.appendChild(makeCell(item.address));
-            row.appendChild(makeCell(item.description));
-            row.appendChild(makeStatusCell(item.status));
-            row.appendChild(makeDetailButtonCell(item));
+            row.innerHTML = `<td>${formatDate(item.date)}</td>
+                             <td><span class="table-badge ${CATEGORY_CLASS[item.category]}">${item.category}</span></td>
+                             <td>${item.address}</td>
+                             <td class="description-cell">${item.description}</td>
+                             <td class="status-text">${item.status}</td>
+                             <td class="ej-status-cell">${item.isEjArea ? '<span class="ej-badge">Yes</span>' : "—"}</td>
+                             <td><button class="action-button compact">View</button></td>`;
+            row.querySelector("button").onclick = () => showDetail(item);
             tableBody.appendChild(row);
-        }
+        });
     }
 
     function renderMap(items) {
-        if (!map) {
-            return;
-        }
-
+        if (!map) return;
         map.layer.clearLayers();
-
         if (!items.length) {
-            clearFocusArea();
-            if (map.boundaryLayer) {
-                map.instance.fitBounds(map.boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
-            } else {
-                map.instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
-            }
+            if (map.boundaryLayer) map.instance.fitBounds(map.boundaryLayer.getBounds());
             return;
         }
-
-        const bounds = [];
-
-        for (const item of items) {
-            const marker = L.circleMarker([item.lat, item.lng], {
-                radius: 4,
-                color: CATEGORY_COLORS[item.category],
-                weight: 1,
-                fillColor: CATEGORY_COLORS[item.category],
-                fillOpacity: 0.66
-            });
-
-            marker.bindPopup(buildPopupMarkup(item));
-            marker.on("click", function () {
-                showDetail(item);
-            });
-            marker.addTo(map.layer);
-            bounds.push([item.lat, item.lng]);
-        }
-
-        if (bounds.length === 1) {
-            drawFocusArea(L.latLngBounds(bounds));
-            map.instance.setView(bounds[0], 15);
-        } else {
-            const fittedBounds = L.latLngBounds(bounds);
-            drawFocusArea(fittedBounds);
-            map.instance.fitBounds(fittedBounds, { padding: [30, 30] });
-        }
+        const markers = items.map(item => {
+            const m = L.circleMarker([item.lat, item.lng], { radius: 5, color: CATEGORY_COLORS[item.category], weight: 1, fillColor: CATEGORY_COLORS[item.category], fillOpacity: 0.7 });
+            m.bindPopup(buildPopupMarkup(item)).on("click", () => showDetail(item));
+            return m;
+        });
+        const group = L.featureGroup(markers).addTo(map.layer);
+        map.instance.fitBounds(group.getBounds().pad(0.1));
     }
 
     function createMap() {
-        if (!window.L) {
-            showStatus("Leaflet failed to load, so the map view is unavailable.");
-            return null;
-        }
+        if (!window.L) return null;
+        const satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19 });
+        const light = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", { maxZoom: 20 });
+        const instance = L.map("permitMap", { scrollWheelZoom: false, layers: [satellite] }).setView(MAP_CENTER, MAP_HOME_ZOOM);
+        L.control.layers({ "Satellite": satellite, "Street": light }, null, { position: 'topright', collapsed: false }).addTo(instance);
 
-        const satelliteLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-            maxZoom: 19
-        });
-
-        const lightLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: "abcd",
-            maxZoom: 20
-        });
-
-        const instance = L.map("permitMap", {
-            scrollWheelZoom: false,
-            layers: [satelliteLayer]
-        }).setView(MAP_CENTER, MAP_HOME_ZOOM);
-
-        const baseLayers = {
-            "Satellite": satelliteLayer,
-            "Standard": lightLayer
-        };
-
-        L.control.layers(baseLayers, null, { position: 'topright', collapsed: false }).addTo(instance);
-
-        // Render Bellingham boundary
         let boundaryLayer = null;
         if (window.BELLINGHAM_BOUNDARY) {
-            boundaryLayer = L.geoJSON(window.BELLINGHAM_BOUNDARY, {
-                style: {
-                    color: "#6366f1",
-                    weight: 2.5,
-                    opacity: 0.6,
-                    fillColor: "#6366f1",
-                    fillOpacity: 0.03,
-                    dashArray: "6, 6"
-                }
-            }).addTo(instance);
-
-            // Fit map to boundary on startup
-            instance.fitBounds(boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
+            boundaryLayer = L.geoJSON(window.BELLINGHAM_BOUNDARY, { style: { color: "#6366f1", weight: 2, fillOpacity: 0.03, dashArray: "5,5" } }).addTo(instance);
+            instance.fitBounds(boundaryLayer.getBounds());
         }
-
-        const layer = L.layerGroup().addTo(instance);
-        const focusLayer = L.layerGroup().addTo(instance);
-        addHomeControl(instance, boundaryLayer);
-        addResetControl(instance, boundaryLayer);
         addLegend(instance);
-
-        return { instance, layer, focusLayer, boundaryLayer };
-    }
-
-    function drawFocusArea(bounds) {
-        // Disabled focus area border as requested
-    }
-
-    function clearFocusArea() {
-        if (map && map.focusLayer) {
-            map.focusLayer.clearLayers();
-        }
-    }
-
-    function addHomeControl(instance, boundaryLayer) {
-        const HomeControl = L.Control.extend({
-            options: {
-                position: "topleft"
-            },
-            onAdd: function () {
-                const container = L.DomUtil.create("button", "map-home-button");
-                container.type = "button";
-                container.title = "Reset map view only";
-                container.setAttribute("aria-label", "Reset map view only");
-                container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
-
-                L.DomEvent.disableClickPropagation(container);
-                L.DomEvent.on(container, "click", function () {
-                    if (boundaryLayer) {
-                        instance.fitBounds(boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
-                    } else {
-                        instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
-                    }
-                });
-
-                return container;
-            }
-        });
-
-        instance.addControl(new HomeControl());
-    }
-
-    function addResetControl(instance, boundaryLayer) {
-        const ResetControl = L.Control.extend({
-            options: {
-                position: "topleft"
-            },
-            onAdd: function () {
-                const container = L.DomUtil.create("button", "map-reset-button");
-                container.type = "button";
-                container.title = "Reset dashboard to defaults";
-                container.setAttribute("aria-label", "Reset dashboard to defaults");
-                container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`;
-
-                L.DomEvent.disableClickPropagation(container);
-                L.DomEvent.on(container, "click", function () {
-                    // Trigger global reset
-                    resetFiltersButton.click();
-                    
-                    // Reset map view
-                    if (boundaryLayer) {
-                        instance.fitBounds(boundaryLayer.getBounds().pad(-0.05), { padding: [10, 10] });
-                    } else {
-                        instance.setView(MAP_CENTER, MAP_HOME_ZOOM);
-                    }
-                });
-
-                return container;
-            }
-        });
-
-        instance.addControl(new ResetControl());
+        return { instance, layer: L.layerGroup().addTo(instance), boundaryLayer };
     }
 
     function addLegend(instance) {
         const LegendControl = L.Control.extend({
-            options: {
-                position: "bottomright"
-            },
+            options: { position: "bottomright" },
             onAdd: function () {
                 const div = L.DomUtil.create("div", "map-legend");
                 div.innerHTML = `<div class="map-legend-title">Categories</div>`;
@@ -646,74 +604,72 @@
                 for (const cat of CATEGORY_ORDER) {
                     const item = L.DomUtil.create("div", "legend-item", div);
                     item.dataset.category = cat;
-                    if (!state.categories.includes(cat)) {
-                        item.classList.add("is-inactive");
-                    }
+                    if (!state.categories.includes(cat)) item.classList.add("is-inactive");
 
                     const dot = L.DomUtil.create("span", "legend-color " + CATEGORY_CLASS[cat], item);
-                    const label = document.createTextNode(cat === "EV Charger" ? "EV Chargers" : cat + (cat === "Solar" ? "" : "s"));
+                    const label = document.createTextNode(cat === "EV Charger" ? "EV Chargers" : cat + "s");
                     item.appendChild(label);
 
-                    L.DomEvent.on(item, "click", function (e) {
+                    L.DomEvent.on(item, "click", (e) => {
                         L.DomEvent.stopPropagation(e);
                         toggleCategory(cat);
                     });
                 }
+
+                // Boundary item
+                const bItem = L.DomUtil.create("div", "legend-item", div);
+                bItem.dataset.category = "Boundary";
+                bItem.innerHTML = `<span class="legend-color boundary"></span>Town Boundary`;
+                L.DomEvent.on(bItem, "click", (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    if (map && map.boundaryLayer) {
+                        if (map.instance.hasLayer(map.boundaryLayer)) map.instance.removeLayer(map.boundaryLayer);
+                        else map.boundaryLayer.addTo(map.instance);
+                        updateLegendUI();
+                    }
+                });
+
+                // EJ item
+                const ejItem = L.DomUtil.create("div", "legend-item", div);
+                ejItem.dataset.category = "EJ";
+                ejItem.style.marginTop = "0.5rem";
+                ejItem.style.paddingTop = "0.5rem";
+                ejItem.style.borderTop = "1px solid rgba(0,0,0,0.05)";
+                ejItem.innerHTML = `<span class="legend-color ej-zone"></span>EJ Community`;
+                L.DomEvent.on(ejItem, "click", (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    const checkbox = document.getElementById("toggleEjLayer");
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event("change"));
+                    }
+                });
+
+                // Parcel item
+                const pItem = L.DomUtil.create("div", "legend-item", div);
+                pItem.dataset.category = "Parcel";
+                pItem.innerHTML = `<span class="legend-color parcel"></span>Property Parcels (Zoom +10)`;
+                L.DomEvent.on(pItem, "click", (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    const checkbox = document.getElementById("toggleParcelLayer");
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event("change"));
+                    }
+                });
+
                 return div;
             }
         });
-
         instance.addControl(new LegendControl());
     }
 
     function buildPopupMarkup(item) {
-        const categoryClass = CATEGORY_CLASS[item.category];
-        const terms = item.matchedTerms.length ? item.matchedTerms.join(", ") : "Not listed";
-        return (
-            '<div class="popup-card">' +
-            '<h3 class="popup-title">' + escapeHtml(item.address) + "</h3>" +
-            '<p class="popup-copy"><strong>Date:</strong> ' + escapeHtml(formatDate(item.date)) + "</p>" +
-            '<p class="popup-copy"><strong>Description:</strong> ' + escapeHtml(item.description) + "</p>" +
-            '<p class="popup-copy"><strong>Status:</strong> ' + escapeHtml(item.status) + "</p>" +
-            '<p class="popup-copy"><strong>Matched terms:</strong> ' + escapeHtml(terms) + "</p>" +
-            '<span class="popup-badge ' + categoryClass + '">' + escapeHtml(item.category) + "</span>" +
-            "</div>"
-        );
-    }
-
-    function makeCell(text) {
-        const cell = document.createElement("td");
-        cell.textContent = text;
-        return cell;
-    }
-
-    function makeCategoryCell(category) {
-        const cell = document.createElement("td");
-        const badge = document.createElement("span");
-        badge.className = "table-badge " + CATEGORY_CLASS[category];
-        badge.textContent = category;
-        cell.appendChild(badge);
-        return cell;
-    }
-
-    function makeStatusCell(status) {
-        const cell = document.createElement("td");
-        cell.className = "status-text";
-        cell.textContent = status;
-        return cell;
-    }
-
-    function makeDetailButtonCell(item) {
-        const cell = document.createElement("td");
-        const button = document.createElement("button");
-        button.className = "action-button compact";
-        button.type = "button";
-        button.textContent = "View";
-        button.addEventListener("click", function () {
-            showDetail(item);
-        });
-        cell.appendChild(button);
-        return cell;
+        return `<div class="popup-card"><h3>${escapeHtml(item.address)}</h3>
+                ${item.isEjArea ? '<div class="popup-ej-badge">EJ Community</div>' : ''}
+                <p><strong>Date:</strong> ${formatDate(item.date)}</p>
+                <p><strong>Description:</strong> ${escapeHtml(item.description)}</p>
+                <span class="popup-badge ${CATEGORY_CLASS[item.category]}">${item.category}</span></div>`;
     }
 
     function showDetail(item) {
@@ -727,241 +683,93 @@
         document.getElementById("detailAddress").textContent = item.address;
         document.getElementById("detailApplicant").textContent = item.applicant;
         document.getElementById("detailDescription").textContent = item.description;
-        document.getElementById("detailTerms").textContent = item.matchedTerms.length ? item.matchedTerms.join(", ") : "-";
-        renderTable(sortRecords(getFilteredRecords()).slice(0, state.tableLimit));
-    }
-
-    function hideDetail() {
-        state.selectedRecordId = null;
-        detailCard.classList.add("hidden");
-        renderTable(sortRecords(getFilteredRecords()).slice(0, state.tableLimit));
-    }
-
-    function toggleCategory(category) {
-        if (state.categories.includes(category)) {
-            // Remove if multiple categories are active, or if it's the only one
-            state.categories = state.categories.filter((c) => c !== category);
-        } else {
-            state.categories.push(category);
-        }
-
-        // Sync chips
-        syncChips();
+        document.getElementById("detailTerms").textContent = item.matchedTerms.join(", ") || "-";
+        document.getElementById("detailPropertyType").textContent = item.propertyType || "Unknown";
+        document.getElementById("detailYearBuilt").textContent = item.yearBuilt || "Unknown";
+        document.getElementById("detailPropertyValue").textContent = item.propertyValue ? "$" + formatNumber(item.propertyValue) : "Unknown";
+        
+        const ej = document.getElementById("detailEjBlock");
+        if (item.isEjArea) { ej.style.display = "block"; document.getElementById("detailEjCriteria").textContent = item.ejCriteria; }
+        else ej.style.display = "none";
+        
         render();
+        detailCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
-        // Refresh legend (since it's inside the map, we might need a better way, but for now we'll just update classes)
-        updateLegendUI();
+    function hideDetail() { state.selectedRecordId = null; detailCard.classList.add("hidden"); render(); }
+    
+    function syncSelectedRecord(filteredItems) {
+        if (!state.selectedRecordId) return;
+        const exists = filteredItems.some(r => r.id === state.selectedRecordId);
+        if (!exists) {
+            hideDetail();
+        }
     }
 
     function syncChips() {
-        // No chips to sync
+        const chips = filterGroup.querySelectorAll(".filter-chip");
+        chips.forEach(c => {
+            const cat = c.dataset.category;
+            if (cat === "All") c.classList.toggle("active", state.categories.length === CATEGORY_ORDER.length);
+            else c.classList.toggle("active", state.categories.length === 1 && state.categories[0] === cat);
+        });
     }
-
     function updateLegendUI() {
         const legendItems = document.querySelectorAll(".legend-item");
         legendItems.forEach((item) => {
             const cat = item.dataset.category;
-            item.classList.toggle("is-inactive", !state.categories.includes(cat));
+            if (cat === "EJ") {
+                const checkbox = document.getElementById("toggleEjLayer");
+                item.classList.toggle("is-inactive", checkbox && !checkbox.checked);
+            } else if (cat === "Boundary") {
+                if (map && map.boundaryLayer) {
+                    item.classList.toggle("is-inactive", !map.instance.hasLayer(map.boundaryLayer));
+                }
+            } else if (cat === "Parcel") {
+                const checkbox = document.getElementById("toggleParcelLayer");
+                item.classList.toggle("is-inactive", checkbox && !checkbox.checked);
+            } else {
+                item.classList.toggle("is-inactive", !state.categories.includes(cat));
+            }
         });
-    }
-
-    function syncSelectedRecord(filteredItems) {
-        if (!state.selectedRecordId) {
-            return;
-        }
-
-        const match = filteredItems.find((item) => item.id === state.selectedRecordId);
-        if (!match) {
-            hideDetail();
-            return;
-        }
-
-        document.getElementById("detailTitle").textContent = match.address;
-        document.getElementById("detailCategory").textContent = match.category;
-        document.getElementById("detailDate").textContent = formatDate(match.date);
-        document.getElementById("detailStatus").textContent = match.status;
-        document.getElementById("detailPermitNumber").textContent = match.permitNumber || "-";
-        document.getElementById("detailAddress").textContent = match.address;
-        document.getElementById("detailApplicant").textContent = match.applicant;
-        document.getElementById("detailDescription").textContent = match.description;
-        document.getElementById("detailTerms").textContent = match.matchedTerms.length ? match.matchedTerms.join(", ") : "-";
-    }
-
-    function exportCsv(items) {
-        const headers = ["Date", "Category", "Address", "Description", "Status", "Applicant", "Permit Number", "Application Type", "Matched Terms"];
-        const rows = items.map(function (item) {
-            return [
-                item.date,
-                item.category,
-                item.address,
-                item.description,
-                item.status,
-                item.applicant,
-                item.permitNumber,
-                item.applicationType,
-                item.matchedTerms.join(", ")
-            ];
-        });
-
-        const csv = [headers].concat(rows).map(function (row) {
-            return row.map(csvEscape).join(",");
-        }).join("\r\n");
-
-        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "bellingham-clean-energy-permits.csv";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
     }
 
     function buildMonthlyBuckets(items) {
         const buckets = new Map();
-
-        for (const item of items) {
-            if (!item.date) {
-                continue;
-            }
-
+        items.forEach(item => {
+            if (!item.date) return;
             const key = item.date.slice(0, 7);
             if (!buckets.has(key)) {
-                const bucketDate = new Date(key + "-01T00:00:00");
-                buckets.set(key, {
-                    key,
-                    count: 0,
-                    shortLabel: bucketDate.toLocaleDateString("en-US", { month: "short" }),
-                    label: bucketDate.toLocaleDateString("en-US", { month: "short", year: "numeric" })
-                });
+                const d = new Date(key + "-01T00:00:00");
+                buckets.set(key, { key, count: 0, shortLabel: d.toLocaleDateString("en-US", { month: "short" }) });
             }
-            buckets.get(key).count += 1;
-        }
-
-        return Array.from(buckets.values()).sort(function (left, right) {
-            return compareText(left.key, right.key);
+            buckets.get(key).count++;
         });
+        return Array.from(buckets.values()).sort((a,b) => a.key.localeCompare(b.key));
     }
 
-    function countByCategory(items, category) {
-        return items.filter(function (item) {
-            return item.category === category;
-        }).length;
-    }
-
+    function countByCategory(items, cat) { return items.filter(i => i.category === cat).length; }
     function countInCurrentMonth(items) {
-        if (!latestRecordDate) {
-            return 0;
-        }
-
-        return items.filter(function (item) {
-            if (!item.timestamp) {
-                return false;
-            }
-            const itemDate = new Date(item.timestamp);
-            return itemDate.getFullYear() === latestRecordDate.getFullYear() &&
-                itemDate.getMonth() === latestRecordDate.getMonth();
+        if (!latestRecordDate) return 0;
+        return items.filter(i => {
+            const d = new Date(i.timestamp);
+            return d.getFullYear() === latestRecordDate.getFullYear() && d.getMonth() === latestRecordDate.getMonth();
         }).length;
     }
-
     function countInCurrentYear(items) {
-        if (!latestRecordDate) {
-            return 0;
-        }
-
-        return items.filter(function (item) {
-            if (!item.timestamp) {
-                return false;
-            }
-            const itemDate = new Date(item.timestamp);
-            return itemDate.getFullYear() === latestRecordDate.getFullYear();
-        }).length;
+        if (!latestRecordDate) return 0;
+        return items.filter(i => new Date(i.timestamp).getFullYear() === latestRecordDate.getFullYear()).length;
     }
-
     function getAverageMonthlyCount(items) {
-        const buckets = buildMonthlyBuckets(items);
-        if (!buckets.length) {
-            return 0;
-        }
-
-        const total = buckets.reduce(function (sum, bucket) {
-            return sum + bucket.count;
-        }, 0);
-
-        return total / buckets.length;
+        const b = buildMonthlyBuckets(items);
+        return b.length ? items.length / b.length : 0;
     }
 
-    function compareText(left, right) {
-        return String(left || "").localeCompare(String(right || ""), undefined, { sensitivity: "base" });
-    }
+    function formatNumber(v) { return new Intl.NumberFormat("en-US").format(v); }
+    function formatOneDecimal(v) { return v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+    function formatDate(v) { return v ? new Date(v).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }) : "-"; }
+    function formatTimestamp(v) { return v ? new Date(v).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }) : "-"; }
+    function escapeHtml(v) { return String(v).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
+    function showStatus(m) { statusBanner.textContent = m; statusBanner.classList.remove("hidden"); }
 
-    function compareNumbers(left, right) {
-        return Number(left || 0) - Number(right || 0);
-    }
-
-    function csvEscape(value) {
-        const text = String(value ?? "");
-        return '"' + text.replaceAll('"', '""') + '"';
-    }
-
-    function formatNumber(value) {
-        return new Intl.NumberFormat("en-US").format(value);
-    }
-
-    function formatOneDecimal(value) {
-        return new Intl.NumberFormat("en-US", { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(value);
-    }
-
-    function formatDate(value) {
-        if (!value) {
-            return "Unknown";
-        }
-
-        const parsed = new Date(value);
-        if (Number.isNaN(parsed.getTime())) {
-            return value;
-        }
-
-        return parsed.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
-        });
-    }
-
-    function formatTimestamp(value) {
-        if (!value) {
-            return "Unknown";
-        }
-
-        const parsed = new Date(value);
-        if (Number.isNaN(parsed.getTime())) {
-            return value;
-        }
-
-        return parsed.toLocaleString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
-        });
-    }
-
-    function toIsoDate(date) {
-        return date.toISOString().slice(0, 10);
-    }
-
-    function escapeHtml(value) {
-        return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#39;");
-    }
-
-    function showStatus(message) {
-        statusBanner.textContent = message;
-        statusBanner.classList.remove("hidden");
-    }
 })();

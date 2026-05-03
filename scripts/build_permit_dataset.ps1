@@ -421,6 +421,50 @@ $records = @(
     }
 )
 
+# --- Phase 2: Build-Time Property Enrichment ---
+Write-Host "Enriching permits with Property Intelligence..."
+$propMapPath = Join-Path $PWD "data/property_map.json"
+$enrichScript = Join-Path $PWD "scripts/generate_property_map.py"
+
+# 1. Run Python Generator to refresh the map
+python $enrichScript
+
+# 2. Load the Property Map
+if (Test-Path $propMapPath) {
+    $propMap = Get-Content -Raw $propMapPath | ConvertFrom-Json
+    
+    $records = foreach ($record in $records) {
+        $enriched = $record
+        
+        # Normalize permit address for lookup: "123 MAIN"
+        $addrParts = $record.address.ToUpper().Split(' ')
+        if ($addrParts.Count -ge 2) {
+            $num = $addrParts[0]
+            $nameParts = $addrParts[1..($addrParts.Count-1)]
+            $rawName = $nameParts -join " "
+            
+            # Fuzzy: Strip common suffixes to match the Python map
+            $cleanName = $rawName -replace " ST$", "" -replace " RD$", "" -replace " LN$", "" -replace " DR$", "" -replace " AVE$", "" -replace " AV$", "" -replace " BLVD$", "" -replace " CT$", "" -replace " PL$", "" -replace " HWY$", "" -replace " CIR$", "" -replace " WAY$", "" -replace " TR$", "" -replace " BV$", ""
+            
+            $lookupKey = "$num $($cleanName.Trim())"
+            
+            if ($propMap.PSObject.Properties[$lookupKey]) {
+                $info = $propMap.$lookupKey
+                $enriched | Add-Member -MemberType NoteProperty -Name "propertyType" -Value $info.type -Force
+                $enriched | Add-Member -MemberType NoteProperty -Name "yearBuilt" -Value $info.year -Force
+                $enriched | Add-Member -MemberType NoteProperty -Name "propertyValue" -Value $info.val -Force
+            } else {
+                $enriched | Add-Member -MemberType NoteProperty -Name "propertyType" -Value $null -Force
+                $enriched | Add-Member -MemberType NoteProperty -Name "yearBuilt" -Value $null -Force
+                $enriched | Add-Member -MemberType NoteProperty -Name "propertyValue" -Value 0 -Force
+            }
+        }
+        
+        $enriched
+    }
+}
+# -----------------------------------------------
+
 $meta = [ordered]@{
     title = "Bellingham Clean Energy Permits"
     source = $publicViewUrl

@@ -7,6 +7,11 @@ The dashboard provides estimates for:
 - **EV Chargers**
 - **Heat Pumps**
 
+The dashboard also provides **Spatial Intelligence** layers:
+- **Environmental Justice (EJ) Areas**: Identifies adoption trends in historically underserved neighborhoods.
+- **Property Parcels**: High-resolution boundaries for verification (Zoom +4).
+- **Assessor Data**: Building age, property type, and assessed value context.
+
 Live Demo: [View Dashboard](https://KezinB.github.io/Bellingham-Clean-Energy-Permit-Dashboard/) *(Note: Requires GitHub Pages to be enabled)*
 
 ---
@@ -28,6 +33,9 @@ The workflow consists of two main parts:
    The script fetches raw records from the Bellingham permit portal, applies keyword-based heuristics to classify permits into Solar, EV, or Heat Pump categories, geocodes the addresses via the US Census Bureau API, and outputs a structured JavaScript file (`js/permit-data.js`).
 2. **Dashboard Visualization (Web):** 
    The static web app loads the pre-processed dataset directly into the browser. It features interactive filtering, responsive summary metrics, a searchable data table, and dynamic map clustering.
+
+3. **Spatial Intelligence (Phase 2):**
+   The dashboard dynamically loads **Environmental Justice (EJ)** polygons and **Tax Parcel** boundaries. It uses `turf.js` and `shpjs` to perform client-side spatial joins, tagging every permit with its equity context and linking it to **Assessor Metadata** (Property Type, Year Built, etc.).
 
 ## Local Development & Updating Data
 
