@@ -2,9 +2,9 @@
 
 ## Current Status
 > [!IMPORTANT]
-> **Phase 2: Spatial & Property Intelligence Integrated.**  
-> The dashboard has been transformed into a Spatial Intelligence Platform. It now features Environmental Justice (EJ) analytics, property parcel boundaries, and assessor-linked metadata (Property Value, Year Built, Use Class).
-> **Status:** Production-ready and fully integrated.
+> **Phase 3: Automation & Infrastructure Complete.**  
+> The dashboard is now a fully automated intelligence platform. It features weekly automated data refreshes via GitHub Actions, a modularized "app-core" logic layer for reliability, and a unit-testing suite to ensure data integrity.
+> **Status:** Production-ready with automated lifecycle management.
 
 ## Project Title
 **Municipal-scale clean energy adoption analytics platform : Bellingham Clean Energy Permit Dashboard**  
@@ -15,28 +15,32 @@
 ## Presentation Guidance
 > [!TIP]
 > **Elevator Pitch / Framing:**  
-> Avoid describing the technical stack (HTML/CSS/JS). Instead, position the tool as:  
-> *"A municipal-scale clean energy adoption analytics platform built on permit data with geospatial visualization and automated data pipeline."*
+> Position the tool as a self-maintaining municipal intelligence system:  
+> *"A fully automated clean energy adoption tracking platform that merges public permit records with property assessor data to provide real-time spatial and economic insights."*
 
 ---
 
 ## 1. Objective
-Develop a lightweight, web-accessible dashboard that visualizes neighborhood-level adoption of clean energy technologies in Bellingham, MA. The system uses public permit data as the primary source and is deployed as a static website for remote stakeholder validation.
+Develop a lightweight, web-accessible dashboard that visualizes neighborhood-level adoption of clean energy technologies in Bellingham, MA. The system uses public permit data as the primary source, enriched by municipal assessor records, and is deployed as a self-updating static website.
 
 ---
 
 ## 2. Key Goal
 Reduce the need for manual in-person surveys by providing a digital estimation tool that is:
 - **Accessible:** Works in any modern browser without specialized software.
-- **Dynamic:** Allows users to filter by date, category, and keyword.
+- **Automated:** Updates weekly without human intervention.
 - **Visual:** Provides map-based context and time-series trends.
+- **Reliable:** Protected by automated unit tests and validation scripts.
 
 ---
 
 ## 3. Technical Stack
 - **Frontend:** Vanilla HTML5, CSS3 (Modern Glassmorphism UI), JavaScript (ES6+).
+- **Architecture:** Modular "Core/UI" separation for improved stability.
 - **Mapping:** Leaflet.js with CartoDB Positron & Esri Satellite layers.
-- **Data Pipeline:** PowerShell-based automation (`scripts/build_permit_dataset.ps1`).
+- **Automation:** GitHub Actions (Weekly Workflows) on Windows-latest runners.
+- **Data Pipeline:** PowerShell + Python-based enrichment (`scripts/build_permit_dataset.ps1`).
+- **Testing:** Custom lightweight JavaScript unit testing suite.
 - **Hosting:** GitHub Pages (Static Hosting).
 
 ---
@@ -45,17 +49,15 @@ Reduce the need for manual in-person surveys by providing a digital estimation t
 
 | Feature | Status | Description |
 | :--- | :--- | :--- |
-| **Summary Metrics** | ✅ Done | Total counts, category breakdowns, and time-based KPIs (new this month/year). |
+| **Summary Metrics** | ✅ Done | Total counts, category breakdowns, and time-based KPIs. |
 | **Interactive Map** | ✅ Done | Leaflet integration with category-coded markers and Bellingham boundary overlay. |
+| **Automated Refresh** | ✅ Done | (Phase 3) Weekly GitHub Actions workflow for zero-touch updates. |
+| **Unit Testing** | ✅ Done | (Phase 3) Core logic verification suite (app-core.test.js). |
 | **Advanced Filtering** | ✅ Done | Category chips, date range selection, and live text search. |
-| **Time Intelligence** | ✅ Done | 12-month rolling trend chart and monthly average tracking. |
-| **Data Distribution** | ✅ Done | Visual bar stack showing the mix of Solar vs. EV vs. Heat Pumps. |
-| **Record Explorer** | ✅ Done | Sortable table with "View" detail view for deep-dive inspection. |
-| **Data Export** | ✅ Done | CSV export of filtered datasets for offline analysis. |
-| **Responsive Design** | ✅ Done | Mobile-friendly layout using CSS Grid and Flexbox. |
-| **Spatial Equity** | ✅ Done | (Phase 2) Automated EJ status identification and equity metrics. |
-| **Parcel Mapping** | ✅ Done | (Phase 2) High-resolution property boundary overlay (Zoom 17+). |
-| **Property Intel** | ✅ Done | (Phase 2) Linked assessor data: Property Type, Year Built, and Value. |
+| **Enhanced Map UI** | ✅ Done | (Phase 3) Native map controls, bold high-contrast layers, and Zoom 10+ parcel visibility. |
+| **Spatial Equity** | ✅ Done | Automated EJ status identification and equity metrics. |
+| **Parcel Mapping** | ✅ Done | High-resolution property boundary overlay. |
+| **Property Intel** | ✅ Done | Integrated assessor data: Property Type, Year Built, and Value. |
 
 ---
 
@@ -63,28 +65,32 @@ Reduce the need for manual in-person surveys by providing a digital estimation t
 
 ### 5.1 Source
 - Public permit records via [Bellingham PermitEyes](https://permiteyes.us/bellingham/publicview.php).
+- Municipal Assessor Database (FY26 Snapshot).
 
-### 5.2 Processing Pipeline
-The project uses a pre-processing step to ensure high performance:
-1. **Extraction:** Scrapes records from the portal.
-2. **Classification:** Heuristic keyword matching for `Solar`, `EV Charger`, and `Heat Pump`.
-3. **Geocoding:** Addresses are matched against the US Census Bureau API.
-4. **Serialization:** Outputs `js/permit-data.js` containing a structured JSON object.
+### 5.2 Processing Pipeline (Automated)
+The project uses a weekly GitHub Actions workflow:
+1. **Extraction:** Scrapes live records from the PermitEyes portal.
+2. **Enrichment:** Python-based spatial join with Assessor metadata.
+3. **Geocoding:** Matches addresses against US Census Bureau API.
+4. **Validation:** Runs unit tests on the resulting dataset.
+5. **Deployment:** Pushes fresh `permit-data.js` to GitHub Pages.
 
 ---
 
-## 6. Spatial & Property Intelligence (Phase 2)
+## 6. Spatial & Property Intelligence
 
 ### 6.1 Environmental Justice (EJ)
 The dashboard uses **MassGIS EJ2020** polygons to identify underserved populations.
-- **Automated Tagging:** Every permit is spatially joined to EJ polygons on-the-fly.
-- **Equity Context:** Provides descriptions of qualification criteria (e.g., "Income and Minority").
+- **Automated Tagging:** Every permit is spatially joined to EJ polygons during build-time.
+- **Visual Contrast:** High-visibility neon green (`#00ff88`) highlighting for EJ zones.
 
 ### 6.2 Property Intel
 Integrated **Bellingham Assessor Database (FY26)** to provide property-level context:
 - **Year Built:** Correlation between structure age and clean energy adoption.
 - **Use Class:** Differentiates between Single Family, Multi-Family, and Commercial.
 - **Total Value:** Economic profile of adopters.
+
+---
 
 ## 7. Roadmap & Next Steps
 
@@ -95,30 +101,25 @@ Integrated **Bellingham Assessor Database (FY26)** to provide property-level con
 
 ### 7.2 Data Quality
 - [ ] **Geocoding Refinement:** Implement a fallback for failed geocodes (e.g., matching to street centerlines).
-- [ ] **Classification Logic Tuning:** Refine keyword list based on stakeholder feedback.
-
-## 7. Limitations
-- **Latency:** No real-time data; updates require running the PowerShell script.
-- **Coverage:** Permit-based estimates may miss unregistered or "DIY" installations.
-- **Accuracy:** Classification is heuristic; complex descriptions may lead to miscategorization.
+- [ ] **Historical Analysis:** Import archived permit data (pre-2020) for longer-term trend mapping.
 
 ---
 
 ## 8. Deliverables
 - ✅ **Static Dashboard:** [Live on GitHub Pages](https://KezinB.github.io/Bellingham-Clean-Energy-Permit-Dashboard/)
+- ✅ **Automated Pipeline:** `.github/workflows/refresh-data.yml`.
+- ✅ **Testing Suite:** `tests/app-core.test.js` + `package.json` scripts.
 - ✅ **Structured Dataset:** Embedded in `js/permit-data.js`.
-- ✅ **Refresh Script:** `scripts/build_permit_dataset.ps1`.
-- ✅ **Documentation:** `README.md` and `project.md`.
+- ✅ **Documentation:** `README.md`, `project.md`, and `roadmap.md`.
 
 ---
 
 ## 9. Strategic Direction
-This tool serves as the foundation for **Urban Energy Intelligence**. It can evolve into a broader platform for policy validation, utility load planning, and carbon offset tracking at the municipal level.
+This tool serves as a model for **Automated Municipal Intelligence**. By converting fragmented public records into structured spatial data without ongoing manual effort, it provides a template for tracking city-wide sustainability goals in real-time.
 
 ---
 
 ## 10. Project History
-- **2026-04-29:** Initial development complete. All core features (Map, Trends, Filters, Export) functional.
-- **2026-05-03:** **Phase 2 Complete.** Integrated EJ Spatial Layers, Parcel Boundaries, and Assessor Metadata. Adjusted zoom visibility logic (+4 Zoom). Updated interactive map legend.
-
-
+- **2026-04-29:** Initial development complete. Core features functional.
+- **2026-05-03:** **Phase 2 Complete.** Integrated EJ Spatial Layers, Parcel Boundaries, and Assessor Metadata.
+- **2026-05-13:** **Phase 3 Complete.** Automated data refresh via GitHub Actions. Refactored app-core logic. Added unit tests. Enhanced map contrast and zoom logic (+10 Zoom parcel visibility).
