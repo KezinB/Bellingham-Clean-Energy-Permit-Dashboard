@@ -26,6 +26,7 @@
     const latestDate = document.getElementById("latest-date");
     const avgMonthlyCount = document.getElementById("avg-monthly-count");
     const updatedPill = document.getElementById("updated-pill");
+    const footerRefreshTime = document.getElementById("footerRefreshTime");
     const coveragePill = document.getElementById("coverage-pill");
     const methodNote = document.getElementById("methodNote");
     const geocodeCount = document.getElementById("geocodeCount");
@@ -346,7 +347,13 @@
         const inEj = allRecords.filter(r => r.isEjArea).length;
         ejPercent.textContent = allRecords.length ? Math.round((inEj / allRecords.length) * 100) + "%" : "0%";
 
-        if (meta.generatedAt) updatedPill.textContent = "Updated: " + formatTimestamp(meta.generatedAt);
+        if (meta.generatedAt) {
+            const formattedTimestamp = formatTimestamp(meta.generatedAt);
+            updatedPill.textContent = "Updated: " + formattedTimestamp;
+            if (footerRefreshTime) footerRefreshTime.textContent = "Last refresh: " + formattedTimestamp;
+        } else if (footerRefreshTime) {
+            footerRefreshTime.textContent = "Last refresh: Unknown";
+        }
         if (coveragePill) coveragePill.textContent = "Map coverage: " + (meta.geocodedRecords || 0) + " / " + allRecords.length;
 
         initializeDateRange(allRecords);
