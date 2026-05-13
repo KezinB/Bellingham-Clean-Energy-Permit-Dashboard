@@ -13,6 +13,7 @@
     const MAP_CENTER = [42.0862, -71.4737];
     const MAP_HOME_ZOOM = 13;
     const DEFAULT_TABLE_LIMIT = 5;
+    const core = window.DashboardCore;
 
     const dataset = window.PERMIT_DATA;
     const statusBanner = document.getElementById("statusBanner");
@@ -68,6 +69,11 @@
     let latestRecordDate = null;
 
     try {
+        if (!core) {
+            showStatus("Dashboard core utilities failed to load.");
+            return;
+        }
+
         if (!dataset || !Array.isArray(dataset.records)) {
             showStatus("Permit data is unavailable. Run scripts/build_permit_dataset.ps1 to regenerate the embedded snapshot.");
             return;
@@ -104,33 +110,7 @@
     }
 
     function normalizeRecord(record) {
-        let timestamp = 0;
-        if (record.date) {
-            const dt = new Date(record.date + "T00:00:00");
-            timestamp = isNaN(dt.getTime()) ? 0 : dt.getTime();
-        }
-        return {
-            id: String(record.id || ""),
-            category: CATEGORY_ORDER.includes(record.category) ? record.category : "Solar",
-            date: record.date || "",
-            appliedDate: record.appliedDate || "",
-            issuedDate: record.issuedDate || "",
-            address: record.address || "Unknown address",
-            description: record.description || "No description listed.",
-            status: record.status || "Unknown",
-            applicant: record.applicant || "Unknown",
-            applicationType: record.applicationType || "",
-            permitNumber: record.permitNumber || "",
-            matchedTerms: Array.isArray(record.matchedTerms) ? record.matchedTerms : (record.matchedTerms ? [record.matchedTerms] : []),
-            lat: typeof record.lat === "number" ? record.lat : null,
-            lng: typeof record.lng === "number" ? record.lng : null,
-            propertyType: record.propertyType || null,
-            yearBuilt: record.yearBuilt || null,
-            propertyValue: record.propertyValue || 0,
-            isEjArea: false,
-            ejCriteria: null,
-            timestamp
-        };
+        return core.normalizeRecord(record, CATEGORY_ORDER);
     }
 
     async function loadSpatialLayers() {
@@ -558,34 +538,20 @@
     }
 
     function getFilteredRecords() {
-        return records.filter(r => {
-            if (!state.categories.includes(r.category)) return false;
-            if (state.selectedMonth && r.date.slice(0, 7) !== state.selectedMonth) return false;
-            if (state.fromDate && r.date < state.fromDate) return false;
-            if (state.toDate && r.date > state.toDate) return false;
-            
-            if (state.query) {
-                const searchable = `${r.address} ${r.description} ${r.applicant} ${r.permitNumber}`.toLowerCase();
-                if (!searchable.includes(state.query)) return false;
-            }
-            return true;
-        });
+        return core.filterRecords(records, state);
     }
 
     function sortRecords(items) {
-        return items.slice().sort((a, b) => {
-            if (state.sort === "date-asc") return a.timestamp - b.timestamp;
-            if (state.sort === "address-asc") return a.address.localeCompare(b.address);
-            if (state.sort === "category-asc") return a.category.localeCompare(b.category);
-            if (state.sort === "ej-desc") return (b.isEjArea - a.isEjArea) || (b.timestamp - a.timestamp);
-            return b.timestamp - a.timestamp;
-        });
+        return core.sortRecords(items, state.sort);
     }
 
     function renderTable(items) {
         tableBody.innerHTML = items.length ? "" : '<tr><td colspan="7">No results found.</td></tr>';
         items.forEach(item => {
             const row = document.createElement("tr");
+            const ejStatusMarkup = item.isEjArea
+                ? '<span class="ej-badge">Yes</span>'
+                : (item.lat && item.lng ? "Outside EJ" : "Unknown");
             row.className = item.id === state.selectedRecordId ? "is-selected" : "";
             row.innerHTML = `<td>${formatDate(item.date)}</td>
                              <td><span class="table-badge ${CATEGORY_CLASS[item.category]}">${item.category}</span></td>
@@ -594,6 +560,7 @@
                              <td class="status-text">${item.status}</td>
                              <td class="ej-status-cell">${item.isEjArea ? '<span class="ej-badge">Yes</span>' : "—"}</td>
                              <td><button class="action-button compact">View</button></td>`;
+            row.querySelector(".ej-status-cell").innerHTML = ejStatusMarkup;
             row.querySelector("button").onclick = () => showDetail(item);
             tableBody.appendChild(row);
         });
@@ -795,17 +762,7 @@
     }
 
     function buildMonthlyBuckets(items) {
-        const buckets = new Map();
-        items.forEach(item => {
-            if (!item.date) return;
-            const key = item.date.slice(0, 7);
-            if (!buckets.has(key)) {
-                const d = new Date(key + "-01T00:00:00");
-                buckets.set(key, { key, count: 0, shortLabel: d.toLocaleDateString("en-US", { month: "short" }) });
-            }
-            buckets.get(key).count++;
-        });
-        return Array.from(buckets.values()).sort((a,b) => a.key.localeCompare(b.key));
+        return core.buildMonthlyBuckets(items);
     }
 
     function countByCategory(items, cat) { return items.filter(i => i.category === cat).length; }
@@ -826,44 +783,7 @@
     }
 
     function exportCsv(items) {
-        const headers = [
-            "Date",
-            "Category",
-            "Address",
-            "Applicant",
-            "Description",
-            "Status",
-            "Permit Number",
-            "Property Type",
-            "Year Built",
-            "Property Value",
-            "EJ Area",
-            "EJ Criteria",
-            "Latitude",
-            "Longitude"
-        ];
-
-        const rows = items.map((item) => [
-            item.date,
-            item.category,
-            item.address,
-            item.applicant,
-            item.description,
-            item.status,
-            item.permitNumber,
-            item.propertyType || "",
-            item.yearBuilt || "",
-            item.propertyValue || "",
-            item.isEjArea ? "Yes" : "No",
-            item.ejCriteria || "",
-            item.lat ?? "",
-            item.lng ?? ""
-        ]);
-
-        const csv = [headers, ...rows]
-            .map((row) => row.map(escapeCsvValue).join(","))
-            .join("\r\n");
-
+        const csv = core.exportRecordsToCsv(items);
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -881,10 +801,6 @@
     function formatOneDecimal(v) { return v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
     function formatDate(v) { return v ? new Date(v).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }) : "-"; }
     function formatTimestamp(v) { return v ? new Date(v).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }) : "-"; }
-    function escapeCsvValue(v) {
-        const value = String(v ?? "");
-        return `"${value.replace(/"/g, '""')}"`;
-    }
     function escapeHtml(v) { return String(v).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
     function showStatus(m) { statusBanner.textContent = m; statusBanner.classList.remove("hidden"); }
 

@@ -1,0 +1,9 @@
+{
+  "name": "evdashboard",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "validate:data": "node scripts/validate_permit_dataset.mjs",
+    "check:js": "node --check js/app.js"
+  }
+}
