@@ -43,8 +43,12 @@
     const searchInput = document.getElementById("permitSearch");
     const searchInputMobile = document.getElementById("permitSearchMobile");
     const filterGroup = document.getElementById("categoryFilters");
-    const fromDateInput = document.getElementById("fromDate");
-    const toDateInput = document.getElementById("toDate");
+    const fromDateDesktopInput = document.getElementById("fromDateDesktop");
+    const toDateDesktopInput = document.getElementById("toDateDesktop");
+    const fromDateDrawerInput = document.getElementById("fromDateDrawer");
+    const toDateDrawerInput = document.getElementById("toDateDrawer");
+    const fromDateInputs = [fromDateDesktopInput, fromDateDrawerInput].filter(Boolean);
+    const toDateInputs = [toDateDesktopInput, toDateDrawerInput].filter(Boolean);
     const sortRecordsInput = document.getElementById("sortRecords");
     const exportCsvButton = document.getElementById("exportCsv");
     const resetFiltersButton = document.getElementById("resetFilters");
@@ -214,8 +218,8 @@
 
         if (applyFilters) {
             applyFilters.addEventListener("click", () => {
-                state.fromDate = fromDateInput.value;
-                state.toDate = toDateInput.value;
+                state.fromDate = getLinkedInputValue(fromDateInputs);
+                state.toDate = getLinkedInputValue(toDateInputs);
                 state.sort = sortRecordsInput.value;
                 render();
                 filterDrawerOverlay.classList.remove("active");
@@ -258,8 +262,8 @@
             state.selectedRecordId = null;
             if (searchInput) searchInput.value = "";
             if (searchInputMobile) searchInputMobile.value = "";
-            fromDateInput.value = "";
-            toDateInput.value = "";
+            setLinkedInputValue(fromDateInputs, "");
+            setLinkedInputValue(toDateInputs, "");
             
             document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
             const allBtn = document.querySelector('.filter-chip[data-category="All"]');
@@ -269,6 +273,14 @@
             render();
             closeDetailPanel();
             if (map && map.boundaryLayer) map.instance.fitBounds(map.boundaryLayer.getBounds());
+        });
+
+        fromDateInputs.forEach((input) => {
+            input.addEventListener("input", () => syncLinkedInputs(input, fromDateInputs));
+        });
+
+        toDateInputs.forEach((input) => {
+            input.addEventListener("input", () => syncLinkedInputs(input, toDateInputs));
         });
 
         if (mapHomeBtn) {
@@ -363,10 +375,18 @@
     function initializeDateRange(allRecords) {
         const dated = allRecords.filter(r => r.timestamp);
         if (!dated.length) return;
-        fromDateInput.min = dated[dated.length - 1].date;
-        fromDateInput.max = dated[0].date;
-        toDateInput.min = dated[dated.length - 1].date;
-        toDateInput.max = dated[0].date;
+        const minDate = dated[dated.length - 1].date;
+        const maxDate = dated[0].date;
+
+        fromDateInputs.forEach((input) => {
+            input.min = minDate;
+            input.max = maxDate;
+        });
+
+        toDateInputs.forEach((input) => {
+            input.min = minDate;
+            input.max = maxDate;
+        });
     }
 
     function renderDistribution(allRecords) {
@@ -487,6 +507,23 @@
         row.innerHTML = `<div class="bar-labels"><span>${label}</span><span>${formatNumber(count)}</span></div>
                         <div class="bar-track"><div class="bar-fill ${colorClass || ""}" style="--bar-percent: ${(count/max)*100}%"></div></div>`;
         return row;
+    }
+
+    function syncLinkedInputs(sourceInput, inputs) {
+        inputs.forEach((input) => {
+            if (input !== sourceInput) input.value = sourceInput.value;
+        });
+    }
+
+    function setLinkedInputValue(inputs, value) {
+        inputs.forEach((input) => {
+            input.value = value;
+        });
+    }
+
+    function getLinkedInputValue(inputs) {
+        const populatedInput = inputs.find((input) => input.value);
+        return populatedInput ? populatedInput.value : "";
     }
 
     function render() {
@@ -664,6 +701,21 @@
         instance.addControl(new LegendControl());
     }
 
+    function toggleCategory(category) {
+        if (!CATEGORY_ORDER.includes(category)) return;
+
+        if (state.categories.includes(category)) {
+            state.categories = state.categories.length === 1
+                ? [...CATEGORY_ORDER]
+                : state.categories.filter((item) => item !== category);
+        } else {
+            state.categories = CATEGORY_ORDER.filter((item) => state.categories.includes(item) || item === category);
+        }
+
+        syncChips();
+        render();
+    }
+
     function buildPopupMarkup(item) {
         return `<div class="popup-card"><h3>${escapeHtml(item.address)}</h3>
                 ${item.isEjArea ? '<div class="popup-ej-badge">EJ Community</div>' : ''}
@@ -696,7 +748,15 @@
         detailCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function hideDetail() { state.selectedRecordId = null; detailCard.classList.add("hidden"); render(); }
+    function closeDetailPanel() {
+        detailCard.classList.add("hidden");
+    }
+
+    function hideDetail() {
+        state.selectedRecordId = null;
+        closeDetailPanel();
+        render();
+    }
     
     function syncSelectedRecord(filteredItems) {
         if (!state.selectedRecordId) return;
@@ -765,10 +825,66 @@
         return b.length ? items.length / b.length : 0;
     }
 
+    function exportCsv(items) {
+        const headers = [
+            "Date",
+            "Category",
+            "Address",
+            "Applicant",
+            "Description",
+            "Status",
+            "Permit Number",
+            "Property Type",
+            "Year Built",
+            "Property Value",
+            "EJ Area",
+            "EJ Criteria",
+            "Latitude",
+            "Longitude"
+        ];
+
+        const rows = items.map((item) => [
+            item.date,
+            item.category,
+            item.address,
+            item.applicant,
+            item.description,
+            item.status,
+            item.permitNumber,
+            item.propertyType || "",
+            item.yearBuilt || "",
+            item.propertyValue || "",
+            item.isEjArea ? "Yes" : "No",
+            item.ejCriteria || "",
+            item.lat ?? "",
+            item.lng ?? ""
+        ]);
+
+        const csv = [headers, ...rows]
+            .map((row) => row.map(escapeCsvValue).join(","))
+            .join("\r\n");
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const stamp = new Date().toISOString().slice(0, 10);
+
+        link.href = url;
+        link.download = `bellingham-clean-energy-permits-${stamp}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
     function formatNumber(v) { return new Intl.NumberFormat("en-US").format(v); }
     function formatOneDecimal(v) { return v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
     function formatDate(v) { return v ? new Date(v).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }) : "-"; }
     function formatTimestamp(v) { return v ? new Date(v).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }) : "-"; }
+    function escapeCsvValue(v) {
+        const value = String(v ?? "");
+        return `"${value.replace(/"/g, '""')}"`;
+    }
     function escapeHtml(v) { return String(v).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
     function showStatus(m) { statusBanner.textContent = m; statusBanner.classList.remove("hidden"); }
 

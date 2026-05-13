@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=2.1">
     <link rel="stylesheet" href="css/style.css?v=3.5">
-    <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
+    <script src="https://unpkg.com/shpjs@6.2.0/dist/shp.js"></script>
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 </head>
 
@@ -107,13 +107,13 @@
             </div>
             <div class="controls-row controls-row-secondary">
                 <div class="date-filter-grid">
-                    <label class="search-field" for="fromDate">
+                    <label class="search-field" for="fromDateDesktop">
                         <span>From</span>
-                        <input id="fromDate" type="date">
+                        <input id="fromDateDesktop" type="date">
                     </label>
-                    <label class="search-field" for="toDate">
+                    <label class="search-field" for="toDateDesktop">
                         <span>To</span>
-                        <input id="toDate" type="date">
+                        <input id="toDateDesktop" type="date">
                     </label>
                 </div>
             </div>
@@ -325,13 +325,13 @@
             <div class="drawer-section">
                 <p class="drawer-section-title">Date Range</p>
                 <div class="date-filter-grid">
-                    <label class="search-field" for="fromDate">
+                    <label class="search-field" for="fromDateDrawer">
                         <span>From</span>
-                        <input id="fromDate" type="date">
+                        <input id="fromDateDrawer" type="date">
                     </label>
-                    <label class="search-field" for="toDate">
+                    <label class="search-field" for="toDateDrawer">
                         <span>To</span>
-                        <input id="toDate" type="date">
+                        <input id="toDateDrawer" type="date">
                     </label>
                 </div>
             </div>
@@ -345,7 +345,7 @@
                     </label>
                     <label class="toggle-item">
                         <input type="checkbox" id="toggleParcelLayer" checked>
-                        <span>Property Parcels (zoom +4)</span>
+                        <span>Property Parcels (zoom +10)</span>
                     </label>
                 </div>
             </div>
