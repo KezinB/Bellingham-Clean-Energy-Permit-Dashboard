@@ -2,14 +2,14 @@ window.PERMIT_DATA = {
   "meta": {
     "title": "Bellingham Clean Energy Permits",
     "source": "https://permiteyes.us/bellingham/publicview.php",
-    "generatedAt": "2026-05-18T13:53:20Z",
+    "generatedAt": "2026-05-25T13:35:13Z",
     "methodology": "Keyword-based classification over Bellingham building permits from PermitEyes. Categories are estimated from permit descriptions and application metadata.",
-    "totalRecords": 1881,
-    "geocodedRecords": 1710,
+    "totalRecords": 1882,
+    "geocodedRecords": 1711,
     "categoryCounts": {
       "Solar": 1553,
       "EV Charger": 36,
-      "Heat Pump": 292
+      "Heat Pump": 293
     },
     "searchTerms": [
       "solar",
@@ -30,6 +30,192 @@ window.PERMIT_DATA = {
     ]
   },
   "records": [
+    {
+      "id": "98047",
+      "applicationId": "e8ab101b-4fa1-11f1-a534-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-05-21",
+      "appliedDate": "2026-05-14",
+      "issuedDate": "2026-05-21",
+      "address": "373 Center St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 12 panels 5.40kwdc - no ess no structural - existing solar system",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0043",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.055913469071,
+      "lng": -71.476703009991,
+      "matchedAddress": "373 CENTER ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1985,
+      "propertyValue": 497900.0
+    },
+    {
+      "id": "98131",
+      "applicationId": "2e31a58c-553e-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-05-21",
+      "appliedDate": "2026-05-21",
+      "issuedDate": "",
+      "address": "10 William Wy",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Andrew Belcastro",
+      "description": "install 7.5 ton rtu heat pump split system with 10 kw heat pack",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Waiting for Additional Info",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.086400830166,
+      "lng": -71.496465298131,
+      "matchedAddress": "10 WILLIAMS WAY, BELLINGHAM, MA, 02019",
+      "propertyType": "Other (Charitable Org.)",
+      "yearBuilt": 1985,
+      "propertyValue": 709400.0
+    },
+    {
+      "id": "97976",
+      "applicationId": "5a908587-4a28-11f1-b76b-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-05-20",
+      "appliedDate": "2026-05-07",
+      "issuedDate": "2026-05-20",
+      "address": "3 Taunton St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Venture Solar",
+      "description": "install 11.18kw hanwha 430 solar panels on roof. 26 total panels. no battery. no structural.",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0041",
+      "status": "Permit Issued",
+      "matchedTerms": "solar",
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.095830565013,
+      "lng": -71.475223348739,
+      "matchedAddress": "3 TAUNTON ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1965,
+      "propertyValue": 414100.0
+    },
+    {
+      "id": "98022",
+      "applicationId": "3d490111-4e2b-11f1-a534-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-05-20",
+      "appliedDate": "2026-05-12",
+      "issuedDate": "2026-05-20",
+      "address": "120 Wrentham Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 10 panels 4.1kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery - no structural - existing solar system",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0040",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.025955387332,
+      "lng": -71.482978310746,
+      "matchedAddress": "120 WRENTHAM RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1936,
+      "propertyValue": 615300.0
+    },
+    {
+      "id": "98023",
+      "applicationId": "056209d4-4e2c-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-05-20",
+      "appliedDate": "2026-05-12",
+      "issuedDate": "2026-05-20",
+      "address": "120 Wrentham Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 10 panels 4.1kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery - existing solar system",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0225",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.025955387332,
+      "lng": -71.482978310746,
+      "matchedAddress": "120 WRENTHAM RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1936,
+      "propertyValue": 615300.0
+    },
+    {
+      "id": "98048",
+      "applicationId": "9d7ffeee-4fa2-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-05-20",
+      "appliedDate": "2026-05-14",
+      "issuedDate": "2026-05-20",
+      "address": "373 Center St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 12 panels 5.40kwdc - no ess - existing solar system",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0224",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.055913469071,
+      "lng": -71.476703009991,
+      "matchedAddress": "373 CENTER ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1985,
+      "propertyValue": 497900.0
+    },
     {
       "id": "97760",
       "applicationId": "696ede0e-3ce4-11f1-b76b-12716692ccab",
@@ -73,7 +259,7 @@ window.PERMIT_DATA = {
       "description": "install a 210.60 kw dc rooftop solar system with 360 modules. this includes all ac and dc equipment, wiring, as well as racking.",
       "applicationType": "CS",
       "permitNumber": "",
-      "status": "Pending",
+      "status": "Ready For Payment",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -115,70 +301,6 @@ window.PERMIT_DATA = {
       "propertyValue": 414100.0
     },
     {
-      "id": "98047",
-      "applicationId": "e8ab101b-4fa1-11f1-a534-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-05-14",
-      "appliedDate": "2026-05-14",
-      "issuedDate": "",
-      "address": "373 Center St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 12 panels 5.40kwdc - no ess no structural - existing solar system",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Waiting for Signoff",
-      "matchedTerms": [
-        "solar",
-        "sunrun",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.055913469071,
-      "lng": -71.476703009991,
-      "matchedAddress": "373 CENTER ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1985,
-      "propertyValue": 497900.0
-    },
-    {
-      "id": "98048",
-      "applicationId": "9d7ffeee-4fa2-11f1-a534-12716692ccab",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2026-05-14",
-      "appliedDate": "2026-05-14",
-      "issuedDate": "",
-      "address": "373 Center St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 12 panels 5.40kwdc - no ess - existing solar system",
-      "applicationType": "ELECT",
-      "permitNumber": "",
-      "status": "Pending",
-      "matchedTerms": [
-        "solar",
-        "sunrun",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.055913469071,
-      "lng": -71.476703009991,
-      "matchedAddress": "373 CENTER ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1985,
-      "propertyValue": 497900.0
-    },
-    {
       "id": "98049",
       "applicationId": "7603835a-4fa6-11f1-a534-12716692ccab",
       "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
@@ -189,7 +311,7 @@ window.PERMIT_DATA = {
       "address": "42 Lake St",
       "city": "Bellingham",
       "state": "MA",
-      "applicant": "Vallee Family Realty Trust",
+      "applicant": "Richibert Alexander",
       "description": "install subpanel and disconnect for heat pump",
       "applicationType": "ELECT",
       "permitNumber": "",
@@ -391,72 +513,6 @@ window.PERMIT_DATA = {
       "propertyValue": 956800.0
     },
     {
-      "id": "98022",
-      "applicationId": "3d490111-4e2b-11f1-a534-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-05-12",
-      "appliedDate": "2026-05-12",
-      "issuedDate": "",
-      "address": "120 Wrentham Rd",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 10 panels 4.1kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery - no structural - existing solar system",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Ready for Inspectors Approval",
-      "matchedTerms": [
-        "solar",
-        "sunrun",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar",
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.025955387332,
-      "lng": -71.482978310746,
-      "matchedAddress": "120 WRENTHAM RD, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1936,
-      "propertyValue": 615300.0
-    },
-    {
-      "id": "98023",
-      "applicationId": "056209d4-4e2c-11f1-a534-12716692ccab",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2026-05-12",
-      "appliedDate": "2026-05-12",
-      "issuedDate": "",
-      "address": "120 Wrentham Rd",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 10 panels 4.1kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery - existing solar system",
-      "applicationType": "ELECT",
-      "permitNumber": "",
-      "status": "Ready For Payment",
-      "matchedTerms": [
-        "solar",
-        "sunrun",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar",
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.025955387332,
-      "lng": -71.482978310746,
-      "matchedAddress": "120 WRENTHAM RD, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1936,
-      "propertyValue": 615300.0
-    },
-    {
       "id": "97981",
       "applicationId": "f9a9162f-4a3a-11f1-b76b-12716692ccab",
       "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
@@ -644,34 +700,6 @@ window.PERMIT_DATA = {
       "propertyType": "Golfing - areas of land arranged as a golf course (Ch. 61B, not classified as Open Space)",
       "yearBuilt": null,
       "propertyValue": 61946.0
-    },
-    {
-      "id": "97976",
-      "applicationId": "5a908587-4a28-11f1-b76b-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-05-07",
-      "appliedDate": "2026-05-07",
-      "issuedDate": "",
-      "address": "3 Taunton St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Venture Solar",
-      "description": "install 11.18kw hanwha 430 solar panels on roof. 26 total panels. no battery. no structural.",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Ready for Inspectors Approval",
-      "matchedTerms": "solar",
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.095830565013,
-      "lng": -71.475223348739,
-      "matchedAddress": "3 TAUNTON ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1965,
-      "propertyValue": 414100.0
     },
     {
       "id": "97655",
@@ -920,7 +948,7 @@ window.PERMIT_DATA = {
       "description": "removal and reinstall : 12.915kw dc / 10kw ac; 41 jinko jkm315m-60hbl modules w/ 41 solaredge p320 optimizers; module size 66.3\"x39.45\"x1.38\"; 1 solaredge se10000h-us000bnc4 inverter.",
       "applicationType": "SOLAR",
       "permitNumber": "",
-      "status": "Ready for Inspectors Approval",
+      "status": "Ready For Payment",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -2383,7 +2411,7 @@ window.PERMIT_DATA = {
       "description": "installation of 4 roof mounted solar panels. no battery",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0091",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -2505,7 +2533,7 @@ window.PERMIT_DATA = {
       "description": "work at maple 1 - to prepare lot for solar to be installed in franklin. work to include trenching, landscaping, waterline work according to building plans. see attachments.",
       "applicationType": "COMM",
       "permitNumber": "",
-      "status": "Pending",
+      "status": "Ready for Inspectors Approval",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -2725,7 +2753,7 @@ window.PERMIT_DATA = {
       "description": "work at maple 3 - to prepare lot for solar to be installed in franklin. work to include trenching, landscaping, waterline work according to building plans. see attachments.",
       "applicationType": "COMM",
       "permitNumber": "",
-      "status": "Pending",
+      "status": "Ready for Inspectors Approval",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
