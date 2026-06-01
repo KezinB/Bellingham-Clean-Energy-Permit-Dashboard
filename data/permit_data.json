@@ -2,7 +2,7 @@
   "meta": {
     "title": "Bellingham Clean Energy Permits",
     "source": "https://permiteyes.us/bellingham/publicview.php",
-    "generatedAt": "2026-05-31T07:27:27Z",
+    "generatedAt": "2026-06-01T16:12:29Z",
     "methodology": "Keyword-based classification over Bellingham building permits from PermitEyes. Categories are estimated from permit descriptions and application metadata.",
     "totalRecords": 1888,
     "geocodedRecords": 1717,
@@ -1382,7 +1382,7 @@
       "description": "installation of an interconnected rooftop pv system 17 panels 7.65kwdc - no ess - existing solar system",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0164",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "solar",
         "sunrun",
@@ -2543,7 +2543,7 @@
       "description": "882 s main st installation of rooftop solar # of panels 11 4.51kw 1 telsa battery 13.5kw to be installed on the exterior of the house existing solar installed",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0093",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "solar",
         "sunrun"
