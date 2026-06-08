@@ -2,14 +2,14 @@ window.PERMIT_DATA = {
   "meta": {
     "title": "Bellingham Clean Energy Permits",
     "source": "https://permiteyes.us/bellingham/publicview.php",
-    "generatedAt": "2026-06-01T16:12:29Z",
+    "generatedAt": "2026-06-08T14:17:57Z",
     "methodology": "Keyword-based classification over Bellingham building permits from PermitEyes. Categories are estimated from permit descriptions and application metadata.",
-    "totalRecords": 1888,
-    "geocodedRecords": 1717,
+    "totalRecords": 1897,
+    "geocodedRecords": 1726,
     "categoryCounts": {
-      "Solar": 1557,
+      "Solar": 1563,
       "EV Charger": 36,
-      "Heat Pump": 295
+      "Heat Pump": 298
     },
     "searchTerms": [
       "solar",
@@ -30,6 +30,313 @@ window.PERMIT_DATA = {
     ]
   },
   "records": [
+    {
+      "id": "97352",
+      "applicationId": "bf2a4a92-246a-11f1-867a-12716692ccab",
+      "permitId": "1e119133-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-04",
+      "appliedDate": "2026-03-20",
+      "issuedDate": "2026-06-04",
+      "address": "19 Pine Acres Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Tesla Energy Operations",
+      "description": "install 3 energy storage batteries rated at 13.5kwh each in garage, interconnected to existing system",
+      "applicationType": "RESI",
+      "permitNumber": "R-26-0358",
+      "status": "Permit Issued",
+      "matchedTerms": "tesla energy",
+      "sourceKeywords": [
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.027403746276,
+      "lng": -71.478791833809,
+      "matchedAddress": "19 PINE ACRES DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2014,
+      "propertyValue": 1350000.0
+    },
+    {
+      "id": "98249",
+      "applicationId": "75b44d23-5ddf-11f1-a534-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-04",
+      "appliedDate": "2026-06-01",
+      "issuedDate": "2026-06-04",
+      "address": "81 Paine St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Joseph Dipietro",
+      "description": "installing a 5 zone and 2 zone mini split system",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "SH-MECH-26-0040",
+      "status": "Permit Issued",
+      "matchedTerms": "mini split",
+      "sourceKeywords": [
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.023072724462,
+      "lng": -71.486979472401,
+      "matchedAddress": "81 PAINE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Two-Family Residential",
+      "yearBuilt": 1945,
+      "propertyValue": 506700.0
+    },
+    {
+      "id": "98252",
+      "applicationId": "c5a43356-5de1-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-03",
+      "appliedDate": "2026-06-01",
+      "issuedDate": "2026-06-03",
+      "address": "20 Carrier St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Shane Nolan",
+      "description": "roof-mounted solar pv installation 27 panels 11.745 kw dc / 10.26 kw ac",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0253",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.019611337625,
+      "lng": -71.495902297812,
+      "matchedAddress": "20 CARRIER ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1947,
+      "propertyValue": 405100.0
+    },
+    {
+      "id": "98285",
+      "applicationId": "91f7faa1-5f58-11f1-a534-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-03",
+      "appliedDate": "2026-06-03",
+      "issuedDate": "",
+      "address": "42 Lake St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Wesley Lacroix",
+      "description": "installation of ductless mini splits. no sheet metal",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Waiting for Additional Info",
+      "matchedTerms": [
+        "mini split",
+        "ductless"
+      ],
+      "sourceKeywords": [
+        "mini split",
+        "ductless"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.027977019506,
+      "lng": -71.46708550021,
+      "matchedAddress": "42 LAKE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Two-Family Residential",
+      "yearBuilt": 1962,
+      "propertyValue": 535200.0
+    },
+    {
+      "id": "98290",
+      "applicationId": "90f06b92-5f6e-11f1-a534-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-06-03",
+      "appliedDate": "2026-06-03",
+      "issuedDate": "",
+      "address": "3 Trenton St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 16 panels 6.56kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - no structural",
+      "applicationType": "SOLAR",
+      "permitNumber": "",
+      "status": "Waiting for Signoff",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.018177594696,
+      "lng": -71.495491636754,
+      "matchedAddress": "3 TRENTON ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2001,
+      "propertyValue": 447000.0
+    },
+    {
+      "id": "98291",
+      "applicationId": "10ef6604-5f6f-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-03",
+      "appliedDate": "2026-06-03",
+      "issuedDate": "",
+      "address": "3 Trenton St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 16 panels 6.56kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Hold",
+      "matchedTerms": [
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.018177594696,
+      "lng": -71.495491636754,
+      "matchedAddress": "3 TRENTON ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2001,
+      "propertyValue": 447000.0
+    },
+    {
+      "id": "98293",
+      "applicationId": "6de9ed84-5f72-11f1-a534-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-06-03",
+      "appliedDate": "2026-06-03",
+      "issuedDate": "",
+      "address": "257 Maureen Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 7 panels 2.87kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - no structural - existing solar",
+      "applicationType": "SOLAR",
+      "permitNumber": "",
+      "status": "Waiting for Signoff",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.105423559096,
+      "lng": -71.480067626489,
+      "matchedAddress": "257 MAUREEN RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1963,
+      "propertyValue": 386100.0
+    },
+    {
+      "id": "98294",
+      "applicationId": "227e9095-5f73-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-03",
+      "appliedDate": "2026-06-03",
+      "issuedDate": "",
+      "address": "257 Maureen Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 7 panels 2.87kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - existing solar",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Hold",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.105423559096,
+      "lng": -71.480067626489,
+      "matchedAddress": "257 MAUREEN RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1963,
+      "propertyValue": 386100.0
+    },
+    {
+      "id": "98248",
+      "applicationId": "d157bfe9-5dde-11f1-a534-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-02",
+      "appliedDate": "2026-06-01",
+      "issuedDate": "2026-06-02",
+      "address": "81 Paine St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Jerome Callahan",
+      "description": "wiring (2) condensers for heat pump systems",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0248",
+      "status": "Permit Issued",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.023072724462,
+      "lng": -71.486979472401,
+      "matchedAddress": "81 PAINE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Two-Family Residential",
+      "yearBuilt": 1945,
+      "propertyValue": 506700.0
+    },
+    {
+      "id": "98250",
+      "applicationId": "a1e69fd9-5de0-11f1-a534-12716692ccab",
+      "permitId": "1e119133-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-01",
+      "appliedDate": "2026-06-01",
+      "issuedDate": "",
+      "address": "20 Carrier St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Shane Nolan",
+      "description": "roof-mounted solar pv installation 27 panels 11.745 kw dc / 10.26 kw ac",
+      "applicationType": "RESI",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": [
+        "solar",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.019611337625,
+      "lng": -71.495902297812,
+      "matchedAddress": "20 CARRIER ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1947,
+      "propertyValue": 405100.0
+    },
     {
       "id": "98072",
       "applicationId": "97323cb4-509d-11f1-a534-12716692ccab",
@@ -1839,7 +2146,7 @@ window.PERMIT_DATA = {
       "description": "customer supplied 2 ev chargers",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0137",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "ev charger",
       "sourceKeywords": [
         "solar"
@@ -2300,7 +2607,7 @@ window.PERMIT_DATA = {
       "description": "installation of 1 tesla: powerwall 3, 13.5kwh lithium iron battery - existing solar system",
       "applicationType": "SOLAR",
       "permitNumber": "S-26-0019",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "solar",
         "sunrun"
@@ -2316,34 +2623,6 @@ window.PERMIT_DATA = {
       "propertyType": "Single Family Residential",
       "yearBuilt": 1956,
       "propertyValue": 364900.0
-    },
-    {
-      "id": "97352",
-      "applicationId": "bf2a4a92-246a-11f1-867a-12716692ccab",
-      "permitId": "1e119133-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2026-03-20",
-      "appliedDate": "2026-03-20",
-      "issuedDate": "",
-      "address": "19 Pine Acres Dr",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Tesla Energy Operations",
-      "description": "install 3 energy storage batteries rated at 13.5kwh each in garage, interconnected to existing system",
-      "applicationType": "RESI",
-      "permitNumber": "",
-      "status": "Waiting for Additional Info",
-      "matchedTerms": "tesla energy",
-      "sourceKeywords": [
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.027403746276,
-      "lng": -71.478791833809,
-      "matchedAddress": "19 PINE ACRES DR, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 2014,
-      "propertyValue": 1350000.0
     },
     {
       "id": "97353",
@@ -3305,7 +3584,7 @@ window.PERMIT_DATA = {
       "description": "replace outdoor heat pump condensers indoor air handler add 10kw heat strip",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0052",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "heat pump",
       "sourceKeywords": [
         "heat pump"
@@ -3822,7 +4101,7 @@ window.PERMIT_DATA = {
       "description": "installation of 1 tesla: powerwall 3, 13.5kwh lithium iron battery - existing solar system",
       "applicationType": "SOLAR",
       "permitNumber": "S-26-0004",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "solar",
         "sunrun"
@@ -3917,7 +4196,7 @@ window.PERMIT_DATA = {
       "description": "200 amp upgrade with span panel",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0028",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -4113,7 +4392,7 @@ window.PERMIT_DATA = {
       "description": "installation of 1 tesla: powerwall 3, 13.5kwh l ithium-ion battery",
       "applicationType": "RESI",
       "permitNumber": "R-26-0006",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "sunrun",
       "sourceKeywords": [
         "tesla"
