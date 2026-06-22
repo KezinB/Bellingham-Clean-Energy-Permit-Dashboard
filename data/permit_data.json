@@ -2,14 +2,14 @@
   "meta": {
     "title": "Bellingham Clean Energy Permits",
     "source": "https://permiteyes.us/bellingham/publicview.php",
-    "generatedAt": "2026-06-15T15:51:49Z",
+    "generatedAt": "2026-06-22T15:27:56Z",
     "methodology": "Keyword-based classification over Bellingham building permits from PermitEyes. Categories are estimated from permit descriptions and application metadata.",
-    "totalRecords": 1901,
-    "geocodedRecords": 1730,
+    "totalRecords": 1912,
+    "geocodedRecords": 1741,
     "categoryCounts": {
-      "Solar": 1563,
+      "Solar": 1566,
       "EV Charger": 36,
-      "Heat Pump": 302
+      "Heat Pump": 310
     },
     "searchTerms": [
       "solar",
@@ -30,6 +30,421 @@
     ]
   },
   "records": [
+    {
+      "id": "98563",
+      "applicationId": "98d831d0-65c2-11f1-9f51-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-22",
+      "appliedDate": "2026-06-11",
+      "issuedDate": "2026-06-22",
+      "address": "23 Joyce Ln",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Dylan Bettencourt",
+      "description": "run new circuit for new mini split",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0283",
+      "status": "Permit Issued",
+      "matchedTerms": "mini split",
+      "sourceKeywords": [
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.113022078913,
+      "lng": -71.483242587381,
+      "matchedAddress": "23 JOYCE LN, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1975,
+      "propertyValue": 459800.0
+    },
+    {
+      "id": "98747",
+      "applicationId": "ee89e7b6-698a-11f1-9f51-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-06-22",
+      "appliedDate": "2026-06-16",
+      "issuedDate": "2026-06-22",
+      "address": "35 Lisaann Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 8 panels 3.28kwdc - no ess no structural - existing solar system",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0049",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.104793088032,
+      "lng": -71.482242371343,
+      "matchedAddress": "35 LISA ANN DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1963,
+      "propertyValue": 394700.0
+    },
+    {
+      "id": "98953",
+      "applicationId": "787cf0a2-6d5e-11f1-9f51-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-21",
+      "appliedDate": "2026-06-21",
+      "issuedDate": "",
+      "address": "16 Edgewood Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "David St John/ Dsj Heating And Air Conditioning Llc",
+      "description": "installing two heat pump main splits one and master bedroom, one in living room and one in son‘s room two separate condenses outside",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.039196676064,
+      "lng": -71.477368260373,
+      "matchedAddress": "16 EDGEWOOD RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1954,
+      "propertyValue": 424300.0
+    },
+    {
+      "id": "98842",
+      "applicationId": "4eb72b89-6be3-11f1-9f51-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-06-19",
+      "appliedDate": "2026-06-19",
+      "issuedDate": "",
+      "address": "17 Highridge Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system. 12 panels. 4.92 kw dc. no structural changes required. no ess. existing solar system installed.",
+      "applicationType": "SOLAR",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.044069360972,
+      "lng": -71.460220857785,
+      "matchedAddress": "17 HIGHRIDGE RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2003,
+      "propertyValue": 823200.0
+    },
+    {
+      "id": "98844",
+      "applicationId": "9a7659a0-6be3-11f1-9f51-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-19",
+      "appliedDate": "2026-06-19",
+      "issuedDate": "",
+      "address": "17 Highridge Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system. 12 panels. 4.92 kw dc. no structural changes required. no ess. existing solar system installed.",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.044069360972,
+      "lng": -71.460220857785,
+      "matchedAddress": "17 HIGHRIDGE RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2003,
+      "propertyValue": 823200.0
+    },
+    {
+      "id": "98748",
+      "applicationId": "3fd5ea38-698b-11f1-9f51-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-06-18",
+      "appliedDate": "2026-06-16",
+      "issuedDate": "2026-06-18",
+      "address": "35 Lisaann Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 8 panels 3.28kwdc - no ess - existing solar system",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0279",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.104793088032,
+      "lng": -71.482242371343,
+      "matchedAddress": "35 LISA ANN DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1963,
+      "propertyValue": 394700.0
+    },
+    {
+      "id": "98800",
+      "applicationId": "46bac24c-6b23-11f1-9f51-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-18",
+      "appliedDate": "2026-06-18",
+      "issuedDate": "",
+      "address": "305 Blackstone St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Samuel Pillsbury",
+      "description": "installation of (2) air source heat pump outdoor systems, (4) indoor units and associated electrical work.",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": [
+        "heat pump",
+        "air source heat pump"
+      ],
+      "sourceKeywords": [
+        "heat pump",
+        "air source heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.069416601694,
+      "lng": -71.488346415682,
+      "matchedAddress": "305 BLACKSTONE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1966,
+      "propertyValue": 553100.0
+    },
+    {
+      "id": "98807",
+      "applicationId": "9e36bd57-6b36-11f1-9f51-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-18",
+      "appliedDate": "2026-06-18",
+      "issuedDate": "",
+      "address": "276 Lake St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Michael Notturno",
+      "description": "installation of one multi head heat pump unit",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.042279989111,
+      "lng": -71.465814597535,
+      "matchedAddress": "276 LAKE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1955,
+      "propertyValue": 443300.0
+    },
+    {
+      "id": "98809",
+      "applicationId": "58dffb7e-6b38-11f1-9f51-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-18",
+      "appliedDate": "2026-06-18",
+      "issuedDate": "",
+      "address": "16 Edgewood Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Jennifer Sweet",
+      "description": "upgrade electrical service to 200 amps and wire 2 mini splits. rewire dryer in basement",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Fee Paid",
+      "matchedTerms": "mini split",
+      "sourceKeywords": [
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.039196676064,
+      "lng": -71.477368260373,
+      "matchedAddress": "16 EDGEWOOD RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1954,
+      "propertyValue": 424300.0
+    },
+    {
+      "id": "98812",
+      "applicationId": "075b7e07-6b4b-11f1-9f51-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-18",
+      "appliedDate": "2026-06-18",
+      "issuedDate": "",
+      "address": "10 William Wy",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Robert G Zagame Jr",
+      "description": "replacing an existing heat pump system",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.086400830166,
+      "lng": -71.496465298131,
+      "matchedAddress": "10 WILLIAMS WAY, BELLINGHAM, MA, 02019",
+      "propertyType": "Other (Charitable Org.)",
+      "yearBuilt": 1985,
+      "propertyValue": 709400.0
+    },
+    {
+      "id": "98780",
+      "applicationId": "ae268831-6a54-11f1-9f51-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-17",
+      "appliedDate": "2026-06-17",
+      "issuedDate": "",
+      "address": "15 North Main St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Ez-Hvac,Llc",
+      "description": "sheetmetal permit for the installation of a mini split system.",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Ready for Inspectors Approval",
+      "matchedTerms": "mini split",
+      "sourceKeywords": [
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.088485620455,
+      "lng": -71.475398223127,
+      "matchedAddress": "15 N MAIN ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Shopping Centers/Malls",
+      "yearBuilt": 1978,
+      "propertyValue": 3968900.0
+    },
+    {
+      "id": "98418",
+      "applicationId": "3097ede7-635c-11f1-9f51-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-06-16",
+      "appliedDate": "2026-06-08",
+      "issuedDate": "2026-06-16",
+      "address": "20 Carrier St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Shane Nolan",
+      "description": "roof-mounted solar pv installation 27 panels 11.745 kw dc / 10.26 kw ac",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0047",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.019611337625,
+      "lng": -71.495902297812,
+      "matchedAddress": "20 CARRIER ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1947,
+      "propertyValue": 405100.0
+    },
+    {
+      "id": "98750",
+      "applicationId": "c53cd438-699f-11f1-9f51-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-16",
+      "appliedDate": "2026-06-16",
+      "issuedDate": "",
+      "address": "23 Joyce Ln",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Michael Notturno",
+      "description": "installation of one 2 zone heat pump system",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Ready for Inspectors Approval",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.113022078913,
+      "lng": -71.483242587381,
+      "matchedAddress": "23 JOYCE LN, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1975,
+      "propertyValue": 459800.0
+    },
+    {
+      "id": "98753",
+      "applicationId": "3f33b9fd-69a6-11f1-9f51-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-06-16",
+      "appliedDate": "2026-06-16",
+      "issuedDate": "",
+      "address": "276 Lake St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Dylan Bettencourt",
+      "description": "ran new circuit for mini split",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Ready For Payment",
+      "matchedTerms": "mini split",
+      "sourceKeywords": [
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.042279989111,
+      "lng": -71.465814597535,
+      "matchedAddress": "276 LAKE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1955,
+      "propertyValue": 443300.0
+    },
     {
       "id": "97967",
       "applicationId": "0c6cafb6-4a17-11f1-b76b-12716692ccab",
@@ -270,34 +685,6 @@
       "propertyValue": 452300.0
     },
     {
-      "id": "98563",
-      "applicationId": "98d831d0-65c2-11f1-9f51-12716692ccab",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Heat Pump",
-      "date": "2026-06-11",
-      "appliedDate": "2026-06-11",
-      "issuedDate": "",
-      "address": "23 Joyce Ln",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Dylan Bettencourt",
-      "description": "run new circuit for new mini split",
-      "applicationType": "ELECT",
-      "permitNumber": "",
-      "status": "Pending",
-      "matchedTerms": "mini split",
-      "sourceKeywords": [
-        "mini split"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.113022078913,
-      "lng": -71.483242587381,
-      "matchedAddress": "23 JOYCE LN, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1975,
-      "propertyValue": 459800.0
-    },
-    {
       "id": "98575",
       "applicationId": "1b99a0e7-65d1-11f1-9f51-12716692ccab",
       "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
@@ -324,37 +711,6 @@
       "propertyType": "Single Family Residential",
       "yearBuilt": 1957,
       "propertyValue": 341700.0
-    },
-    {
-      "id": "98418",
-      "applicationId": "3097ede7-635c-11f1-9f51-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-06-08",
-      "appliedDate": "2026-06-08",
-      "issuedDate": "",
-      "address": "20 Carrier St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Shane Nolan",
-      "description": "roof-mounted solar pv installation 27 panels 11.745 kw dc / 10.26 kw ac",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Fee Paid",
-      "matchedTerms": [
-        "solar",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.019611337625,
-      "lng": -71.495902297812,
-      "matchedAddress": "20 CARRIER ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1947,
-      "propertyValue": 405100.0
     },
     {
       "id": "97352",
@@ -458,7 +814,7 @@
       "description": "installation of ductless mini splits. no sheet metal",
       "applicationType": "Sheetmetal/Mechanical",
       "permitNumber": "",
-      "status": "Waiting for Additional Info",
+      "status": "Ready For Payment",
       "matchedTerms": [
         "mini split",
         "ductless"
@@ -553,7 +909,7 @@
       "description": "installation of an interconnected rooftop pv system 7 panels 2.87kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - no structural - existing solar",
       "applicationType": "SOLAR",
       "permitNumber": "",
-      "status": "Pending",
+      "status": "Ready for Inspectors Approval",
       "matchedTerms": [
         "solar",
         "sunrun",
@@ -706,7 +1062,7 @@
       "description": "installation of an interconnected rooftop pv system 18 panels 7.38kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - no structural - existing solar system",
       "applicationType": "SOLAR",
       "permitNumber": "",
-      "status": "Pending",
+      "status": "Ready for Inspectors Approval",
       "matchedTerms": [
         "solar",
         "sunrun",
@@ -739,7 +1095,7 @@
       "description": "installation of a ductless mini split system",
       "applicationType": "RESI",
       "permitNumber": "R-26-0318",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "mini split",
         "ductless"
@@ -771,7 +1127,7 @@
       "description": "installation of an interconnected rooftop pv system 17 panels 6.97kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - no structural - existing solar system",
       "applicationType": "SOLAR",
       "permitNumber": "",
-      "status": "Pending",
+      "status": "Ready for Inspectors Approval",
       "matchedTerms": [
         "solar",
         "sunrun",
@@ -958,7 +1314,7 @@
       "description": "installation of an interconnected rooftop pv system 12 panels 5.40kwdc - no ess - existing solar system",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0224",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "solar",
         "sunrun",
@@ -1046,7 +1402,7 @@
       "description": "install subpanel and disconnect for heat pump",
       "applicationType": "ELECT",
       "permitNumber": "",
-      "status": "Waiting for Additional Info",
+      "status": "Ready For Payment",
       "matchedTerms": "heat pump",
       "sourceKeywords": [
         "heat pump"
@@ -1763,7 +2119,7 @@
       "description": "installation of an interconnected rooftop pv system 5 panels 2.05kwdc and 1 tesla; powerwall 3, 13.5kwh lithium iron battery - no structural - existing solar system",
       "applicationType": "SOLAR",
       "permitNumber": "S-26-0035",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": [
         "solar",
         "sunrun",
@@ -1829,7 +2185,7 @@
       "description": "master bedroom install a sub panel wire a mini-split",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0166",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "mini-split",
       "sourceKeywords": [
         "mini-split"
@@ -2683,7 +3039,7 @@
       "description": "installing 2 zone heat pump system and slim ducted unit",
       "applicationType": "Sheetmetal/Mechanical",
       "permitNumber": "SH-26-0018",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "heat pump",
       "sourceKeywords": [
         "heat pump"
@@ -2899,7 +3255,7 @@
       "description": "wiring condenser for heat pump system and water heater",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0099",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "heat pump",
       "sourceKeywords": [
         "heat pump"
@@ -4682,7 +5038,7 @@
       "description": "installation of 1 tesla: powerwall 3, 13.5kwh l ithium-ion battery",
       "applicationType": "ELECT",
       "permitNumber": "E-25-0659",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "sunrun",
       "sourceKeywords": [
         "tesla"
@@ -9131,7 +9487,7 @@
       "description": "wiring for mini split system and water heater",
       "applicationType": "ELECT",
       "permitNumber": "E-25-0299",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "mini split",
       "sourceKeywords": [
         "mini split"
@@ -54490,37 +54846,6 @@
       "propertyType": "Single Family Residential",
       "yearBuilt": 2000,
       "propertyValue": 686600.0
-    },
-    {
-      "id": "13735",
-      "applicationId": "36b2f2d0-2e0f-11ea-a205-1c1b0d81f2e3",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2014-06-30",
-      "appliedDate": "2014-06-30",
-      "issuedDate": "2014-06-30",
-      "address": "2 Gateway Rd",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "",
-      "description": "wire roof mounter solar pv system, (32 panels), as stated on submitted permit application.",
-      "applicationType": "ELECT",
-      "permitNumber": "EP-2014-219",
-      "status": "Permit Issued",
-      "matchedTerms": [
-        "solar",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.080343580255,
-      "lng": -71.474468081059,
-      "matchedAddress": "2 GATEWAY RD, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1993,
-      "propertyValue": 626200.0
     },
     {
       "id": "13736",
