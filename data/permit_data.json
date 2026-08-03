@@ -2,14 +2,14 @@
   "meta": {
     "title": "Bellingham Clean Energy Permits",
     "source": "https://permiteyes.us/bellingham/publicview.php",
-    "generatedAt": "2026-07-27T13:16:59Z",
+    "generatedAt": "2026-08-03T13:14:29Z",
     "methodology": "Keyword-based classification over Bellingham building permits from PermitEyes. Categories are estimated from permit descriptions and application metadata.",
-    "totalRecords": 1954,
-    "geocodedRecords": 1782,
+    "totalRecords": 1953,
+    "geocodedRecords": 1781,
     "categoryCounts": {
-      "Solar": 1590,
+      "Solar": 1587,
       "EV Charger": 37,
-      "Heat Pump": 327
+      "Heat Pump": 329
     },
     "searchTerms": [
       "solar",
@@ -30,6 +30,223 @@
     ]
   },
   "records": [
+    {
+      "id": "100492",
+      "applicationId": "2025cb54-8511-11f1-b249-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "EV Charger",
+      "date": "2026-08-03",
+      "appliedDate": "2026-07-21",
+      "issuedDate": "2026-08-03",
+      "address": "11 Fox Run Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Tiago Ribeiro",
+      "description": "new car charger for a tesla 60amp",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0368",
+      "status": "Permit Issued",
+      "matchedTerms": "car chargercar charger",
+      "sourceKeywords": [
+        "car charger",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.044937104737,
+      "lng": -71.485864611478,
+      "matchedAddress": "11 FOX RUN RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1985,
+      "propertyValue": 616600.0
+    },
+    {
+      "id": "100360",
+      "applicationId": "1a5c72b3-81ec-11f1-b249-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-07-31",
+      "appliedDate": "2026-07-17",
+      "issuedDate": "2026-07-31",
+      "address": "40 Fox Run Rd",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 16 panels 6.56kwdc and 2 tesla: powerwall 3, 13.5kwh lithium ion batteries - no structural - existing solar system installed",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0068",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.04482669603,
+      "lng": -71.482012177152,
+      "matchedAddress": "40 FOX RUN RD, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1985,
+      "propertyValue": 578000.0
+    },
+    {
+      "id": "100531",
+      "applicationId": "d790a780-868a-11f1-b249-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-07-30",
+      "appliedDate": "2026-07-23",
+      "issuedDate": "2026-07-30",
+      "address": "201 Blackstone St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Benjamin Carroll",
+      "description": "installation of 7.740 kw rooftop mounted solar pv system (18 panels) with no battery",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0067",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.075750728517,
+      "lng": -71.481663358958,
+      "matchedAddress": "201 BLACKSTONE ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1967,
+      "propertyValue": 556200.0
+    },
+    {
+      "id": "100600",
+      "applicationId": "79c33583-878e-11f1-b249-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-07-29",
+      "appliedDate": "2026-07-24",
+      "issuedDate": "2026-07-29",
+      "address": "55 Elvira St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of 2 tesla: powerwall 3, 13.5kwh lithium ion batteries - existing solar",
+      "applicationType": "ELECT",
+      "permitNumber": "E-26-0362",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.03020419619,
+      "lng": -71.493065455121,
+      "matchedAddress": "55 ELVIRA ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1964,
+      "propertyValue": 413400.0
+    },
+    {
+      "id": "100601",
+      "applicationId": "f94b6086-878e-11f1-b249-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-07-29",
+      "appliedDate": "2026-07-24",
+      "issuedDate": "2026-07-29",
+      "address": "55 Elvira St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of 2 tesla: powerwall 3, 13.5kwh lithium ion batteries - existing solar",
+      "applicationType": "SOLAR",
+      "permitNumber": "S-26-0064",
+      "status": "Permit Issued",
+      "matchedTerms": [
+        "solar",
+        "sunrun"
+      ],
+      "sourceKeywords": [
+        "solar",
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.03020419619,
+      "lng": -71.493065455121,
+      "matchedAddress": "55 ELVIRA ST, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 1964,
+      "propertyValue": 413400.0
+    },
+    {
+      "id": "97752",
+      "applicationId": "8c4dd6f2-3b83-11f1-b76b-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-07-29",
+      "appliedDate": "2026-04-19",
+      "issuedDate": "2026-07-29",
+      "address": "5 Pine Acres Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Alan Hagopian",
+      "description": "install one two head mini split for the room over the garage.",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "SH-MECH-26-0064",
+      "status": "Permit Issued",
+      "matchedTerms": "mini split",
+      "sourceKeywords": [
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.026580034223,
+      "lng": -71.47875892741,
+      "matchedAddress": "5 PINE ACRES DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2010,
+      "propertyValue": 799100.0
+    },
+    {
+      "id": "100744",
+      "applicationId": "e726e828-8ab8-11f1-b249-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-07-28",
+      "appliedDate": "2026-07-28",
+      "issuedDate": "",
+      "address": "7 Mechanic St",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Robert J Doyon",
+      "description": "(2) 24,000 btu mini split wall heads to be installed with a 45,000 multizone outdoor heat pump. wall heads are on an exterior wall.",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Waiting for Additional Info",
+      "matchedTerms": [
+        "heat pump",
+        "mini split"
+      ],
+      "sourceKeywords": [
+        "heat pump",
+        "mini split"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.086339656731,
+      "lng": -71.474104161272,
+      "matchedAddress": "7 MECHANIC ST, BELLINGHAM, MA, 02019",
+      "propertyType": null,
+      "yearBuilt": null,
+      "propertyValue": 0
+    },
     {
       "id": "100527",
       "applicationId": "42d6aa8a-8624-11f1-b249-12716692ccab",
@@ -63,70 +280,6 @@
       "propertyValue": 0
     },
     {
-      "id": "100600",
-      "applicationId": "79c33583-878e-11f1-b249-12716692ccab",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2026-07-24",
-      "appliedDate": "2026-07-24",
-      "issuedDate": "",
-      "address": "55 Elvira St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of 2 tesla: powerwall 3, 13.5kwh lithium ion batteries - existing solar",
-      "applicationType": "ELECT",
-      "permitNumber": "",
-      "status": "Pending",
-      "matchedTerms": [
-        "solar",
-        "sunrun"
-      ],
-      "sourceKeywords": [
-        "solar",
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.03020419619,
-      "lng": -71.493065455121,
-      "matchedAddress": "55 ELVIRA ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1964,
-      "propertyValue": 413400.0
-    },
-    {
-      "id": "100601",
-      "applicationId": "f94b6086-878e-11f1-b249-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-07-24",
-      "appliedDate": "2026-07-24",
-      "issuedDate": "",
-      "address": "55 Elvira St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of 2 tesla: powerwall 3, 13.5kwh lithium ion batteries - existing solar",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Pending",
-      "matchedTerms": [
-        "solar",
-        "sunrun"
-      ],
-      "sourceKeywords": [
-        "solar",
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.03020419619,
-      "lng": -71.493065455121,
-      "matchedAddress": "55 ELVIRA ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1964,
-      "propertyValue": 413400.0
-    },
-    {
       "id": "100495",
       "applicationId": "ad275a52-8519-11f1-b249-12716692ccab",
       "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
@@ -153,37 +306,6 @@
       "propertyType": "Single Family Residential",
       "yearBuilt": 2006,
       "propertyValue": 762700.0
-    },
-    {
-      "id": "100531",
-      "applicationId": "d790a780-868a-11f1-b249-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-07-23",
-      "appliedDate": "2026-07-23",
-      "issuedDate": "",
-      "address": "201 Blackstone St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Benjamin Carroll",
-      "description": "installation of 7.740 kw rooftop mounted solar pv system (18 panels) with no battery",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Ready for Inspectors Approval",
-      "matchedTerms": [
-        "solar",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.075750728517,
-      "lng": -71.481663358958,
-      "matchedAddress": "201 BLACKSTONE ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1967,
-      "propertyValue": 556200.0
     },
     {
       "id": "100539",
@@ -413,68 +535,6 @@
       "propertyType": "Single Family Residential",
       "yearBuilt": 1955,
       "propertyValue": 443300.0
-    },
-    {
-      "id": "100492",
-      "applicationId": "2025cb54-8511-11f1-b249-12716692ccab",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "EV Charger",
-      "date": "2026-07-21",
-      "appliedDate": "2026-07-21",
-      "issuedDate": "",
-      "address": "11 Fox Run Rd",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Tiago Ribeiro",
-      "description": "new car charger for a tesla 60amp",
-      "applicationType": "ELECT",
-      "permitNumber": "",
-      "status": "Ready For Payment",
-      "matchedTerms": "car chargercar charger",
-      "sourceKeywords": [
-        "car charger",
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.044937104737,
-      "lng": -71.485864611478,
-      "matchedAddress": "11 FOX RUN RD, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1985,
-      "propertyValue": 616600.0
-    },
-    {
-      "id": "100360",
-      "applicationId": "1a5c72b3-81ec-11f1-b249-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2026-07-17",
-      "appliedDate": "2026-07-17",
-      "issuedDate": "",
-      "address": "40 Fox Run Rd",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 16 panels 6.56kwdc and 2 tesla: powerwall 3, 13.5kwh lithium ion batteries - no structural - existing solar system installed",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Waiting for Additional Info",
-      "matchedTerms": [
-        "solar",
-        "sunrun",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar",
-        "tesla"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.04482669603,
-      "lng": -71.482012177152,
-      "matchedAddress": "40 FOX RUN RD, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1985,
-      "propertyValue": 578000.0
     },
     {
       "id": "97838",
@@ -920,37 +980,6 @@
       "propertyType": "Single Family Residential",
       "yearBuilt": 1985,
       "propertyValue": 585200.0
-    },
-    {
-      "id": "99984",
-      "applicationId": "5a3cd7cd-7c92-11f1-a7ff-12716692ccab",
-      "permitId": "1e119133-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2026-07-10",
-      "appliedDate": "2026-07-10",
-      "issuedDate": "",
-      "address": "201 Blackstone St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "Benjamin Carroll",
-      "description": "installation of 7.740 kw rooftop mounted solar pv system (18 panels) with no battery as stated on submitted permit application.",
-      "applicationType": "RESI",
-      "permitNumber": "",
-      "status": "Permit Denied",
-      "matchedTerms": [
-        "solar",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.075750728517,
-      "lng": -71.481663358958,
-      "matchedAddress": "201 BLACKSTONE ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1967,
-      "propertyValue": 556200.0
     },
     {
       "id": "96351",
@@ -12249,68 +12278,6 @@
       "propertyType": "Single Family Residential",
       "yearBuilt": 2023,
       "propertyValue": 738700.0
-    },
-    {
-      "id": "91307",
-      "applicationId": "b6b389e2-1170-11f0-89a0-12716692ccab",
-      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
-      "category": "Solar",
-      "date": "2025-04-04",
-      "appliedDate": "2025-04-04",
-      "issuedDate": "",
-      "address": "11 Scott St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "James Poplin",
-      "description": "installation of (13) additional solar panels to existing roof-mounted pv system. 5.20kw; installation of (1) energy storage system in connection with new and existing pv solar system",
-      "applicationType": "SOLAR",
-      "permitNumber": "",
-      "status": "Hold",
-      "matchedTerms": [
-        "solar",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.041302330383,
-      "lng": -71.487524777816,
-      "matchedAddress": "11 SCOTT ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1820,
-      "propertyValue": 634000.0
-    },
-    {
-      "id": "91308",
-      "applicationId": "b7f8be59-1171-11f0-89a0-12716692ccab",
-      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
-      "category": "Solar",
-      "date": "2025-04-04",
-      "appliedDate": "2025-04-04",
-      "issuedDate": "",
-      "address": "11 Scott St",
-      "city": "Bellingham",
-      "state": "MA",
-      "applicant": "James Poplin",
-      "description": "roof-mounted solar pv installation with energy storage system and related electrical equipment installed on the exterior wall of residence; derate of main breaker from 200a to 175a",
-      "applicationType": "ELECT",
-      "permitNumber": "",
-      "status": "Permit Denied",
-      "matchedTerms": [
-        "solar",
-        "pv"
-      ],
-      "sourceKeywords": [
-        "solar"
-      ],
-      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
-      "lat": 42.041302330383,
-      "lng": -71.487524777816,
-      "matchedAddress": "11 SCOTT ST, BELLINGHAM, MA, 02019",
-      "propertyType": "Single Family Residential",
-      "yearBuilt": 1820,
-      "propertyValue": 634000.0
     },
     {
       "id": "91104",
