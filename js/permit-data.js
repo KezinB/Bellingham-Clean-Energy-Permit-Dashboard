@@ -2,14 +2,14 @@ window.PERMIT_DATA = {
   "meta": {
     "title": "Bellingham Clean Energy Permits",
     "source": "https://permiteyes.us/bellingham/publicview.php",
-    "generatedAt": "2026-08-10T11:13:52Z",
+    "generatedAt": "2026-08-17T10:38:22Z",
     "methodology": "Keyword-based classification over Bellingham building permits from PermitEyes. Categories are estimated from permit descriptions and application metadata.",
-    "totalRecords": 1956,
-    "geocodedRecords": 1784,
+    "totalRecords": 1964,
+    "geocodedRecords": 1792,
     "categoryCounts": {
-      "Solar": 1590,
+      "Solar": 1594,
       "EV Charger": 37,
-      "Heat Pump": 329
+      "Heat Pump": 333
     },
     "searchTerms": [
       "solar",
@@ -30,6 +30,209 @@ window.PERMIT_DATA = {
     ]
   },
   "records": [
+    {
+      "id": "101245",
+      "applicationId": "1b48bea0-980f-11f1-b249-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-08-14",
+      "appliedDate": "2026-08-14",
+      "issuedDate": "",
+      "address": "14 Fifth Av",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 12 panels 4.92kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery - no structural",
+      "applicationType": "SOLAR",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": [
+        "solar",
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.096077473297,
+      "lng": -71.470793246529,
+      "matchedAddress": "14 5TH AVE, BELLINGHAM, MA, 02019",
+      "propertyType": null,
+      "yearBuilt": null,
+      "propertyValue": 0
+    },
+    {
+      "id": "101246",
+      "applicationId": "77a0bf56-980f-11f1-b249-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2026-08-14",
+      "appliedDate": "2026-08-14",
+      "issuedDate": "",
+      "address": "14 Fifth Av",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Sunrun Installation Services",
+      "description": "installation of an interconnected rooftop pv system 12 panels 4.92kwdc and 1 tesla: powerwall 3, 13.5kwh lithium ion battery",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": [
+        "sunrun",
+        "pv"
+      ],
+      "sourceKeywords": [
+        "tesla"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.096077473297,
+      "lng": -71.470793246529,
+      "matchedAddress": "14 5TH AVE, BELLINGHAM, MA, 02019",
+      "propertyType": null,
+      "yearBuilt": null,
+      "propertyValue": 0
+    },
+    {
+      "id": "101216",
+      "applicationId": "52c2faf8-975a-11f1-b249-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-08-13",
+      "appliedDate": "2026-08-13",
+      "issuedDate": "",
+      "address": "75 Lakeshore Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Damon Parsons",
+      "description": "wiring 3 non- ducted single zone heat pumps. wiring 1 50 gallon heat pump/ water heater. install any necessary service receptacle outlets.",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Pending",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.051730474127,
+      "lng": -71.496295861052,
+      "matchedAddress": "75 LAKESHORE DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2006,
+      "propertyValue": 583300.0
+    },
+    {
+      "id": "101183",
+      "applicationId": "94a64e12-966d-11f1-b249-12716692ccab",
+      "permitId": "e7d39225-f3f0-11ea-869b-e0d55edc1b7d",
+      "category": "Solar",
+      "date": "2026-08-12",
+      "appliedDate": "2026-08-12",
+      "issuedDate": "",
+      "address": "57 Whitehall Wy",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Tml International Llc / Infinity Solar Usa",
+      "description": "10 modules-roof mounted - 4.300 kw dc, 3.490 kw ac",
+      "applicationType": "SOLAR",
+      "permitNumber": "",
+      "status": "Ready For Payment",
+      "matchedTerms": "solar",
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.049307111563,
+      "lng": -71.476552451993,
+      "matchedAddress": "57 WHITEHALL WAY, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2005,
+      "propertyValue": 944100.0
+    },
+    {
+      "id": "101129",
+      "applicationId": "185a088c-9588-11f1-b249-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-08-11",
+      "appliedDate": "2026-08-11",
+      "issuedDate": "",
+      "address": "75 Lakeshore Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Jay Stahlberg",
+      "description": "installing two new heat pump units as well as a new heat pump hot water heater.",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Waiting for Additional Info",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.051730474127,
+      "lng": -71.496295861052,
+      "matchedAddress": "75 LAKESHORE DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2006,
+      "propertyValue": 583300.0
+    },
+    {
+      "id": "101131",
+      "applicationId": "f5dcd5bf-9589-11f1-b249-12716692ccab",
+      "permitId": "34167168-c4c2-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-08-11",
+      "appliedDate": "2026-08-11",
+      "issuedDate": "",
+      "address": "75 Lakeshore Dr",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Jay Stahlberg",
+      "description": "creating new duct work for heat pump install",
+      "applicationType": "Sheetmetal/Mechanical",
+      "permitNumber": "",
+      "status": "Waiting for Additional Info",
+      "matchedTerms": "heat pump",
+      "sourceKeywords": [
+        "heat pump"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.051730474127,
+      "lng": -71.496295861052,
+      "matchedAddress": "75 LAKESHORE DR, BELLINGHAM, MA, 02019",
+      "propertyType": "Single Family Residential",
+      "yearBuilt": 2006,
+      "propertyValue": 583300.0
+    },
+    {
+      "id": "101148",
+      "applicationId": "929c94ee-959f-11f1-b249-12716692ccab",
+      "permitId": "e33da028-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Heat Pump",
+      "date": "2026-08-11",
+      "appliedDate": "2026-08-11",
+      "issuedDate": "",
+      "address": "319 Hartford Av",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "Leonard Gemma",
+      "description": "disconnect old and reconnect new single head ductless mini",
+      "applicationType": "ELECT",
+      "permitNumber": "",
+      "status": "Waiting for Additional Info",
+      "matchedTerms": "ductless",
+      "sourceKeywords": [
+        "ductless"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.120587152148,
+      "lng": -71.456695599914,
+      "matchedAddress": "319 HARTFORD AVE, BELLINGHAM, MA, 02019",
+      "propertyType": null,
+      "yearBuilt": null,
+      "propertyValue": 0
+    },
     {
       "id": "100903",
       "applicationId": "d82c10e9-9018-11f1-b249-12716692ccab",
@@ -101,7 +304,7 @@ window.PERMIT_DATA = {
       "description": "(2) 24,000 btu mini split wall heads to be installed with a 45,000 multizone outdoor heat pump. wall heads are on an exterior wall.",
       "applicationType": "Sheetmetal/Mechanical",
       "permitNumber": "SH-MECH-26-0066",
-      "status": "Permit Issued",
+      "status": "Need Owners email Response",
       "matchedTerms": [
         "heat pump",
         "mini split"
@@ -1227,7 +1430,7 @@ window.PERMIT_DATA = {
       "description": "we are removing 29 current solar panels for emergency repairs, as well reinstalling once roof work is completed. we are not the roofers. no upgrades, no changes. no ground electrical will be touched.",
       "applicationType": "SOLAR",
       "permitNumber": "S-26-0059",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -1635,7 +1838,7 @@ window.PERMIT_DATA = {
       "description": "install 11 solar panels on front of dwelling.",
       "applicationType": "SOLAR",
       "permitNumber": "S-26-0054",
-      "status": "Permit Issued",
+      "status": "Complete",
       "matchedTerms": "solar",
       "sourceKeywords": [
         "solar"
@@ -4241,7 +4444,7 @@ window.PERMIT_DATA = {
       "city": "Bellingham",
       "state": "MA",
       "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 16 panels 6.56kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery - no structural",
+      "description": "installation of an interconnected rooftop pv system 11 panels 4.51 kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery - no structural",
       "applicationType": "SOLAR",
       "permitNumber": "S-26-0024",
       "status": "Permit Issued",
@@ -4273,7 +4476,7 @@ window.PERMIT_DATA = {
       "city": "Bellingham",
       "state": "MA",
       "applicant": "Sunrun Installation Services",
-      "description": "installation of an interconnected rooftop pv system 16 panels 6.56kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery",
+      "description": "installation of an interconnected rooftop pv system 11 panels 4.51 kwdc and 1 tesla: powerwall 3, 13.5kwh lithium iron battery",
       "applicationType": "ELECT",
       "permitNumber": "E-26-0118",
       "status": "Permit Issued",
@@ -29224,7 +29427,7 @@ window.PERMIT_DATA = {
       "description": "install and supply wiring for 2 new mini-split acs",
       "applicationType": "ELECT",
       "permitNumber": "E-22-0650",
-      "status": "Permit Issued",
+      "status": "Expired",
       "matchedTerms": "mini-split",
       "sourceKeywords": [
         "mini-split"
@@ -52467,6 +52670,34 @@ window.PERMIT_DATA = {
       "propertyType": "Single Family Residential",
       "yearBuilt": 1985,
       "propertyValue": 786700.0
+    },
+    {
+      "id": "15643",
+      "applicationId": "36cf443b-2e0f-11ea-a205-1c1b0d81f2e3",
+      "permitId": "1e119133-c40e-11e9-9663-1c1b0dc2f592",
+      "category": "Solar",
+      "date": "2015-08-04",
+      "appliedDate": "2015-08-04",
+      "issuedDate": "2015-08-04",
+      "address": "12 Fourth Av",
+      "city": "Bellingham",
+      "state": "MA",
+      "applicant": "",
+      "description": "installation of 28 roof top solar panels as stated on submitted permit application.",
+      "applicationType": "RESI",
+      "permitNumber": "BP-2015-450",
+      "status": "Reopened",
+      "matchedTerms": "solar",
+      "sourceKeywords": [
+        "solar"
+      ],
+      "sourceUrl": "https://permiteyes.us/bellingham/publicview.php",
+      "lat": 42.094574112254,
+      "lng": -71.472481953189,
+      "matchedAddress": "12 4TH AVE, BELLINGHAM, MA, 02019",
+      "propertyType": null,
+      "yearBuilt": null,
+      "propertyValue": 0
     },
     {
       "id": "15644",
